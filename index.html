@@ -1,0 +1,1306 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Everything a player can do on ObbyTrap Factions, and how each part of it works.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ObbyTrap Factions Wiki">
+<meta property="og:description" content="Everything a player can do on ObbyTrap Factions, and how each part of it works.">
+<meta name="theme-color" content="#2a1740">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%232a1740'/%3E%3Crect x='4' y='4' width='8' height='8' fill='%23c77dff'/%3E%3C/svg%3E">
+<title>ObbyTrap Factions Wiki</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a contents rail that stays put on the left, one reading column on the right.
+   Commands are set in mono chips so they can be told from prose at a glance; ranks wear their in-game colours. */
+:root {
+  --bg: #f5f1fa;
+  --surface: #ffffff;
+  --ink: #1e1629;
+  --muted: #5d5470;
+  --line: #ddd3ec;
+  --brand: #5b2a86;
+  --brand-soft: #8a46c9;
+  --chip: #ece3f7;
+  --chip-ink: #47206d;
+  --band: #2a1740;
+  --band-ink: #f3ecfb;
+  --band-muted: #c9b6e3;
+  --warn-bg: #fbe9e7;
+  --warn-ink: #8f1d15;
+  --tip-bg: #efe6fa;
+  /* the 1.8 chat colours the server uses, tuned to read on this ground */
+  --mc-gray: #6a6475;
+  --mc-light: #b52fc4;
+  --mc-dark: #7a1f9c;
+  --mc-aqua: #0b8a94;
+  --mc-green: #1f8a2e;
+  --mc-gold: #a86a00;
+  --mc-red: #c0392b;
+  --display: "Pixelify Sans", "Trebuchet MS", system-ui, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #110c18; --surface: #1a1325; --ink: #ece5f6; --muted: #a698ba; --line: #302545;
+    --brand: #c77dff; --brand-soft: #a765e6; --chip: #271b38; --chip-ink: #e2c8ff;
+    --band: #1d1230; --band-ink: #f3ecfb; --band-muted: #b9a5d6;
+    --warn-bg: #3a1614; --warn-ink: #ffb4ab; --tip-bg: #231733;
+    --mc-gray: #aaa4b6; --mc-light: #ff7bff; --mc-dark: #c86bf0; --mc-aqua: #5fe6ee; --mc-green: #6fe07a;
+    --mc-gold: #ffb84a; --mc-red: #ff6b61;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #110c18; --surface: #1a1325; --ink: #ece5f6; --muted: #a698ba; --line: #302545;
+  --brand: #c77dff; --brand-soft: #a765e6; --chip: #271b38; --chip-ink: #e2c8ff;
+  --band: #1d1230; --band-ink: #f3ecfb; --band-muted: #b9a5d6;
+  --warn-bg: #3a1614; --warn-ink: #ffb4ab; --tip-bg: #231733;
+  --mc-gray: #aaa4b6; --mc-light: #ff7bff; --mc-dark: #c86bf0; --mc-aqua: #5fe6ee; --mc-green: #6fe07a;
+  --mc-gold: #ffb84a; --mc-red: #ff6b61;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
+a { color: var(--brand); text-underline-offset: 3px; }
+a:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--brand-soft); outline-offset: 2px; }
+
+.band { background: var(--band); color: var(--band-ink); }
+.band-in, .page { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.band-in { padding-block: 28px 24px; display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: end; justify-content: space-between; }
+.band h1 { font-family: var(--display); font-weight: 700; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; margin: 0; letter-spacing: 0.01em; text-wrap: balance; }
+.band h1 span { color: #c77dff; }
+.band p { margin: 8px 0 0; color: var(--band-muted); max-width: 46ch; }
+.facts { display: grid; grid-template-columns: auto auto; gap: 4px 16px; margin: 0; font-size: 0.92rem; }
+.facts dt { color: var(--band-muted); }
+.facts dd { margin: 0; font-family: var(--mono); font-size: 0.88rem; overflow-wrap: anywhere; }
+
+.page { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 40px; padding-block: 28px 64px; align-items: start; }
+.rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); max-height: calc(100vh - 32px); overflow-y: auto; font-size: 0.92rem; }
+.rail input { width: 100%; padding: 9px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font: inherit; }
+.rail summary { display: none; }
+.rail ol { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+.rail .group { margin-top: 12px; font-size: 0.72rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.rail a { display: block; padding: 4px 10px; border-radius: 5px; color: var(--ink); text-decoration: none; }
+.rail a:hover { background: var(--chip); }
+.rail .none { color: var(--muted); padding: 8px 10px; }
+
+main { min-width: 0; display: flex; flex-direction: column; gap: 44px; }
+section { scroll-margin-top: 16px; }
+section > * + * { margin-top: 14px; }
+h2 { font-family: var(--display); font-weight: 700; font-size: 1.75rem; line-height: 1.15; margin: 0; padding-bottom: 8px; border-bottom: 2px solid var(--line); text-wrap: balance; }
+h3 { font-size: 1.08rem; font-weight: 700; margin: 26px 0 0; text-wrap: balance; }
+p, ul, ol { margin: 0; max-width: 72ch; }
+ul, ol { padding-left: 1.25em; }
+li + li { margin-top: 5px; }
+.lead { color: var(--muted); font-size: 1.04rem; }
+code { font-family: var(--mono); font-size: 0.86em; background: var(--chip); color: var(--chip-ink); padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+.wrap code { white-space: normal; overflow-wrap: anywhere; }
+
+.scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); max-width: 100%; }
+table { border-collapse: collapse; width: 100%; font-size: 0.93rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 0.74rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); font-weight: 600; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; white-space: nowrap; }
+
+.note, .warn { border-radius: 8px; padding: 12px 14px; max-width: 72ch; }
+.note { background: var(--tip-bg); }
+.warn { background: var(--warn-bg); color: var(--warn-ink); }
+.note strong:first-child, .warn strong:first-child { display: block; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
+
+.steps { counter-reset: s; list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 2em minmax(0, 1fr); gap: 4px; margin: 0; }
+.steps li::before { content: counter(s); font-family: var(--display); font-weight: 700; color: var(--brand); font-size: 1.15rem; line-height: 1.4; }
+
+.rank { font-weight: 700; white-space: nowrap; }
+.r-trapped { color: var(--mc-gray); font-weight: 600; }
+.r-shard { color: var(--mc-light); font-weight: 600; }
+.r-obsidian { color: var(--mc-dark); font-weight: 600; }
+.r-crystal { color: var(--mc-light); }
+.r-voidborn { color: var(--mc-dark); }
+.r-overlord { color: var(--mc-dark); }
+.r-overlord b { color: var(--mc-light); }
+.r-watcher { color: var(--mc-aqua); font-weight: 600; }
+.r-sentinel { color: var(--mc-green); font-weight: 600; }
+.r-architect { color: var(--mc-gold); font-weight: 600; }
+.r-overseer { color: var(--mc-red); font-weight: 600; }
+.c-ally { color: var(--mc-dark); } .c-truce { color: var(--mc-aqua); } .c-enemy { color: var(--mc-red); } .c-own { color: var(--mc-light); }
+
+footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--line); padding-top: 16px; }
+
+@media (max-width: 880px) {
+  .page { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-block: 18px 48px; }
+  .rail { position: static; max-height: none; overflow: visible; }
+  .rail summary { display: block; cursor: pointer; font-weight: 600; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); margin-top: 10px; }
+  .rail ol { flex-direction: row; flex-wrap: wrap; gap: 4px 6px; }
+  .rail .group { width: 100%; }
+  .rail a { background: var(--chip); padding: 3px 9px; }
+  h2 { font-size: 1.5rem; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+<style>body { margin: 0; }</style>
+</head>
+<body>
+
+<header class="band">
+  <div class="band-in">
+    <div>
+      <h1>Obby<span>Trap</span> Factions Wiki</h1>
+      <p>Everything a player can do on the server, and how each part of it works.</p>
+    </div>
+    <dl class="facts">
+      <dt>Address</dt><dd>obbytrap.net</dd>
+      <dt>Store</dt><dd>store.obbytrap.net</dd>
+      <dt>Discord</dt><dd>discord.gg/obbytrap</dd>
+    </dl>
+  </div>
+</header>
+
+<div class="page">
+  <aside class="rail">
+    <label for="find" hidden>Search the wiki</label>
+    <input id="find" type="search" placeholder="Search the wiki" autocomplete="off">
+    <details id="tocbox" open>
+      <summary>Contents</summary>
+      <ol id="toc"></ol>
+    </details>
+  </aside>
+  <main id="wiki">
+    <section id="start" data-group="Start here">
+      <h2>Getting started</h2>
+      <p class="lead">ObbyTrap Factions is a 1.8 factions server: build a base, grind money, enchant your gear and blow up everyone else's walls.</p>
+
+      <h3>Joining</h3>
+      <ul>
+        <li>Address: <code>obbytrap.net</code></li>
+        <li>Join with Minecraft 1.8, or with 1.13.1 and anything newer. Versions 1.9 through 1.13 can't connect.</li>
+        <li>The server runs 1.8 rules whatever you join with. Swords have no attack cooldown, and blocking with a sword halves the damage you take.</li>
+        <li>You never get hungry.</li>
+      </ul>
+
+      <h3>Your first ten minutes</h3>
+      <ol class="steps">
+        <li><span>Type <code>/kit trapped</code> for diamond armour, a sword, tools, 232 obsidian, 32 TNT and food. You start with $5,000.</span></li>
+        <li><span>Type <code>/rewards</code> and take the daily reward: $10,000, 128 obsidian and a crate key.</span></li>
+        <li><span>Type <code>/redeemstart</code> and <code>/redeemsetup</code>. Between them they give $250,000, two crate keys and enough free sand to fill two sandbots. Each works once a month.</span></li>
+        <li><span>Type <code>/wild</code> and pick a distance to get away from spawn.</span></li>
+        <li><span>Make a faction with <code>/f create &lt;name&gt;</code>, claim the ground you are standing on with <code>/f claim</code>, and set a home with <code>/f sethome</code>.</span></li>
+        <li><span>Start earning. Sugar cane, cactus and spawners are the usual ways. See <a href="#money">Money and the shop</a>.</span></li>
+      </ol>
+
+      <h3>Finding your way</h3>
+      <ul>
+        <li><code>/help</code> opens the guide menu, <code>/menu</code> your profile and shortcuts, and <code>/rules</code> the rules.</li>
+        <li>At spawn, each character and sign opens one part of the server when you click it: the shop, enchantments, mob coins, daily rewards, wild, the battle pass, the bank, the bar, coin flip, generators, gen buckets and the richest-players list.</li>
+        <li><code>/warp</code> opens the list of places to go: crates, KOTH, outpost, stardrop, totem, end and nether.</li>
+        <li>The scoreboard on the right shows your rank, money, power, mob coins and your faction's leader and claims.</li>
+      </ul>
+      <p class="note"><strong>Typing commands</strong> Press Tab while typing a command to see the commands you can use and to finish the one you have started.</p>
+    </section>
+
+    <section id="ranks" data-group="Start here">
+      <h2>Ranks</h2>
+      <p class="lead">Everyone starts as Trapped. The five ranks above it come from the store, and a few of them turn up as vouchers in crates and packs.</p>
+      <div class="scroll"><table>
+        <tr><th>Rank</th><th>Kit</th><th class="num">Homes</th><th class="num">Vaults</th><th>Joining bonus</th><th>Adds</th></tr>
+        <tr><td><span class="rank r-trapped">Trapped</span></td><td><code>/kit trapped</code></td><td class="num">1</td><td class="num">0</td><td></td><td>Everything on this page not marked for a rank</td></tr>
+        <tr><td><span class="rank r-shard">Shard</span></td><td><code>/kit shard</code></td><td class="num">2</td><td class="num">2</td><td>$50,000 and 2,000 mob coins</td><td><code>/fix</code> and <code>/fix all</code>, the black market, the weekly and monthly rewards</td></tr>
+        <tr><td><span class="rank r-obsidian">Obsidian</span></td><td><code>/kit obsidian</code></td><td class="num">3</td><td class="num">3</td><td>$100,000 and 4,000 mob coins</td><td><code>/milk</code></td></tr>
+        <tr><td><span class="rank r-crystal">Crystal</span></td><td><code>/kit crystal</code></td><td class="num">4</td><td class="num">4</td><td>$150,000 and 6,000 mob coins</td><td><code>/refill</code></td></tr>
+        <tr><td><span class="rank r-voidborn">Voidborn</span></td><td><code>/kit voidborn</code></td><td class="num">5</td><td class="num">5</td><td>$200,000 and 8,000 mob coins</td><td></td></tr>
+        <tr><td><span class="rank r-overlord">&#10022; Over<b>lord</b></span></td><td><code>/kit overlord</code></td><td class="num">6</td><td class="num">6</td><td>$250,000, 10,000 mob coins and 3 mystery bags</td><td></td></tr>
+      </table></div>
+      <ul>
+        <li>Each rank keeps the kits and perks of the ranks below it.</li>
+        <li>Vaults are private chests opened with <code>/pv 1</code>, <code>/pv 2</code> and so on.</li>
+        <li>The joining bonus comes with a rank bought from the store.</li>
+        <li>Rank kits can be used once every 24 hours. The Trapped kit comes back every 7 hours 47 minutes. What is in each is under <a href="#kits">Kits</a>.</li>
+        <li><code>/ranks</code> shows the ranks in game, and <code>/store</code> gives the store link.</li>
+        <li>Commands like <code>/milk</code>, <code>/refill</code> and <code>/fix</code> can also be unlocked one at a time with <a href="#vouchers">vouchers</a>, whatever your rank.</li>
+      </ul>
+      <p>Staff wear their own ranks: <span class="rank r-watcher">Watcher</span>, <span class="rank r-sentinel">Sentinel</span>, <span class="rank r-architect">Architect</span> and <span class="rank r-overseer">Overseer</span>.</p>
+    </section>
+    <section id="factions" data-group="Factions">
+      <h2>Factions: the basics</h2>
+      <p class="lead">A faction is your team. You claim land together, build a base on it, and raid other factions' bases with TNT cannons.</p>
+
+      <h3>Starting or joining one</h3>
+      <ul>
+        <li><code>/f create &lt;name&gt;</code> makes a faction. The name is 3 to 10 characters.</li>
+        <li><code>/f invite &lt;player&gt;</code> invites someone, and they type <code>/f join &lt;name&gt;</code>. Factions are invite-only unless the leader opens them.</li>
+        <li><code>/f leave</code> leaves. <code>/f who &lt;name&gt;</code> shows any faction's members, power and land, and <code>/f list</code> lists them all.</li>
+        <li>A faction holds up to 15 members. Alt accounts are kept on a separate list of up to 30, managed with <code>/f alts</code>.</li>
+        <li>A member who hasn't logged in for 90 days is removed from their faction.</li>
+      </ul>
+
+      <h3>Home and warps</h3>
+      <ul>
+        <li><code>/f sethome</code> sets the faction home. It has to be on your own land. <code>/f home</code> takes you there at once, and you respawn there when you die.</li>
+        <li><code>/f setwarp &lt;name&gt;</code> adds a faction warp, with a password if you want one. <code>/f warp</code> opens the menu of them. A faction can have up to 5.</li>
+        <li>Neither works while you are in combat.</li>
+      </ul>
+
+      <h3>Allies and enemies</h3>
+      <ul>
+        <li>Every faction starts out neutral to yours. <code>/f ally &lt;faction&gt;</code>, <code>/f enemy &lt;faction&gt;</code> and <code>/f neutral &lt;faction&gt;</code> change that. An alliance needs both sides to agree.</li>
+        <li>You get one ally. There are no truces.</li>
+        <li>Names are coloured by how they stand to you: <span class="c-own">your own faction</span>, <span class="c-ally">an ally</span>, <span class="c-enemy">an enemy</span>, and white for neutral.</li>
+        <li>You can hurt anyone who is not in your faction or allied to it, neutral players and players with no faction included.</li>
+      </ul>
+
+      <h3>Faction chat</h3>
+      <ul>
+        <li><code>/f chat faction</code>, <code>/f chat ally</code> and <code>/f chat public</code> switch where your messages go.</li>
+        <li><code>/f global</code> hides public chat for you.</li>
+        <li><code>/f coords</code> sends your location to your faction. <code>/f weewoo</code> sounds the alarm that you are being raided.</li>
+      </ul>
+
+      <h3>Shared storage</h3>
+      <ul>
+        <li><code>/f chest</code> opens a chest the whole faction shares. It grows with the Chest upgrade. Spawners can't go in it.</li>
+        <li><code>/f tnt add &lt;amount&gt;</code> and <code>/f tnt take &lt;amount&gt;</code> move TNT in and out of the faction's TNT bank, which holds up to 3,000,000.</li>
+        <li><code>/f invsee &lt;member&gt;</code> shows a member's inventory.</li>
+      </ul>
+
+      <h3>Flying</h3>
+      <ul>
+        <li><code>/f fly</code> lets you fly on your faction's land, and on your ally's land if they allow it in their permissions.</li>
+        <li>It takes 3 seconds to start and switches off when an enemy comes within 32 blocks.</li>
+        <li>You can't throw ender pearls while flying, and you can't start flying while in combat.</li>
+      </ul>
+      <p class="note"><strong>Not on this server</strong> Faction banners and the faction vault are turned off. The faction bank doesn't charge for anything: making a faction, claiming land and setting a home are free.</p>
+    </section>
+
+    <section id="land" data-group="Factions">
+      <h2>Power and land</h2>
+      <p class="lead">Power decides how much land a faction can hold. Run out of it and your land can be taken.</p>
+
+      <h3>Power</h3>
+      <ul>
+        <li>You start with 100 power, which is also the most you can have. The least is -10.</li>
+        <li>Dying costs 4 power, wherever it happens.</li>
+        <li>You get 0.2 back every minute you are online, which is 12 an hour. Nothing comes back while you are offline.</li>
+        <li>A faction's power is its members' power added up. <code>/f lowpower</code> lists members who are below their maximum.</li>
+      </ul>
+
+      <h3>Claiming</h3>
+      <ul>
+        <li>Land is claimed a chunk at a time (16 by 16 blocks, from the bottom of the world to the top). Each chunk needs 1 power.</li>
+        <li><code>/f claim</code> claims the chunk you are standing in. <code>/f map</code> shows the area, and you can click chunks on it to claim them. <code>/f unclaim</code> gives a chunk up.</li>
+        <li>Your chunks don't have to touch each other.</li>
+        <li><code>/f corner</code>, typed in a corner chunk of the world, claims a 25 by 25 chunk square from that corner in one go.</li>
+        <li><code>/f showclaims</code> lists what you hold, and <code>/f seechunk</code> draws the edges of the chunk you are in.</li>
+        <li>You can't claim around spawn or the KOTH.</li>
+      </ul>
+
+      <h3>Losing land</h3>
+      <ul>
+        <li>If your faction holds more chunks than it has power, an enemy can claim your land for themselves, starting from its edge.</li>
+        <li>That takes a lot of deaths: a faction of five has 500 power.</li>
+        <li>Leaving a faction is allowed even when your power is below zero.</li>
+      </ul>
+
+      <h3>What your land protects</h3>
+      <ul>
+        <li>Players outside your faction can't place or break blocks on it, or use buckets, flint and steel or armour stands there. That holds whether you are online or not.</li>
+        <li>Doors, levers, buttons, chests, hoppers and the like follow <code>/f perms</code>. Open it and check what each group may do, containers above all.</li>
+        <li><strong>Explosions are not blocked.</strong> TNT and creepers break blocks on claimed land at any hour. That is what raiding is.</li>
+        <li>Beacons on your land can't be broken by outsiders. Endermen can't move blocks on it.</li>
+        <li>A player in enemy, neutral or warzone land can't set an Essentials home there.</li>
+      </ul>
+
+      <h3>The world</h3>
+      <div class="scroll"><table>
+        <tr><th>Place</th><th>What it is</th></tr>
+        <tr><td>Main world</td><td>Where spawn and every base is. 10,000 blocks across, with spawn in the middle, so the border is 5,000 blocks out. Ender pearls don't cross it.</td></tr>
+        <tr><td>Spawn</td><td>No PvP and no fall damage. Leave it on foot or with <code>/wild</code>.</td></tr>
+        <tr><td>Around spawn</td><td>PvP is on. Nothing can be built or claimed, and creepers don't break blocks.</td></tr>
+        <tr><td>Warzone and safezone</td><td>No building and no TNT damage. You still lose power for dying in the warzone.</td></tr>
+        <tr><td>Wilderness</td><td>Unclaimed land. Anyone can build and blow things up.</td></tr>
+        <tr><td><code>/warp end</code>, <code>/warp nether</code></td><td>Two flat worlds, 5,024 blocks across. A small safe spawn in the middle, a PvP ring around it where nothing can be built, and open land beyond.</td></tr>
+        <tr><td>Raid event world</td><td>Only reachable with <code>/raid</code> while an event is on. See <a href="#raid-event">The raid event</a>.</td></tr>
+      </table></div>
+    </section>
+
+    <section id="roles" data-group="Factions">
+      <h2>Roles and permissions</h2>
+      <div class="scroll"><table>
+        <tr><th>Role</th><th>Shown as</th><th>Can do by default</th></tr>
+        <tr><td>Leader</td><td><code>***</code></td><td>Everything.</td></tr>
+        <tr><td>Co-leader</td><td><code>**</code></td><td>Everything.</td></tr>
+        <tr><td>Moderator</td><td><code>*</code></td><td>Everything except disbanding the faction.</td></tr>
+        <tr><td>Member</td><td><code>+</code></td><td>Build and break, use doors, buttons, levers and containers, use faction warps.</td></tr>
+        <tr><td>Recruit</td><td><code>-</code></td><td>Nothing until someone promotes them or changes the permissions.</td></tr>
+      </table></div>
+      <ul>
+        <li><code>/f mod &lt;player&gt;</code> and <code>/f coleader &lt;player&gt;</code> promote. <code>/f leader &lt;player&gt;</code> hands the faction over. <code>/f kick &lt;player&gt;</code> removes someone, and <code>/f ban &lt;player&gt;</code> keeps them from coming back.</li>
+        <li><code>/f title &lt;player&gt; &lt;title&gt;</code> gives a member a title.</li>
+        <li><code>/f perms</code> opens the permissions menu. Pick a role (recruit, member, moderator, co-leader) or a relation (ally, enemy, neutral), then left-click an action to allow it and right-click to deny it.</li>
+        <li>The actions you can set: building, breaking, doors, buttons, levers, containers, inviting, kicking, setting the home, using the home, warps, setting warps, the TNT bank, TNT fill, the faction chest, spawners, banning, promoting and disbanding.</li>
+        <li><code>/f rules</code> shows your faction's own rules. A leader adds one with <code>/f rules add &lt;rule&gt;</code>.</li>
+      </ul>
+    </section>
+
+    <section id="faction-progress" data-group="Factions">
+      <h2>Upgrades, missions and points</h2>
+
+      <h3>Upgrades</h3>
+      <p><code>/f upgrades</code> opens the menu. Each one is bought with money and applies to the whole faction.</p>
+      <div class="scroll"><table>
+        <tr><th>Upgrade</th><th>What it does</th><th>Level 1</th><th>Level 2</th><th>Level 3</th></tr>
+        <tr><td>Crops</td><td>Chance for crops on your land to grow two stages at once</td><td>10% for $2.5M</td><td>20% for $5M</td><td>30% for $7.5M</td></tr>
+        <tr><td>EXP</td><td>Multiplies the experience mobs drop</td><td>1.5x for $15M</td><td>2x for $20M</td><td>2.5x for $25M</td></tr>
+        <tr><td>Spawners</td><td>Spawners on your land spawn faster</td><td>10% for $10M</td><td>20% for $20M</td><td>30% for $30M</td></tr>
+        <tr><td>Damage reduction</td><td>You take less damage on your land</td><td>3% for $7M</td><td>5% for $10M</td><td>7% for $15M</td></tr>
+        <tr><td>Damage increase</td><td>You deal more damage</td><td>3% for $7M</td><td>5% for $10M</td><td>7% for $15M</td></tr>
+        <tr><td>TNT</td><td>Raises the TNT bank's limit</td><td>5M TNT for $10M</td><td>10M for $12M</td><td>20M for $14M</td></tr>
+        <tr><td>Warps</td><td>Number of faction warps</td><td>3 for $1M</td><td>4 for $2M</td><td>5 for $3M</td></tr>
+        <tr><td>Chest</td><td>Rows in <code>/f chest</code></td><td>2 for $5M</td><td>3 for $6M</td><td>4 for $7M</td></tr>
+        <tr><td>Armor</td><td>Armour wears out more slowly</td><td>10% for $5M</td><td>15% for $10M</td><td>20% for $15M</td></tr>
+        <tr><td>Redstone</td><td>Water can't wash away redstone on your land</td><td colspan="3">One level, $4M</td></tr>
+      </table></div>
+
+      <h3>Missions</h3>
+      <p><code>/f missions</code> lists them. A faction runs one mission at a time, each can be finished once, and the reward is faction points.</p>
+      <div class="scroll"><table>
+        <tr><th>Mission</th><th>Goal</th><th class="num">Points</th></tr>
+        <tr><td>Sugar canes</td><td>Break 10,000 sugar cane</td><td class="num">300</td></tr>
+        <tr><td>Zombies</td><td>Kill 100 zombies</td><td class="num">300</td></tr>
+        <tr><td>Fishing</td><td>Catch 10 fish</td><td class="num">100</td></tr>
+        <tr><td>Tame animals</td><td>Tame 30 animals</td><td class="num">300</td></tr>
+        <tr><td>Enchants</td><td>Enchant 50 items</td><td class="num">400</td></tr>
+        <tr><td>Steak</td><td>Eat 20 steak</td><td class="num">150</td></tr>
+      </table></div>
+
+      <h3>The points shop</h3>
+      <p><code>/f points</code> shows your faction's points and <code>/f shop</code> spends them.</p>
+      <div class="scroll"><table>
+        <tr><th>Item</th><th class="num">Points</th><th>Item</th><th class="num">Points</th></tr>
+        <tr><td>Harvester hoe</td><td class="num">200</td><td>Mystery bag</td><td class="num">750</td></tr>
+        <tr><td>Envoy starter</td><td class="num">350</td><td>Villager spawner</td><td class="num">850</td></tr>
+        <tr><td>Voidborn kit</td><td class="num">500</td><td>Galactic crate</td><td class="num">1,000</td></tr>
+        <tr><td>1,000 mob coins</td><td class="num">500</td><td>StarDrop starter</td><td class="num">1,200</td></tr>
+        <tr><td>Overlord kit</td><td class="num">700</td><td></td><td></td></tr>
+        <tr><td><code>/refill</code> access</td><td class="num">700</td><td></td><td></td></tr>
+      </table></div>
+    </section>
+
+    <section id="ftop" data-group="Factions">
+      <h2>Faction top</h2>
+      <p class="lead"><code>/f top</code> ranks factions by what their bases are worth.</p>
+      <ul>
+        <li>Worth is counted from three things on your land: valuable blocks you have placed, spawners, and items inside chests.</li>
+        <li>Money doesn't count, neither yours nor the faction's.</li>
+        <li>The list is worked out again about every 30 seconds.</li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th>Spawner</th><th class="num">Worth</th><th>Block or item</th><th class="num">Worth</th></tr>
+        <tr><td>Silverfish</td><td class="num">$15,000,000</td><td>Dragon egg</td><td class="num">$15,000,000</td></tr>
+        <tr><td>Iron golem</td><td class="num">$1,500,000</td><td>Beacon</td><td class="num">$25,000</td></tr>
+        <tr><td>Zombie pigman</td><td class="num">$750,000</td><td>Hopper</td><td class="num">$5,000</td></tr>
+        <tr><td>Creeper</td><td class="num">$500,000</td><td>Emerald block</td><td class="num">$2,000</td></tr>
+        <tr><td>Blaze</td><td class="num">$350,000</td><td>Diamond block</td><td class="num">$1,700</td></tr>
+        <tr><td>Enderman</td><td class="num">$200,000</td><td>Iron block</td><td class="num">$1,200</td></tr>
+        <tr><td>Villager</td><td class="num">$120,000</td><td>Dispenser, dropper</td><td class="num">$1,000</td></tr>
+        <tr><td>Mooshroom, horse</td><td class="num">$100,000</td><td>Gold block</td><td class="num">$500</td></tr>
+        <tr><td>Skeleton, zombie</td><td class="num">$70,000</td><td>Redstone block</td><td class="num">$450</td></tr>
+        <tr><td>Cow</td><td class="num">$50,000</td><td>Coal block</td><td class="num">$300</td></tr>
+        <tr><td>Spider</td><td class="num">$45,000</td><td>Enchanted golden apple (in a chest)</td><td class="num">$5,000</td></tr>
+        <tr><td>Ghast</td><td class="num">$20,000</td><td>TNT (in a chest)</td><td class="num">$20</td></tr>
+        <tr><td>Witch</td><td class="num">$15,000</td><td>Chest</td><td class="num">$20</td></tr>
+        <tr><td>Slime, pig, sheep and other common mobs</td><td class="num">$10,000</td><td>Obsidian (in a chest)</td><td class="num">$10</td></tr>
+      </table></div>
+    </section>
+    <section id="cannons" data-group="Raiding">
+      <h2>Cannons and TNT</h2>
+      <p class="lead">Bases are raided with TNT cannons. Explosions break blocks on claimed land whether the owners are online or not.</p>
+
+      <h3>TNT</h3>
+      <ul>
+        <li><code>/f tntfill &lt;radius&gt; &lt;amount&gt;</code> fills the dispensers around you with TNT. The radius goes up to 50 blocks and each dispenser takes up to 300.</li>
+        <li>The faction TNT bank (<code>/f tnt add</code>, <code>/f tnt take</code>) keeps TNT out of your chests.</li>
+        <li>TNT does no damage in the safezone or the warzone.</li>
+        <li>Creepers break blocks on claimed land too, but not in the warzone or around spawn.</li>
+        <li>Fire doesn't spread anywhere.</li>
+      </ul>
+
+      <h3>Grace period</h3>
+      <p>At the start of a map there is a grace period. While it lasts, TNT and falling sand are switched off, so nobody can be cannoned. PvP stays on. <code>/grace</code> says whether it is still running.</p>
+
+      <h3>Limits</h3>
+      <p>These keep one cannon from stalling the server. A normal cannon never meets them, and you are told in chat when one stops something.</p>
+      <div class="scroll"><table>
+        <tr><th>What</th><th>Limit</th><th>Past the limit</th></tr>
+        <tr><td>TNT fired from one chunk's dispensers</td><td>3,000 in 4 seconds</td><td>The rest stays in the dispensers. A volley fires whole or not at all.</td></tr>
+        <tr><td>Falling sand in one chunk</td><td>1,500 in 4 seconds</td><td>The sand stays where it is.</td></tr>
+        <tr><td>Redstone updates in one chunk</td><td>20,000 in 10 seconds</td><td rowspan="2">The chunk's redstone pauses for 30 seconds. Chunks near a cannon that has fired in the last 15 minutes are never paused.</td></tr>
+        <tr><td>Piston moves in one chunk</td><td>2,000 in 10 seconds</td></tr>
+        <tr><td>Hoppers in one chunk</td><td>64</td><td>No more can be placed.</td></tr>
+        <tr><td>Hopper minecarts in one chunk</td><td>8</td><td>No more can be placed.</td></tr>
+      </table></div>
+
+      <h3>Water and wiring</h3>
+      <p>Water and lava stop at redstone, repeaters, comparators, torches, levers, buttons, rails, carpets and flowers instead of washing them away, so a cannon can run water past its wiring. Wheat, carrots and potatoes are still broken by water, so water-harvested farms work.</p>
+
+      <h3>Ender pearls</h3>
+      <ul>
+        <li>15 seconds between pearls, and one in the air at a time.</li>
+        <li>You can't pearl while your head is inside a block, for 2 seconds after opening a door, across the world border, or into spawn while in combat.</li>
+      </ul>
+      <p class="note"><strong>Read first</strong> Some cannon designs are banned. See <a href="#rules">Rules</a> before you build one.</p>
+    </section>
+
+    <section id="sandbots" data-group="Raiding">
+      <h2>Sandbots</h2>
+      <p class="lead">A sandbot keeps a cannon's sand columns full, so nobody has to stand there restacking sand.</p>
+      <ol class="steps">
+        <li><span>Put a sandstone block at the top of each sand column of your cannon.</span></li>
+        <li><span>Look at a block next to the cannon, within 6 blocks, and type <code>/sandbot place</code>. The bot appears in the space in front of that block.</span></li>
+        <li><span>Right-click the bot and choose <strong>Buy sand</strong>. Sand costs $1 each and a bot holds up to 100,000. If you can't afford a full load, you buy what you can.</span></li>
+      </ol>
+      <ul>
+        <li>Whenever the space under a sandstone within 16 blocks of the bot is empty, the bot drops a sand there. One bot can feed every column of a cannon, and a column that is already full uses nothing.</li>
+        <li>It works while someone from your faction is within 64 blocks, or while it sits inside a running <a href="#chunk-loaders">chunk loader's</a> area.</li>
+        <li>It goes on your faction's land or in the wilderness. A faction can have 10, and members and up can place and manage them.</li>
+        <li>The bot's menu also pauses it and removes it. Removing takes two clicks, and the sand left in it is lost.</li>
+        <li>It can't be pushed or blown up, and other factions can't open it. In the wilderness, anyone can break it with two right-clicks, and you are told who did.</li>
+        <li>When a bot runs out of sand, members nearby are told.</li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th>Command</th><th>What it does</th></tr>
+        <tr><td><code>/sandbot place</code></td><td>Places a bot in front of the block you are looking at</td></tr>
+        <tr><td><code>/sandbot list</code></td><td>Lists your faction's bots and the sand each has left</td></tr>
+        <tr><td><code>/sandbot refill</code></td><td>Buys sand for the nearest bot</td></tr>
+        <tr><td><code>/sandbot remove</code></td><td>Removes your nearest bot within 8 blocks. Type it twice to confirm.</td></tr>
+        <tr><td><code>/sandbot remove all</code></td><td>Removes every bot your faction has. Type it twice to confirm.</td></tr>
+      </table></div>
+      <p><code>/f sandbot</code> does the same as <code>/sandbot</code>.</p>
+    </section>
+
+    <section id="chunk-loaders" data-group="Raiding">
+      <h2>Chunk loaders</h2>
+      <p class="lead">A chunk loader keeps a cannon running after everyone has walked away from it.</p>
+      <ul>
+        <li>It is a beacon you place on your faction's own land. The 5 by 5 chunks around it keep running with nobody near: redstone, dispensers, pistons, lit TNT, falling sand, and any sandbots inside.</li>
+        <li>Shots fired from inside its area keep flying after they leave it, so they land where the cannon is aimed.</li>
+        <li><code>/chunkloader</code> opens the shop. A loader costs $25,000.</li>
+        <li>It runs on time you buy for it: $1,000 an hour, up to 48 hours stored. A new loader has none, so right-click it and buy time first. The same menu pauses it. Time only counts down while it is running, and members online are told when it runs out.</li>
+        <li>Pick it up from its menu (two clicks) or by breaking it. You get the item back with its time still in it.</li>
+        <li>A faction can have 3 placed at once. Members and up can place and manage them. <code>/chunkloader list</code> shows yours.</li>
+        <li>Explosions can't break it. If the land under it is unclaimed or taken, it stops, and whoever can build there can destroy it. If the faction disbands, its loaders are gone.</li>
+      </ul>
+    </section>
+
+    <section id="raid-alerts" data-group="Raiding">
+      <h2>Raid alerts</h2>
+      <p class="lead">When TNT from somewhere else goes off on your land, everyone online in your faction is told at once.</p>
+      <ul>
+        <li>The alert comes with a title and a heartbeat sound, and says where you were hit, how much TNT landed in how long, which direction it came from, and how many blocks you lost, counting spawners and obsidian separately.</li>
+        <li>If most of the TNT came from one faction's land, the alert names that faction.</li>
+        <li>Click the last line for a map centred on the raid, with the chunks being hit marked by a red X. <code>/raids map</code> opens the same map.</li>
+        <li>While the hits go on you get a fresh alert every 30 seconds. After 90 seconds without a hit you are told it has stopped, with the totals.</li>
+        <li>Hits more than 2 chunks apart count as separate raids, so a base hit from two sides gets two alerts.</li>
+        <li>Your ally is told when a raid on you starts.</li>
+        <li>Log in during a raid and you get the alert with the totals so far. If your land was hit while you were offline, you get a one-line reminder.</li>
+        <li><code>/raids</code> lists the last 10 raids on your faction. The list starts fresh after a server restart.</li>
+      </ul>
+      <p>Not counted as a raid: TNT that started on your own land, creepers and TNT minecarts, and anything in the safezone or warzone.</p>
+    </section>
+
+    <section id="raid-event" data-group="Raiding">
+      <h2>The raid event</h2>
+      <p class="lead">Every 4 hours a fortified base goes up in a world of its own. The first faction to get TNT into its vault has the loot to itself.</p>
+
+      <h3>When</h3>
+      <ul>
+        <li>At 12am, 4am, 8am, 12pm, 4pm and 8pm, server time.</li>
+        <li>Warnings go out 30, 10, 5 and 1 minutes before. At the start everyone gets a title and a chat line to click.</li>
+        <li>Between events, <code>/raid</code> says when the next one is.</li>
+      </ul>
+
+      <h3>Getting in</h3>
+      <ul>
+        <li>You need to be in a faction. <code>/raid</code> takes you to the arrival point, south of the base.</li>
+        <li>You can't be hurt for 10 seconds after arriving, unless you attack someone first.</li>
+        <li><code>/raid</code> is the only way in. Homes, <code>/tpa</code> and <code>/back</code> don't reach the raid world. If you die or leave, type <code>/raid</code> again.</li>
+        <li>The world is flat, with a border 450 blocks from the base.</li>
+      </ul>
+
+      <h3>Rules of the world</h3>
+      <ul>
+        <li>No building, breaking or buckets within 32 blocks of the base, in the corners between its walls, or within 6 blocks of the arrival point.</li>
+        <li>Only TNT breaks blocks there. Creepers and TNT minecarts don't.</li>
+        <li>Your faction can claim up to 9 chunks for its cannon. Members and up can claim, and this land never counts against your power. It can't be taken from you, and you can't claim right next to another faction's cannon.</li>
+        <li>Sandbots and chunk loaders work there, outside the no-build area, with no claim needed. Faction homes and warps don't.</li>
+        <li>Fights there don't set off raid alerts.</li>
+      </ul>
+
+      <h3>Winning</h3>
+      <ul>
+        <li>The vault is won by the first TNT that goes off inside it or breaks a piece of it. It goes to the faction that placed the dispenser the TNT came from.</li>
+        <li>From then on only the winners can step into the vault or open its 20 chests. Everyone else is pushed back out. PvP carries on everywhere else.</li>
+        <li>The winners get 10 minutes. Then everyone is sent to spawn.</li>
+        <li>If nobody breaches the vault within 60 minutes, nobody wins.</li>
+      </ul>
+
+      <h3>Afterwards</h3>
+      <p>The world is wiped and the base rebuilt for next time. Cannons, items and claims there are gone. Sandbots left there are removed and their unused sand is refunded to your faction's leader. Chunk loaders left there are handed back to whoever placed them, with their time.</p>
+    </section>
+    <section id="money" data-group="Money">
+      <h2>Money and the shop</h2>
+      <p class="lead">Money buys spawners, tools, enchants and faction upgrades. You start with $5,000.</p>
+
+      <h3>The basics</h3>
+      <ul>
+        <li><code>/bal</code> shows your money, <code>/pay &lt;player&gt; &lt;amount&gt;</code> sends some, and <code>/baltop</code> lists the richest players.</li>
+        <li><code>/withdraw &lt;amount&gt;</code> turns money into a bank note you can hand to someone or keep in a chest. Right-click the note to cash it. From $25 to $10,000,000, with no fee.</li>
+        <li><code>/xpbottle &lt;amount&gt;</code> does the same with experience, also free. <code>/bank</code> has buttons for the common amounts of both.</li>
+      </ul>
+
+      <h3>The shop</h3>
+      <p><code>/shop</code> opens it. Left-click buys, right-click sells, and middle-click sells every one you are carrying. <code>/sell hand</code>, <code>/sell handall</code> and <code>/sell all</code> sell without opening it.</p>
+      <p>The shop has blocks, farming, dyes, ores, mob spawners, tools, armour, raiding supplies, glass, clay, wool, food, mob drops, potions, wood, a miscellaneous shelf and the donor shop.</p>
+      <div class="scroll"><table>
+        <tr><th>Item</th><th class="num">Amount</th><th class="num">Buy</th><th class="num">Sell</th></tr>
+        <tr><td>Cactus</td><td class="num">16</td><td class="num">$20</td><td class="num">$2</td></tr>
+        <tr><td>Sugar cane</td><td class="num">16</td><td class="num">$50</td><td class="num">$3</td></tr>
+        <tr><td>Wheat, pumpkin, melon, nether wart, cocoa</td><td class="num">16</td><td class="num">$50</td><td class="num">$5</td></tr>
+        <tr><td>Carrot, potato</td><td class="num">10</td><td class="num">$30</td><td class="num">$6</td></tr>
+        <tr><td>Iron ingot</td><td class="num">8</td><td class="num">$300</td><td class="num">$20</td></tr>
+        <tr><td>Gold ingot</td><td class="num">12</td><td class="num">$400</td><td class="num">$8</td></tr>
+        <tr><td>Diamond</td><td class="num">8</td><td class="num">$1,000</td><td class="num">$80</td></tr>
+        <tr><td>Emerald</td><td class="num">8</td><td class="num">$200</td><td class="num">$30</td></tr>
+        <tr><td>Rotten flesh</td><td class="num">64</td><td class="num">$80</td><td class="num">$1</td></tr>
+        <tr><td>Bone, gunpowder, ender pearl, blaze rod</td><td class="num">8 to 32</td><td class="num">$30 to $100</td><td class="num">$1</td></tr>
+        <tr><td>Obsidian</td><td class="num">16</td><td class="num">$30</td><td class="num">$3</td></tr>
+        <tr><td>Cobblestone, sand</td><td class="num">64</td><td class="num">$30</td><td class="num">$3</td></tr>
+        <tr><td>TNT</td><td class="num">1</td><td class="num">$700</td><td class="num">$70</td></tr>
+        <tr><td>Creeper egg</td><td class="num">1</td><td class="num">$50,000</td><td class="num">$500</td></tr>
+        <tr><td>Golden apple</td><td class="num">1</td><td class="num">$100</td><td class="num">$20</td></tr>
+        <tr><td>Enchanted golden apple</td><td class="num">1</td><td class="num">$1,000</td><td class="num">$200</td></tr>
+        <tr><td>Potions</td><td class="num">1</td><td class="num">$1,000 to $3,500</td><td class="num">can't be sold</td></tr>
+      </table></div>
+      <p class="note"><strong>Selling crops</strong> The shop pays little for crops. A harvester hoe, a sell wand or a chunk collector pays far more for the same harvest. See <a href="#farming">Farming and grinding</a>.</p>
+
+      <h3>The donor shop</h3>
+      <p>A shelf inside <code>/shop</code> that sells store items for in-game money.</p>
+      <div class="scroll"><table>
+        <tr><th>Item</th><th class="num">Price</th><th>Item</th><th class="num">Price</th></tr>
+        <tr><td><code>/sellhand</code> voucher</td><td class="num">$100,000</td><td>Mystery bag</td><td class="num">$300,000</td></tr>
+        <tr><td>Starter pack</td><td class="num">$100,000</td><td>Spawner pouch</td><td class="num">$325,000</td></tr>
+        <tr><td><code>/milk</code> voucher</td><td class="num">$125,000</td><td>Black market access</td><td class="num">$400,000</td></tr>
+        <tr><td><code>/fix</code> voucher</td><td class="num">$130,000</td><td>Medium pack</td><td class="num">$800,000</td></tr>
+        <tr><td><code>/refill</code> voucher</td><td class="num">$150,000</td><td>Shard kit</td><td class="num">$200,000</td></tr>
+      </table></div>
+
+      <h3>Money pouches</h3>
+      <p><code>/mp shop</code> sells pouches that pay out a random amount when opened.</p>
+      <div class="scroll"><table>
+        <tr><th>Pouch</th><th class="num">Costs</th><th class="num">Pays</th></tr>
+        <tr><td>Tier 1</td><td class="num">$6,000</td><td class="num">$1,000 to $10,000</td></tr>
+        <tr><td>Tier 2</td><td class="num">$30,000</td><td class="num">$10,001 to $50,000</td></tr>
+        <tr><td>Tier 3</td><td class="num">$110,000</td><td class="num">$50,001 to $200,000</td></tr>
+        <tr><td>Tier 4</td><td class="num">$380,000</td><td class="num">$200,001 to $500,000</td></tr>
+        <tr><td>Tier 5</td><td class="num">$1,200,000</td><td class="num">$500,001 to $2,000,000</td></tr>
+      </table></div>
+    </section>
+
+    <section id="spawners" data-group="Money">
+      <h2>Spawners</h2>
+      <p class="lead">Spawners are the main way to earn, and the main thing a base is worth on <code>/f top</code>.</p>
+      <div class="scroll"><table>
+        <tr><th>Spawner</th><th class="num">Shop price</th><th>Spawner</th><th class="num">Shop price</th></tr>
+        <tr><td>Squid, witch</td><td class="num">$65,000</td><td>Guardian, blaze</td><td class="num">$150,000</td></tr>
+        <tr><td>Chicken, sheep, pig</td><td class="num">$90,000</td><td>Spider</td><td class="num">$170,000</td></tr>
+        <tr><td>Slime</td><td class="num">$95,000</td><td>Enderman</td><td class="num">$180,000</td></tr>
+        <tr><td>Cow, creeper</td><td class="num">$100,000</td><td>Skeleton, zombie</td><td class="num">$200,000</td></tr>
+        <tr><td></td><td></td><td>Zombie pigman</td><td class="num">$230,000</td></tr>
+      </table></div>
+      <ul>
+        <li>Iron golem and villager spawners aren't in the shop. They come from crates, spawner pouches, events and the faction points shop.</li>
+        <li>A spawner pouch gives one random spawner: enderman, blaze, creeper, zombie, skeleton, iron golem, villager or pig.</li>
+        <li>Spawners can't be crafted or sold back.</li>
+      </ul>
+
+      <h3>Moving and losing spawners</h3>
+      <ul>
+        <li>Any pickaxe mines a spawner and it always drops. No Silk Touch needed.</li>
+        <li>Mining one costs money, taken when it breaks: pig spawners are free, most cost $5,000, iron golem $20,000, zombie pigman $50,000, blaze $75,000, enderman $150,000, creeper $500,000 and villager $1,000,000.</li>
+        <li><strong>An explosion always drops the spawner too, at no cost.</strong> Raiders who blow up your spawner room walk away with your spawners.</li>
+      </ul>
+
+      <h3>What mobs drop</h3>
+      <div class="scroll"><table>
+        <tr><th>Mob</th><th>Drops</th></tr>
+        <tr><td>Cow</td><td>1 to 3 steak</td></tr>
+        <tr><td>Pig</td><td>1 to 3 cooked pork</td></tr>
+        <tr><td>Chicken</td><td>1 cooked chicken</td></tr>
+        <tr><td>Iron golem</td><td>2 to 4 iron ingots, 9 times in 10</td></tr>
+        <tr><td>Creeper</td><td>1 TNT, 8 times in 10</td></tr>
+        <tr><td>Zombie pigman</td><td>1 gold ingot, 8 times in 10</td></tr>
+        <tr><td>Witch</td><td>1 diamond, 8 times in 10</td></tr>
+        <tr><td>Villager</td><td>1 emerald</td></tr>
+      </table></div>
+      <p>Looting adds 2 drops a level. These mobs give no experience. Other mobs drop what they do in vanilla.</p>
+    </section>
+
+    <section id="farming" data-group="Money">
+      <h2>Farming and grinding</h2>
+      <p class="lead">Crops grow much faster than normal here, sugar cane and cactus most of all. Cactus grows 3 tall and sugar cane 5.</p>
+
+      <h3>Tools that sell for you</h3>
+      <div class="scroll"><table>
+        <tr><th>Tool</th><th>What it does</th><th>Where and price</th></tr>
+        <tr><td>Harvester hoe</td><td>Breaking sugar cane with it sells the cane on the spot for $20 each. The hoe levels up as you farm: at 20,000, 60,000, 120,000 and 160,000 cane it pays more, and each cane has a tiny chance of a crate key.</td><td><code>/hoe</code>: tier I $150,000, tier II $350,000, tier III $600,000</td></tr>
+        <tr><td>Farmer axe</td><td>For melons. Right-click switches between selling as you chop, collecting into your inventory, and digging dirt.</td><td><code>/axe</code>: 100 uses $150,000, 300 uses $350,000, unlimited $600,000</td></tr>
+        <tr><td>Sell wand</td><td>Right-click a chest to sell everything in it. Pays wand prices, which beat the shop: sugar cane $20, pumpkin $50, melon block $20, wheat $9, cactus $1, gold $10, diamond $30, emerald $55, blaze rod $30, ender pearl $25.</td><td><code>/sellwands</code>: 100 uses $150,000, 250 uses $300,000, unlimited $500,000</td></tr>
+        <tr><td>Chunk collector</td><td>A beacon that gathers the mob drops and cactus of its whole chunk. Open it to sell the lot or take the stored experience. It pays per mob: iron golem and creeper $500, enderman and zombie pigman $300, villager $200, cow, pig and chicken $100. One per chunk, and you need a faction.</td><td><code>/collector</code>, or the miscellaneous shelf of <code>/shop</code>: $750,000</td></tr>
+      </table></div>
+      <p class="warn"><strong>Farms need a collector</strong> Farms only grow in chunks that have a chunk collector, so put one in every chunk you farm.</p>
+
+      <h3>Building faster</h3>
+      <div class="scroll"><table>
+        <tr><th>Tool</th><th>What it does</th><th>Where and price</th></tr>
+        <tr><td>Gen buckets</td><td>Place one and it builds a wall for you, a block at a time. Vertical buckets build a column, horizontal ones a line of 10. They don't work with an enemy within 50 blocks.</td><td><code>/gen</code> hands them out. You pay each time you place one: cobblestone $100, obsidian $1,000, sand $2,500</td></tr>
+        <tr><td>Cactus generator</td><td>Place it and it builds a whole cactus farm pillar: sand, cactus and string, layer on layer, up to the sky.</td><td><code>/generators</code>: 32 for $250,000</td></tr>
+        <tr><td>Sugar cane generator</td><td>The same for sugar cane, 10 layers high.</td><td><code>/generators</code>: 32 for $200,000</td></tr>
+        <tr><td>Trench pickaxe</td><td>Mines a 3 by 3 or 5 by 5 area with each block you break.</td><td><code>/trenchpick</code>: 3 by 3 $300,000, 5 by 5 $500,000</td></tr>
+        <tr><td>Chunk buster</td><td>Place it to clear the chunks around it from bedrock to sky. Works on your own land and in the wilderness, and asks you to confirm. Chests, spawners and beacons are left standing.</td><td><code>/shop</code>, miscellaneous shelf: 3 by 3 chunks $80,000, 5 by 5 chunks $150,000</td></tr>
+      </table></div>
+
+      <h3>Healing items</h3>
+      <p><code>/heals</code> sells two. A ChugJug ($1,000,000) gives Regeneration III and Absorption II for 12 seconds, with Slowness III for 10. A HealPaper ($200,000) heals you fully with Regeneration III for 5 seconds.</p>
+    </section>
+
+    <section id="mobcoins" data-group="Money">
+      <h2>Mob coins</h2>
+      <p class="lead">A second currency that drops while you grind, spent in a shop that changes every day.</p>
+      <ul>
+        <li>Killing a mob may drop a coin: blaze 50%, enderman 20%, zombie 15%, skeleton 10%, creeper 8%. Mobs from spawners count.</li>
+        <li>Each sugar cane you break has a 5% chance of a coin.</li>
+        <li><code>/mobcoins</code> opens the shop and shows your coins. <code>/mobcoins withdraw &lt;amount&gt;</code> turns coins into an item you can trade.</li>
+        <li>The normal shelf changes every 24 hours and the special shelf every 72.</li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th>Normal shelf</th><th class="num">Coins</th><th>Special shelf</th><th class="num">Coins</th></tr>
+        <tr><td>Blaze spawner</td><td class="num">800</td><td>Medium pack</td><td class="num">10,000</td></tr>
+        <tr><td>Chunk buster</td><td class="num">1,000</td><td></td><td></td></tr>
+        <tr><td>Mystery bag</td><td class="num">1,000</td><td></td><td></td></tr>
+        <tr><td>VAST key, Shard kit, spawner pouch</td><td class="num">1,500</td><td></td><td></td></tr>
+        <tr><td>Creeper spawner</td><td class="num">2,000</td><td></td><td></td></tr>
+        <tr><td>Black market access</td><td class="num">3,000</td><td></td><td></td></tr>
+        <tr><td><code>/sellhand</code> voucher</td><td class="num">7,000</td><td></td><td></td></tr>
+        <tr><td>StarDrop starter</td><td class="num">30,000</td><td></td><td></td></tr>
+      </table></div>
+      <p>Only some of these are on the shelf at any one time.</p>
+    </section>
+
+    <section id="trading" data-group="Money">
+      <h2>Auctions, trading and the black market</h2>
+
+      <h3>Auction house</h3>
+      <ul>
+        <li><code>/ah</code> opens it. Hold an item and type <code>/ah sell &lt;price&gt;</code> to list it at a fixed price, or <code>/ah bid &lt;starting price&gt;</code> to auction it.</li>
+        <li>Prices run from $10 to $1,000,000. Starting bids run from $100.</li>
+        <li>A listing stays up for 2 days. An auction runs for 2 minutes 30 seconds.</li>
+        <li>You can have 3 listings and 3 auctions up at once. Damaged items can't be listed.</li>
+        <li><code>/ah listed</code> shows what you are selling. <code>/ah expired</code> gives back what didn't sell, which is kept for 10 days.</li>
+      </ul>
+
+      <h3>Trading</h3>
+      <ul>
+        <li>Shift and right-click a player within 15 blocks to ask for a trade. They accept the same way, or with <code>/trade accept</code>. A request lasts 60 seconds.</li>
+        <li>Items, money and experience can all go into a trade.</li>
+      </ul>
+
+      <h3>The black market</h3>
+      <p><code>/blackmarket</code> is open to every rank from Shard up, and to anyone who uses a black market access voucher. Inside: a Perma crate for $950,000, a Galactic crate for $800,000 and an Extreme pack for $500,000.</p>
+
+      <h3>Heads and bounties</h3>
+      <ul>
+        <li>Kills in the wilderness drop heads: players' heads, and mobs' too.</li>
+        <li><code>/sellhead</code> sells every head you are carrying.</li>
+        <li><code>/hunter bounty add &lt;player&gt; &lt;amount&gt;</code> puts a price on someone, $5,000 at least, and no more than one every 5 minutes. <code>/hunter bounty list</code> shows who is wanted.</li>
+      </ul>
+    </section>
+
+    <section id="gambling" data-group="Money">
+      <h2>Gambling</h2>
+
+      <h3>Coin flip</h3>
+      <p><code>/coinflip create &lt;bet&gt; &lt;heads|tails&gt;</code> puts up a bet of $100 or more for another player to take. You can have 3 open at once.</p>
+
+      <h3>Jackpot</h3>
+      <p><code>/jackpot buy &lt;amount&gt;</code> buys tickets at $1,000 each. A winner is drawn every 3 hours and takes the pot, less 10%.</p>
+
+      <h3>The bar</h3>
+      <p>Buy a drink from the barman at spawn or with <code>/gamble</code>. You either win double the price or lose it.</p>
+      <div class="scroll"><table>
+        <tr><th>Drink</th><th class="num">Price</th><th class="num">Win</th><th class="num">Chance</th></tr>
+        <tr><td>Fanta</td><td class="num">$100</td><td class="num">$200</td><td class="num">49%</td></tr>
+        <tr><td>Sprite</td><td class="num">$500</td><td class="num">$1,000</td><td class="num">47%</td></tr>
+        <tr><td>Corona</td><td class="num">$1,000</td><td class="num">$2,000</td><td class="num">45%</td></tr>
+        <tr><td>Wine</td><td class="num">$2,500</td><td class="num">$5,000</td><td class="num">44.5%</td></tr>
+        <tr><td>Vodka</td><td class="num">$5,000</td><td class="num">$10,000</td><td class="num">43.5%</td></tr>
+        <tr><td>Whiskey</td><td class="num">$7,500</td><td class="num">$15,000</td><td class="num">42.5%</td></tr>
+        <tr><td>Gin</td><td class="num">$10,000</td><td class="num">$20,000</td><td class="num">41.5%</td></tr>
+        <tr><td>Tequila</td><td class="num">$20,000</td><td class="num">$40,000</td><td class="num">40%</td></tr>
+        <tr><td>Champagne</td><td class="num">$50,000</td><td class="num">$100,000</td><td class="num">39%</td></tr>
+      </table></div>
+    </section>
+    <section id="kits" data-group="Gear">
+      <h2>Kits</h2>
+      <p class="lead"><code>/kit</code> opens the kit menu. In it, left-click a kit to claim it and right-click to look inside first.</p>
+      <div class="scroll"><table>
+        <tr><th>Kit</th><th>Armour and weapons</th><th>Supplies</th><th>Every</th></tr>
+        <tr><td><span class="rank r-trapped">Trapped</span></td><td>Plain diamond armour and sword, Unbreaking I pickaxe, shovel and axe</td><td>232 obsidian, 32 TNT, 128 steak, building blocks, 3 golden apples</td><td>7 h 47 min</td></tr>
+        <tr><td><span class="rank r-shard">Shard</span></td><td>Protection I, Sharpness I, Efficiency I, Power I bow</td><td>48 obsidian, 48 TNT, 64 XP bottles, 5 golden apples, 1 enchanted</td><td>24 h</td></tr>
+        <tr><td><span class="rank r-obsidian">Obsidian</span></td><td>Protection II, Sharpness II, Efficiency II, Power II, all Unbreaking I</td><td>The same, with 10 golden apples and 2 enchanted</td><td>24 h</td></tr>
+        <tr><td><span class="rank r-crystal">Crystal</span></td><td>Protection III, Sharpness III with Fire Aspect I, Efficiency III, Power III with Flame</td><td>64 obsidian, 64 TNT, 128 XP bottles, 20 golden apples, 3 enchanted, 16 pearls, 1 creeper egg</td><td>24 h</td></tr>
+        <tr><td><span class="rank r-voidborn">Voidborn</span></td><td>Protection IV, Sharpness IV with Fire Aspect II, Efficiency IV, Power IV with Flame</td><td>128 obsidian, 128 TNT, 30 golden apples, 4 enchanted, 16 pearls, 2 creeper eggs</td><td>24 h</td></tr>
+        <tr><td><span class="rank r-overlord">&#10022; Over<b>lord</b></span></td><td>Protection V with Unbreaking III, Sharpness V with Fire Aspect III and Looting II, Efficiency V, Power V with Flame and Infinity</td><td>192 obsidian, 192 TNT, 40 golden apples, 6 enchanted, 16 pearls, 3 creeper eggs</td><td>24 h</td></tr>
+      </table></div>
+
+      <h3>God kits</h3>
+      <p><code>/gkits</code> lists them. They are bought from the store, and each can be claimed again after its wait. All of it is diamond gear with custom enchants at random levels.</p>
+      <div class="scroll"><table>
+        <tr><th>God kit</th><th>What is in it</th><th>Every</th></tr>
+        <tr><td>GOD set</td><td>Armour, Protection V, Unbreaking IV</td><td>4 days</td></tr>
+        <tr><td>Creature set</td><td>Armour, Protection V, with enchants that summon wolves, golems and undead</td><td>4 days</td></tr>
+        <tr><td>Ninja set</td><td>Armour, Protection V, and a Sharpness V sword</td><td>4 days</td></tr>
+        <tr><td>Butcher's axe</td><td>Sharpness VI, Unbreaking IV</td><td>4 days</td></tr>
+        <tr><td>Spartan set</td><td>Armour, Protection IV, Unbreaking V, and a Sharpness IV sword</td><td>5 days</td></tr>
+        <tr><td>Paladin kit</td><td>Armour, Protection V</td><td>5 days</td></tr>
+        <tr><td>King's kit</td><td>A Protection VI crown and a Sharpness IV scepter</td><td>5 days</td></tr>
+        <tr><td>Dragon kit</td><td>Armour, Protection VI, a Power V bow and a Sharpness VI sword</td><td>5 days</td></tr>
+        <tr><td>Grinder sword</td><td>Sharpness V, Unbreaking IV, Looting IV</td><td>7 days</td></tr>
+        <tr><td>Marksmen bow</td><td>Power VI, Flame, Punch II, Infinity</td><td>3 days</td></tr>
+        <tr><td>Legendary kit, parts 1 to 5</td><td>One piece each: Protection VIII helmet, chestplate, leggings and boots, and a Sharpness VI sword</td><td>3 days each</td></tr>
+      </table></div>
+    </section>
+
+    <section id="enchants" data-group="Gear">
+      <h2>Custom enchants</h2>
+      <p class="lead">81 enchants beyond the vanilla ones, in four tiers. They come as books you drop onto your gear.</p>
+
+      <h3>Getting and using books</h3>
+      <ol class="steps">
+        <li><span>Type <code>/ce</code>, or click the enchantments character at spawn.</span></li>
+        <li><span>Buy a lost book with experience. It costs experience points, not levels: Common 1,500, Rare 5,000, Ultimate 15,000, Legendary 30,000.</span></li>
+        <li><span>Right-click the lost book. It turns into a random enchant book of that tier.</span></li>
+        <li><span>Pick the book up in your inventory and drop it onto the item.</span></li>
+      </ol>
+      <ul>
+        <li>An item holds 5 custom enchants. Vanilla enchants don't count towards that.</li>
+        <li>A book of a higher level replaces the lower level already on the item.</li>
+        <li><strong>The blacksmith</strong>, in the same menu, merges two items or two books for experience levels: 7 to move an enchant across, 10 to raise one both items share, 15 to combine two identical books into the next level.</li>
+        <li><strong>The tinkerer</strong> (<code>/tinkerer</code>) takes enchanted gear and books you don't want and pays you in bottled experience.</li>
+      </ul>
+
+      <h3>Scrolls and dust</h3>
+      <div class="scroll"><table>
+        <tr><th>Item</th><th>What it does</th></tr>
+        <tr><td>White scroll</td><td>Protects an item from being destroyed by a failed book</td></tr>
+        <tr><td>Black scroll</td><td>Pulls a random enchant off an item and hands it back as a book</td></tr>
+        <tr><td>Transmog scroll</td><td>Tidies the enchants on an item and shows the count in its name</td></tr>
+        <tr><td>Protection emerald</td><td>Put on a tool or weapon: half the time, you keep it when you die. It is used up either way.</td></tr>
+        <tr><td>Success dust, destroy dust</td><td>Raise a book's success chance, or lower its destroy chance</td></tr>
+        <tr><td>Odds scrambler</td><td>Rolls a book's chances again</td></tr>
+      </table></div>
+
+      <h3>The enchants</h3>
+      <p>The number is the highest level.</p>
+      <div class="scroll wrap"><table>
+        <tr><th>Tier</th><th>Enchants</th></tr>
+        <tr><td>Common</td><td>OverLoad 5 (extra health), SelfDestruct 5 (explode when you die), Decapitation 5 (enemies drop their head), Molten 5, Confusion 4, Doctor 3, Viper 3, Berserk 3, Paralyze 3, Wither 3, SmokeBomb 3, AcidRain 3, Blindness 2, Freeze 2, IceFreeze 1, Furnace 1, Blizzard 1, SandStorm 1</td></tr>
+        <tr><td>Rare</td><td>AutoSmelt 5 (ores drop smelted), Execute 5, Headless 5, SkillSwipe 5 (steals experience), StormCaller 5, PainGiver 4, Rekt 3 (chance of double damage), Mermaid 3, Dizzy 3, Drunk 3, Radiant 3, Pull 3, Necromancer 3, Ninja 2 (speed and extra hearts), Lightning 1, Insomnia 1</td></tr>
+        <tr><td>Ultimate</td><td>Venom 5, Piercing 3, SlowMo 3, Cursed 3, Fortify 3, Nutrition 3, Obliterate 3 (heavy knockback), Snare 3, Voodoo 3, Rocket 3, Hulk 2, FastTurn 2, Trap 2, Intimidate 2, BurnShield 1 (immune to fire)</td></tr>
+        <tr><td>Legendary</td><td>Springs 5 (jump boost), Vampire 5, LifeSteal 5, FeedMe 5, Enlightened 5 (heals you when hit), Savior 5 (chance to halve a hit), Nursery 5, Inquisitive 5 (more experience from mobs), MultiArrow 5, Angel 5 (heals nearby faction members), Tamer 5 (wolves), Commander 5, Leadership 5, Implants 5, HellForged 4 (repairs itself), Gears 3 (speed), DoubleDamage 3, AntiGravity 3, LightWeight 3, Blessed 3, Experience 3, Haste 3, Disarmer 3 (knocks off a piece of enemy armour), Rage 3, Valor 3, Cactus 3, Blast 3 (mines an area), Guards 3 (iron golems), Infestation 2, Telepathy 1 (drops go straight to your inventory), Oxygenate 1, Recover 1</td></tr>
+      </table></div>
+    </section>
+
+    <section id="enchanting" data-group="Gear">
+      <h2>Vanilla enchants, repairs and renaming</h2>
+
+      <h3>Enchanting tables</h3>
+      <p>The enchanting tables at spawn open a menu where you pick the exact enchant and level. Each level costs money and a few experience levels: 3 for levels I and II, 4 for III, 5 for IV, 6 for V.</p>
+      <div class="scroll"><table>
+        <tr><th>Enchant</th><th>Highest level</th><th>Money, level by level</th></tr>
+        <tr><td>Sharpness, Power, Efficiency, Bane of Arthropods</td><td>V</td><td>$10k, $20k, $30k, $40k, $50k</td></tr>
+        <tr><td>Smite</td><td>V</td><td>$5k up to $25k</td></tr>
+        <tr><td>Protection</td><td>IV</td><td>$30k, $60k, $90k, $120k</td></tr>
+        <tr><td>Blast, Fire and Projectile Protection, Feather Falling</td><td>IV</td><td>$10k up to $40k</td></tr>
+        <tr><td>Unbreaking</td><td>III</td><td>$20k, $40k, $60k</td></tr>
+        <tr><td>Fortune, Looting, Respiration, Depth Strider, Thorns</td><td>III</td><td>$10k, $20k, $30k</td></tr>
+        <tr><td>Luck of the Sea, Lure</td><td>III</td><td>$5k, $10k, $15k</td></tr>
+        <tr><td>Fire Aspect, Knockback, Punch</td><td>II</td><td>$10k, $20k</td></tr>
+        <tr><td>Flame, Infinity</td><td>I</td><td>$50k</td></tr>
+        <tr><td>Silk Touch</td><td>I</td><td>$100k</td></tr>
+        <tr><td>Aqua Affinity</td><td>I</td><td>$10k</td></tr>
+      </table></div>
+
+      <h3>Repairs</h3>
+      <p><code>/fix</code> repairs the item in your hand and <code>/fix all</code> everything you carry. Both are free, with a wait of 10 seconds and 100 seconds between uses. Every rank from Shard up has them, and anyone can unlock them with a <code>/fix</code> voucher.</p>
+    </section>
+
+    <section id="crates" data-group="Gear">
+      <h2>Crates and keys</h2>
+      <p class="lead">Crates are at <code>/warp crates</code>. Keys are kept on your account, not in your inventory. Left-click a crate to open it and right-click to see what is inside.</p>
+      <div class="scroll wrap"><table>
+        <tr><th>Crate</th><th>Inside</th><th>Where keys come from</th></tr>
+        <tr><td>Mesozic</td><td>$5,000 to $50,000, small money pouches, 50 to 200 mob coins, zombie, spider, pig or blaze spawners, creeper eggs, a Shard kit, 4 enchanted golden apples. Rarely a VAST key.</td><td>The daily reward, <code>/redeemstart</code>, the battle pass, the totem, mystery bags</td></tr>
+        <tr><td>VAST</td><td>$50,000 to $150,000, money pouches, 250 to 500 mob coins, pigman, enderman, blaze or villager spawners, 15 creeper eggs, Obsidian and Crystal kits, Mesozic and MIRACLE keys.</td><td><code>/redeemsetup</code>, the monthly reward, the mob coin shop, StarDrop, mystery bags</td></tr>
+        <tr><td>MIRACLE</td><td>$200,000 to $500,000, bigger money pouches, 500 to 1,000 mob coins, pigman, enderman, blaze or villager spawners, 30 creeper eggs, Obsidian, Crystal and Voidborn kits, more keys.</td><td>The VAST crate, winning Last Man Standing, mystery bags</td></tr>
+        <tr><td>Factions</td><td>$750,000 to $2,000,000, 1,500 to 2,500 mob coins, stacks of spawners up to 10 iron golem or 7 creeper, 32 creeper eggs, a 5 by 5 trench pickaxe, black market access, Voidborn and Overlord kits, envoy flares, more keys.</td><td>Mystery bags and key-all vouchers</td></tr>
+        <tr><td>Spawner</td><td>One of: 3 villager, 5 enderman, 5 creeper, 3 pigman, 6 blaze or 2 iron golem spawners, at equal odds.</td><td><code>/redeemspawner</code></td></tr>
+      </table></div>
+
+      <h3>Crates you place</h3>
+      <ul>
+        <li><strong>Perma crate.</strong> Place it to open it. It gives 9 rewards from its list (money pouches, black market access, <code>/sellhand</code>, <code>/milk</code>, <code>/fix</code> and <code>/refill</code> vouchers, mystery bags, 3,000 mob coins) plus one bonus: an enchanter pack of 50 lost books, a Shard or Obsidian rank voucher, or a Galactic crate. It comes from the premium battle pass, the KOTH and the black market.</li>
+        <li><strong>Galactic crate.</strong> From the black market, the faction points shop, the KOTH and the battle pass.</li>
+      </ul>
+    </section>
+
+    <section id="vouchers" data-group="Gear">
+      <h2>Vouchers, bags and packs</h2>
+      <p class="lead">Paper items you right-click to redeem. They come from crates, events, the donor shelf of <code>/shop</code>, the mob coin shop and the store. They can be traded until they are used.</p>
+      <div class="scroll"><table>
+        <tr><th>Voucher</th><th>Redeeming it gives you</th></tr>
+        <tr><td><code>/refill</code></td><td>The command for good. It hands you 20 splash healing potions, once a minute.</td></tr>
+        <tr><td><code>/milk</code></td><td>The command for good. It clears every potion effect on you, once a minute.</td></tr>
+        <tr><td><code>/sellhand</code></td><td>The command for good. It sells what you are holding without opening the shop.</td></tr>
+        <tr><td><code>/fix</code>, <code>/fix all</code></td><td>The repair commands for good.</td></tr>
+        <tr><td>Black market access</td><td><code>/blackmarket</code> for good.</td></tr>
+        <tr><td>Rank voucher</td><td>The Shard, Obsidian or Crystal rank.</td></tr>
+        <tr><td>Kit voucher</td><td>One of the rank kits, once.</td></tr>
+        <tr><td>Mesozic voucher</td><td>A Mesozic key.</td></tr>
+        <tr><td>Key all</td><td>A random crate key for everyone online.</td></tr>
+        <tr><td>Mystery bag</td><td>One of: a Mesozic, MIRACLE, VAST or Factions key, a tier 2 money pouch, a KOTH starter, or 500 mob coins.</td></tr>
+        <tr><td>Spawner pouch</td><td>One random spawner: enderman, blaze, creeper, zombie, skeleton, iron golem, villager or pig.</td></tr>
+        <tr><td>KOTH starter, StarDrop starter</td><td>Starts that event for the whole server. See <a href="#events">Events</a>.</td></tr>
+      </table></div>
+
+      <h3>Packs</h3>
+      <div class="scroll"><table>
+        <tr><th>Pack</th><th>Inside</th></tr>
+        <tr><td>Starter pack</td><td>A chunk collector, a harvester hoe, 2 mystery bags, 2 <code>/milk</code> vouchers</td></tr>
+        <tr><td>Medium pack</td><td>A chunk collector, 2 harvester hoes, 4 mystery bags, 2 <code>/milk</code> vouchers, a <code>/refill</code> voucher, a Shard kit and a Crystal kit</td></tr>
+        <tr><td>Extreme pack</td><td>A chunk collector, 2 harvester hoes, 5 mystery bags, 2 <code>/milk</code>, a <code>/refill</code>, a <code>/sellhand</code> and a <code>/fix all</code> voucher, 2 Crystal kits, 3 Shard kits, a key all, 2 tier 3 money pouches and a spawner pouch</td></tr>
+      </table></div>
+    </section>
+    <section id="rewards" data-group="Rewards">
+      <h2>Free rewards</h2>
+
+      <h3>Timed rewards</h3>
+      <p><code>/rewards</code> opens them. The character at spawn does the same.</p>
+      <div class="scroll"><table>
+        <tr><th>Reward</th><th>How often</th><th>Who</th><th>What you get</th></tr>
+        <tr><td>Daily</td><td>Every 24 hours</td><td>Everyone</td><td>$10,000, 128 obsidian, 1 Mesozic key</td></tr>
+        <tr><td>Weekly</td><td>Every 7 days</td><td>Ranked players</td><td>$50,000, a spawner pouch, a mystery bag</td></tr>
+        <tr><td>Monthly</td><td>About every 30 days</td><td>Ranked players</td><td>$100,000, a blaze spawner, 1 VAST key, 1 Mesozic key</td></tr>
+      </table></div>
+
+      <h3>Redeems</h3>
+      <p>Three commands anyone can use, each once every 30 days or so.</p>
+      <div class="scroll"><table>
+        <tr><th>Command</th><th>What you get</th></tr>
+        <tr><td><code>/redeemstart</code></td><td>$100,000, a Mesozic key, and one sandbot's worth of free sand</td></tr>
+        <tr><td><code>/redeemsetup</code></td><td>$150,000, a VAST key, and one sandbot's worth of free sand</td></tr>
+        <tr><td><code>/redeemspawner</code></td><td>A spawner pouch and a Spawner crate key</td></tr>
+      </table></div>
+      <p>Free sand is used first the next time you fill a <a href="#sandbots">sandbot</a>.</p>
+
+      <h3>Reporting bugs and rule breakers</h3>
+      <p>A report that staff act on earns a diamond block. Bugs you report are rewarded too. See <a href="#staff">Staff and reports</a>.</p>
+    </section>
+
+    <section id="battle-pass" data-group="Rewards">
+      <h2>Battle pass</h2>
+      <p class="lead">Do quests, earn points, climb tiers, and claim a reward at each one. <code>/bp</code> opens it.</p>
+      <ul>
+        <li>Nine daily quests are on at a time, drawn from sixteen. They change at 12:00 each day.</li>
+        <li>Each week adds fourteen weekly quests. Seven are for everyone and seven for premium.</li>
+        <li>Daily quests look like this: mine 32 gold ore, kill 100 zombies, kill 5 players, deal 500 damage to players, walk 5,000 blocks. Each is worth 100 to 200 points.</li>
+        <li>Weekly quests are bigger: break 1,000 stone, craft 500 glass, and for premium, kill 50 creepers or travel 50,000 blocks. Each is worth 100 to 350 points.</li>
+        <li>The free pass needs 200 points a tier for the first four tiers and 400 after that. The premium pass needs 200 a tier throughout.</li>
+        <li>Click a reward in <code>/bp open rewards</code> to claim it. Premium is bought from the store.</li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th class="num">Tier</th><th>Free pass</th><th>Premium pass</th></tr>
+        <tr><td class="num">1</td><td></td><td>$15,000</td></tr>
+        <tr><td class="num">2</td><td>$5,000</td><td>150 mob coins</td></tr>
+        <tr><td class="num">3</td><td></td><td>Mesozic key</td></tr>
+        <tr><td class="num">4</td><td>64 obsidian</td><td>Chunk buster</td></tr>
+        <tr><td class="num">5</td><td></td><td>Sell wand</td></tr>
+        <tr><td class="num">6</td><td>50 mob coins</td><td></td></tr>
+        <tr><td class="num">7</td><td></td><td>Mystery bag</td></tr>
+        <tr><td class="num">8</td><td>32 golden apples</td><td><code>/milk</code> voucher</td></tr>
+        <tr><td class="num">9</td><td></td><td>$50,000</td></tr>
+        <tr><td class="num">10</td><td>Mesozic key</td><td>Chunk collector</td></tr>
+        <tr><td class="num">11</td><td></td><td>250 faction points</td></tr>
+        <tr><td class="num">12</td><td>Chunk buster, 3 by 3</td><td>250 mob coins</td></tr>
+        <tr><td class="num">13</td><td></td><td>Spawner pouch</td></tr>
+        <tr><td class="num">14</td><td>$10,000</td><td>Black market access</td></tr>
+        <tr><td class="num">15</td><td></td><td><code>/refill</code> voucher</td></tr>
+        <tr><td class="num">16</td><td>128 obsidian</td><td>Perma crate</td></tr>
+        <tr><td class="num">17</td><td></td><td>Harvester hoe</td></tr>
+        <tr><td class="num">18</td><td>100 mob coins</td><td>$150,000</td></tr>
+        <tr><td class="num">19</td><td></td><td>Tier 3 money pouch</td></tr>
+        <tr><td class="num">20</td><td>64 golden apples</td><td>Galactic crate</td></tr>
+        <tr><td class="num">21</td><td></td><td>Medium pack</td></tr>
+        <tr><td class="num">22</td><td>2 Mesozic keys</td><td>500 mob coins</td></tr>
+        <tr><td class="num">23</td><td></td><td>400 faction points</td></tr>
+        <tr><td class="num">24</td><td>Chunk buster, 5 by 5</td><td>Obsidian kit voucher</td></tr>
+        <tr><td class="num">25</td><td></td><td>Extreme pack</td></tr>
+        <tr><td class="num">26</td><td>Sell wand</td><td>Trench pickaxe</td></tr>
+        <tr><td class="num">27</td><td></td><td>Obsidian rank voucher</td></tr>
+      </table></div>
+    </section>
+
+    <section id="events" data-group="Events and PvP">
+      <h2>Events</h2>
+      <p class="lead">Things to fight over. Each is announced in chat when it starts.</p>
+      <div class="scroll"><table>
+        <tr><th>Event</th><th>When</th><th>Where</th><th>You win</th></tr>
+        <tr><td><a href="#raid-event">Raid event</a></td><td>Every 4 hours</td><td><code>/raid</code></td><td>The vault's loot, for your faction</td></tr>
+        <tr><td>KOTH</td><td>Daily, 6pm UK time</td><td><code>/warp koth</code></td><td>A KOTH key: 3 to 5 items from the loot chest</td></tr>
+        <tr><td>Envoy</td><td>Every hour</td><td>Around spawn</td><td>Whatever is in the crates you reach first</td></tr>
+        <tr><td>Chat game</td><td>Every 10 minutes</td><td>Chat</td><td>$2,500</td></tr>
+        <tr><td>Outpost</td><td>Always open</td><td><code>/warp outpost</code></td><td>Double spawner speed and mob experience, and the outpost shop</td></tr>
+        <tr><td>Totem</td><td>When announced</td><td><code>/warp totem</code></td><td>150 faction points, 2 Mesozic keys, a blaze spawner</td></tr>
+        <tr><td>StarDrop</td><td>When someone starts one</td><td><code>/warp stardrop</code></td><td>3 prizes from its list</td></tr>
+        <tr><td>Treasure chests</td><td>Through the day</td><td>Out in the main world</td><td>Up to 3 items from its list</td></tr>
+        <tr><td>Last Man Standing</td><td>When staff host it</td><td><code>/lms join</code></td><td>4 MIRACLE keys</td></tr>
+      </table></div>
+
+      <h3>KOTH</h3>
+      <ul>
+        <li>Stand on the hill for 6 minutes without stepping off. Step off and your time is gone.</li>
+        <li>One player captures it, not a whole team at once. You don't need a faction.</li>
+        <li>The winner gets a KOTH key. Use it on the loot chest at the hill for 3 to 5 different items from: Dragon armour, sword and crossbow, Ninja armour, a Samurai sword, a Perma crate, a Galactic crate, a starter pack or a medium pack.</li>
+        <li><code>/koth</code> shows the schedule and the loot. Left-click the loot chest to preview it.</li>
+        <li>A KOTH starter (from mystery bags) starts one on demand. It needs 2 players online, begins 5 minutes after you use it, and runs for 10 minutes at most.</li>
+      </ul>
+
+      <h3>Envoy</h3>
+      <ul>
+        <li>Every hour, 49 crates land around spawn and stay for 5 minutes. Warnings come 30 minutes and 1 minute before.</li>
+        <li>Click a crate to take it. You have to wait 15 seconds before taking another. Everyone sees who took what.</li>
+        <li>Crates come in three tiers. The common one holds money up to $2,000, Shard and Obsidian gear, diamonds, TNT, obsidian, hoppers, Common and Rare enchant books, experience, and pig, sheep or chicken spawners. The middle one adds Crystal gear, up to $5,000, creeper eggs and zombie and skeleton spawners. The rare one holds Voidborn gear, up to $10,000, Ultimate and Legendary books, stacks of TNT and diamond blocks, and spider and blaze spawners.</li>
+        <li><code>/envoy time</code> says when the next one is, and <code>/envoy drops</code> where the crates are.</li>
+        <li>A flare starts an envoy on the spot.</li>
+      </ul>
+
+      <h3>Chat games</h3>
+      <p>Every 10 minutes a sum appears in chat. The first player to type the right answer within 45 seconds wins $2,500.</p>
+
+      <h3>Outpost</h3>
+      <ul>
+        <li>Stand on the capture point at <code>/warp outpost</code> for about 20 seconds. The server is told as you pass 25%, 50% and 75%.</li>
+        <li>While you hold it, your spawners run twice as fast and mobs give twice the experience.</li>
+        <li>Holders can use <code>/outpost shop</code>:</li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th>Item</th><th class="num">Price</th><th>Item</th><th class="num">Price</th></tr>
+        <tr><td><code>/refill</code> voucher</td><td class="num">$25,000</td><td>Mystery bag</td><td class="num">$150,000</td></tr>
+        <tr><td><code>/sellhand</code> voucher</td><td class="num">$50,000</td><td>Spawner pouch</td><td class="num">$150,000</td></tr>
+        <tr><td><code>/fix</code> voucher</td><td class="num">$50,000</td><td>Black market access</td><td class="num">$200,000</td></tr>
+        <tr><td>Chunk buster</td><td class="num">$70,000</td><td>Medium pack</td><td class="num">$400,000</td></tr>
+        <tr><td>Starter pack</td><td class="num">$100,000</td><td></td><td></td></tr>
+      </table></div>
+      <p>The outpost is up for grabs again after every server restart.</p>
+
+      <h3>Totem</h3>
+      <p>When the totem appears at <code>/warp totem</code>, break its blocks with an iron or diamond sword. The player who finishes it gets 150 faction points, 2 Mesozic keys and a blaze spawner. <code>/totem timer</code> says when the next one is.</p>
+
+      <h3>StarDrop</h3>
+      <p>A diamond block at <code>/warp stardrop</code>. The first player to mine it 100 times wins 3 prizes from: creeper, enderman, villager, skeleton, zombie, slime or blaze spawners, chunk busters, a chunk collector, harvester hoes, a VAST key, money pouches, a starter pack, or 400 faction points. It starts when someone uses a StarDrop starter.</p>
+
+      <h3>Treasure chests</h3>
+      <p>Chests appear at random spots in the main world, two at a time at most, and vanish if nobody finds them. One holds up to 3 of: a <code>/fix all</code> voucher, a <code>/refill</code> voucher, a Shard or Crystal kit, a spawner pouch, a mystery bag, a tier 3 money pouch, a harvester hoe or a chunk collector.</p>
+
+      <h3>Last Man Standing</h3>
+      <p>Hosted by staff. Empty your inventory and armour, then type <code>/lms join</code>. There is a 3-minute countdown and 10 seconds of protection at the start. The last player alive wins 4 MIRACLE keys.</p>
+    </section>
+
+    <section id="pvp" data-group="Events and PvP">
+      <h2>PvP</h2>
+      <p class="lead">PvP is on everywhere except inside spawn.</p>
+
+      <h3>Combat tag</h3>
+      <ul>
+        <li>Hitting a player or being hit tags you both for 15 seconds.</li>
+        <li><strong>Log out while tagged and you die.</strong></li>
+        <li>While tagged you can't walk or pearl into spawn.</li>
+        <li>These don't work while tagged: <code>/f home</code>, <code>/f warp</code>, <code>/f fly</code>, <code>/f leave</code>, <code>/spawn</code>, <code>/home</code>, <code>/warp</code>, <code>/back</code>, <code>/tpa</code>, <code>/tpaccept</code>, <code>/wild</code>, <code>/pv</code>, <code>/ec</code>, <code>/sell</code>, <code>/fix</code>.</li>
+        <li>You can still place and break blocks, throw pearls and craft.</li>
+        <li><code>/logout</code> logs you out safely after 10 seconds of standing still. <code>/f logout</code> does the same in 30.</li>
+      </ul>
+
+      <h3>What changes from vanilla</h3>
+      <ul>
+        <li>After an enchanted golden apple, you can't eat another for 4 minutes. The time left shows above your hotbar.</li>
+        <li>Ender pearls have a 15-second cooldown.</li>
+        <li>Strength adds less damage than in vanilla.</li>
+        <li>Blocking with your sword halves the damage you take.</li>
+        <li>Enchanted golden apples can't be crafted. They come from kits, crates and the shop.</li>
+        <li>For 15 seconds after a kill, only the killer can pick up what dropped.</li>
+        <li>You can't deal damage for the first 3 seconds after logging in.</li>
+      </ul>
+
+      <h3>Dying</h3>
+      <ul>
+        <li>You drop everything and lose 4 power.</li>
+        <li>You come back at your faction home if you have one.</li>
+        <li>A death message goes to the whole server. For 30 seconds, anyone can click your name in it to see what you were carrying.</li>
+        <li>If you die in the wilderness, your head drops.</li>
+        <li><code>/ks</code> shows your kills, deaths, streak and ratio. Killing the same player more than 3 times in 5 minutes stops counting.</li>
+      </ul>
+    </section>
+    <section id="travel" data-group="Everyday">
+      <h2>Getting around</h2>
+      <ul>
+        <li><code>/spawn</code> takes you to spawn. <code>/warp</code> opens the list of warps: crates, KOTH, outpost, stardrop, totem, end and nether.</li>
+        <li><code>/wild</code> drops you at a random spot in the main world: within 250 blocks for free, 750 blocks for $500, or 1,500 blocks for $1,000.</li>
+        <li><code>/sethome &lt;name&gt;</code> saves a home and <code>/home &lt;name&gt;</code> returns to it. <code>/delhome &lt;name&gt;</code> removes one. You get 1 home, and up to 6 with a rank.</li>
+        <li><code>/tpa &lt;player&gt;</code> asks to teleport to someone, and <code>/tpahere &lt;player&gt;</code> asks them to come to you. They answer with <code>/tpaccept</code> or <code>/tpdeny</code> within 2 minutes. <code>/tptoggle</code> turns requests off.</li>
+        <li><code>/back</code> returns you to where you were before your last teleport.</li>
+        <li>A teleport takes 5 seconds, and you have to wait 5 seconds between them.</li>
+        <li>Stuck inside something? <code>/f stuck</code> moves you out after 30 seconds.</li>
+      </ul>
+    </section>
+
+    <section id="storage" data-group="Everyday">
+      <h2>Storage</h2>
+      <ul>
+        <li><code>/ec</code> opens your ender chest from anywhere.</li>
+        <li><code>/f chest</code> is the chest your whole faction shares.</li>
+        <li><code>/pv 1</code>, <code>/pv 2</code> and so on are private vaults. Ranks have them: 2 for Shard, up to 6 for Overlord.</li>
+        <li><code>/craft</code> opens a crafting table.</li>
+        <li>Items left on the ground are cleared every 4 minutes, with a warning 30 seconds before. <code>/clearlag</code> shows the countdown. TNT and falling blocks are never cleared.</li>
+        <li>Hoppers can't be crafted. They come from envoys and other rewards.</li>
+      </ul>
+    </section>
+
+    <section id="chat" data-group="Everyday">
+      <h2>Chat</h2>
+      <ul>
+        <li>Chat is server-wide. Your message shows your faction, your rank, your name and your tag.</li>
+        <li><code>/msg &lt;player&gt; &lt;message&gt;</code> sends a private message and <code>/r</code> replies to the last one. <code>/mail send &lt;player&gt; &lt;message&gt;</code> leaves a message for someone who is offline.</li>
+        <li><code>/ignore &lt;player&gt;</code> hides someone's messages.</li>
+        <li><code>/tags</code> shows the chat tags you own and lets you pick one.</li>
+        <li><code>/list</code> shows who is online and which staff are on.</li>
+        <li><code>/playtime</code> shows how long you have played. <code>/seen &lt;player&gt;</code> shows when someone was last on.</li>
+        <li>You are marked as away after 5 minutes without moving. Nobody is kicked for it.</li>
+      </ul>
+    </section>
+
+    <section id="rules" data-group="Rules">
+      <h2>Rules</h2>
+      <p class="lead">Be respectful, be fair, and use common sense. <code>/rules</code> shows these in game.</p>
+
+      <h3>Chat</h3>
+      <ul>
+        <li>No spam. Three or more messages in a row counts.</li>
+        <li>No racism.</li>
+        <li>No advertising. It is an immediate ban.</li>
+        <li>No links.</li>
+        <li>Dodging a mute on another account is a 24-hour IP mute.</li>
+      </ul>
+
+      <h3>Fair play</h3>
+      <ul>
+        <li>No hacked clients, x-ray or auto-fishing.</li>
+        <li>No duplicating items. Report a bug you find and you are rewarded for it.</li>
+        <li>No lag machines.</li>
+        <li>No insiding: joining a faction to rob or betray it.</li>
+        <li>Scamming with in-game items and money is allowed, so trade carefully. Scamming over real money is not. Real-money trades themselves are allowed.</li>
+        <li>No home-made raid alarms, such as ones built on block sounds. The server's own <a href="#raid-alerts">raid alerts</a> do that job.</li>
+        <li>Redstone check boxes are allowed.</li>
+      </ul>
+
+      <h3>Cannons</h3>
+      <ul>
+        <li>No cannons that one-shot two walls.</li>
+        <li>No left or right shooters.</li>
+        <li>No wall removers.</li>
+        <li>No phase cannons.</li>
+        <li>Fully automatic cannons are allowed below Y 10.</li>
+        <li>Semi-automatic cannons are allowed, without automatic sand compressors.</li>
+        <li>Roof cannons are allowed, with restrictions. Ask staff before building one.</li>
+      </ul>
+
+      <h3>Bases</h3>
+      <ul>
+        <li>5 alt accounts per faction at most.</li>
+        <li>No claiming single chunks around someone's base to block or annoy them. You get one warning, then all your land is unclaimed.</li>
+        <li>On a new map, the faction that claims the very corner chunk owns that whole corner.</li>
+        <li>No watering spawners, and no water systems.</li>
+        <li>No obsidian over spawners.</li>
+        <li>No chests, cobwebs or iron bars in or under walls.</li>
+      </ul>
+
+      <h3>Built-in limits</h3>
+      <ul>
+        <li>Chests, repeaters, comparators and doors can't be placed next to cactus, sugar cane, mushrooms or lily pads.</li>
+        <li>Pistons can't push ores, glowstone, netherrack, end stone or packed ice.</li>
+        <li>The roof of the nether can't be reached.</li>
+        <li>Books stop at 50 pages.</li>
+        <li><code>/plugins</code>, <code>/version</code> and commands with a colon in them are blocked.</li>
+      </ul>
+    </section>
+
+    <section id="staff" data-group="Rules">
+      <h2>Staff and reports</h2>
+      <ul>
+        <li>Staff ranks, lowest to highest: <span class="rank r-watcher">Watcher</span>, <span class="rank r-sentinel">Sentinel</span>, <span class="rank r-architect">Architect</span>, <span class="rank r-overseer">Overseer</span>. <code>/list</code> shows which are online.</li>
+        <li><code>/report &lt;player&gt; &lt;reason&gt;</code> reports someone who is online. Add a screenshot link if you have one (Imgur, Gyazo, prnt.sc). You can have 3 reports open, a minute apart.</li>
+        <li>When staff close a report that held up, you get a thank-you note and a diamond block. If you are offline at the time, collect it with <code>/reports claim</code>.</li>
+        <li>If staff freeze you, you can't move, fight, build or use commands until they are done. Do what they ask. It usually means joining Discord for a screenshare.</li>
+        <li>Punishments are warnings, kicks, mutes and bans, by account or by IP. To appeal one, ask on Discord: <code>discord.gg/obbytrap</code></li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th>Offence</th><th>Usual ban</th></tr>
+        <tr><td>Team killing, trolling, abusing a bug or the map</td><td>1 hour</td></tr>
+        <tr><td>Damage indicators, radar</td><td>1 day</td></tr>
+        <tr><td>Hacked client, first time</td><td>1 week</td></tr>
+        <tr><td>Hacked client, second time</td><td>1 month</td></tr>
+        <tr><td>Serious threats</td><td>Permanent</td></tr>
+      </table></div>
+    </section>
+
+    <section id="commands" data-group="Rules">
+      <h2>Command list</h2>
+      <p class="lead">Every command a player uses, in one place.</p>
+      <div class="scroll"><table>
+        <tr><th>Command</th><th>What it does</th></tr>
+        <tr><td colspan="2"><strong>Getting around</strong></td></tr>
+        <tr><td><code>/help</code>, <code>/menu</code>, <code>/rules</code></td><td>The guide, your profile, the rules</td></tr>
+        <tr><td><code>/spawn</code>, <code>/warp</code>, <code>/wild</code></td><td>Spawn, the warp list, a random spot</td></tr>
+        <tr><td><code>/sethome</code>, <code>/home</code>, <code>/delhome</code></td><td>Your homes</td></tr>
+        <tr><td><code>/tpa</code>, <code>/tpahere</code>, <code>/tpaccept</code>, <code>/tpdeny</code>, <code>/tptoggle</code></td><td>Teleport requests</td></tr>
+        <tr><td><code>/back</code></td><td>Where you were before your last teleport</td></tr>
+        <tr><td colspan="2"><strong>Your faction</strong></td></tr>
+        <tr><td><code>/f create</code>, <code>/f invite</code>, <code>/f join</code>, <code>/f leave</code>, <code>/f kick</code></td><td>Making a faction and its members</td></tr>
+        <tr><td><code>/f who</code>, <code>/f list</code>, <code>/f top</code>, <code>/f map</code></td><td>Looking factions up</td></tr>
+        <tr><td><code>/f claim</code>, <code>/f unclaim</code>, <code>/f corner</code>, <code>/f showclaims</code>, <code>/f seechunk</code></td><td>Land</td></tr>
+        <tr><td><code>/f sethome</code>, <code>/f home</code>, <code>/f setwarp</code>, <code>/f warp</code></td><td>Faction home and warps</td></tr>
+        <tr><td><code>/f ally</code>, <code>/f enemy</code>, <code>/f neutral</code></td><td>Relations</td></tr>
+        <tr><td><code>/f mod</code>, <code>/f coleader</code>, <code>/f leader</code>, <code>/f title</code>, <code>/f perms</code></td><td>Roles and permissions</td></tr>
+        <tr><td><code>/f ban</code>, <code>/f unban</code>, <code>/f banlist</code>, <code>/f rules</code></td><td>Keeping order</td></tr>
+        <tr><td><code>/f chat</code>, <code>/f global</code>, <code>/f coords</code>, <code>/f weewoo</code></td><td>Talking to your faction</td></tr>
+        <tr><td><code>/f chest</code>, <code>/f tnt</code>, <code>/f tntfill</code>, <code>/f invsee</code></td><td>Shared storage and TNT</td></tr>
+        <tr><td><code>/f fly</code></td><td>Fly on your faction's land</td></tr>
+        <tr><td><code>/f upgrades</code>, <code>/f missions</code>, <code>/f points</code>, <code>/f shop</code></td><td>Faction progress</td></tr>
+        <tr><td><code>/f lowpower</code>, <code>/f alts</code>, <code>/f check</code>, <code>/f logout</code>, <code>/f stuck</code></td><td>The rest</td></tr>
+        <tr><td colspan="2"><strong>Raiding</strong></td></tr>
+        <tr><td><code>/sandbot</code></td><td>Place, list, refill and remove sandbots</td></tr>
+        <tr><td><code>/chunkloader</code></td><td>Buy and list chunk loaders</td></tr>
+        <tr><td><code>/raids</code>, <code>/raids map</code></td><td>Recent raids on your land, and the map of the latest</td></tr>
+        <tr><td><code>/raid</code></td><td>Join the raid event, or see when the next one is</td></tr>
+        <tr><td><code>/grace</code></td><td>Whether the grace period is still on</td></tr>
+        <tr><td><code>/gen</code></td><td>Gen buckets</td></tr>
+        <tr><td colspan="2"><strong>Money</strong></td></tr>
+        <tr><td><code>/bal</code>, <code>/pay</code>, <code>/baltop</code></td><td>Your money</td></tr>
+        <tr><td><code>/shop</code>, <code>/sell hand</code>, <code>/sell handall</code>, <code>/sell all</code></td><td>Buying and selling</td></tr>
+        <tr><td><code>/withdraw</code>, <code>/xpbottle</code>, <code>/bank</code></td><td>Bank notes and bottled experience</td></tr>
+        <tr><td><code>/mobcoins</code></td><td>Mob coins and their shop</td></tr>
+        <tr><td><code>/ah</code>, <code>/trade accept</code></td><td>The auction house and trading</td></tr>
+        <tr><td><code>/blackmarket</code>, <code>/mp shop</code></td><td>The black market and money pouches</td></tr>
+        <tr><td><code>/coinflip</code>, <code>/jackpot</code>, <code>/gamble</code></td><td>Gambling</td></tr>
+        <tr><td><code>/sellhead</code>, <code>/hunter bounty</code></td><td>Heads and bounties</td></tr>
+        <tr><td colspan="2"><strong>Farming tools</strong></td></tr>
+        <tr><td><code>/hoe</code>, <code>/axe</code>, <code>/sellwands</code>, <code>/trenchpick</code></td><td>Harvester hoes, farmer axes, sell wands, trench pickaxes</td></tr>
+        <tr><td><code>/generators</code>, <code>/heals</code></td><td>Cactus and cane generators, healing items</td></tr>
+        <tr><td colspan="2"><strong>Gear</strong></td></tr>
+        <tr><td><code>/kit</code>, <code>/gkits</code></td><td>Kits and god kits</td></tr>
+        <tr><td><code>/ce</code>, <code>/tinkerer</code></td><td>Custom enchants</td></tr>
+        <tr><td><code>/tags</code></td><td>Chat tags</td></tr>
+        <tr><td><code>/fix</code>, <code>/fix all</code>, <code>/milk</code>, <code>/refill</code>, <code>/sellhand</code></td><td>Unlocked by rank or voucher</td></tr>
+        <tr><td colspan="2"><strong>Rewards and events</strong></td></tr>
+        <tr><td><code>/rewards</code>, <code>/redeemstart</code>, <code>/redeemsetup</code>, <code>/redeemspawner</code></td><td>Free rewards</td></tr>
+        <tr><td><code>/bp</code></td><td>The battle pass</td></tr>
+        <tr><td><code>/koth</code>, <code>/envoy time</code>, <code>/totem timer</code>, <code>/outpost shop</code>, <code>/lms join</code></td><td>Events</td></tr>
+        <tr><td colspan="2"><strong>Everything else</strong></td></tr>
+        <tr><td><code>/msg</code>, <code>/r</code>, <code>/mail</code>, <code>/ignore</code></td><td>Private messages</td></tr>
+        <tr><td><code>/list</code>, <code>/seen</code>, <code>/playtime</code>, <code>/ks</code></td><td>Who is on, and stats</td></tr>
+        <tr><td><code>/ec</code>, <code>/pv</code>, <code>/craft</code>, <code>/clearlag</code></td><td>Storage, a crafting table, the item-clear countdown</td></tr>
+        <tr><td><code>/logout</code></td><td>Log out safely</td></tr>
+        <tr><td><code>/report</code>, <code>/reports claim</code></td><td>Reporting a player</td></tr>
+        <tr><td><code>/store</code>, <code>/discord</code>, <code>/ranks</code></td><td>The store link, the Discord link, the rank list</td></tr>
+      </table></div>
+    </section>
+    <footer>
+      <p>Numbers on this page are the server's current settings. If something in game says otherwise, the game is right: tell staff so the page can be corrected.</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+// The contents rail is built from the page's own headings, so the two can never disagree.
+(function () {
+  var toc = document.getElementById('toc');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('#wiki > section'));
+  var lastGroup = null;
+  sections.forEach(function (s) {
+    var group = s.getAttribute('data-group');
+    if (group && group !== lastGroup) {
+      var g = document.createElement('li');
+      g.className = 'group';
+      g.textContent = group;
+      g.setAttribute('data-group-label', group);
+      toc.appendChild(g);
+      lastGroup = group;
+    }
+    var li = document.createElement('li');
+    var a = document.createElement('a');
+    a.href = '#' + s.id;
+    a.textContent = s.querySelector('h2').textContent;
+    li.setAttribute('data-for', s.id);
+    li.setAttribute('data-group', group || '');
+    li.appendChild(a);
+    toc.appendChild(li);
+  });
+  var none = document.createElement('li');
+  none.className = 'none';
+  none.textContent = 'Nothing on the page matches that.';
+  none.hidden = true;
+  toc.appendChild(none);
+
+  var box = document.getElementById('tocbox');
+  var narrow = window.matchMedia('(max-width: 880px)');
+  function fit() { box.open = !narrow.matches; }
+  fit();
+  if (narrow.addEventListener) { narrow.addEventListener('change', fit); }
+  toc.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && narrow.matches) { box.open = false; }
+  });
+
+  var find = document.getElementById('find');
+  find.addEventListener('input', function () {
+    var words = find.value.toLowerCase().split(/\s+/).filter(Boolean);
+    var shown = 0;
+    var groups = {};
+    sections.forEach(function (s) {
+      var text = s.textContent.toLowerCase();
+      var hit = words.every(function (w) { return text.indexOf(w) >= 0; });
+      s.hidden = !hit;
+      var li = toc.querySelector('[data-for="' + s.id + '"]');
+      li.hidden = !hit;
+      if (hit) { shown++; groups[li.getAttribute('data-group')] = true; }
+    });
+    Array.prototype.forEach.call(toc.querySelectorAll('[data-group-label]'), function (g) {
+      g.hidden = !groups[g.getAttribute('data-group-label')];
+    });
+    none.hidden = shown > 0;
+    if (words.length && narrow.matches) { box.open = true; }
+  });
+})();
+</script>
+</body>
+</html>
