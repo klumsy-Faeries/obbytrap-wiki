@@ -1,0 +1,992 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ObbyTrap SMP Wiki">
+<meta property="og:description" content="Everything a player can do on the ObbyTrap SMP, and how each part of it works.">
+<meta name="theme-color" content="#2a1740">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' rx='3' fill='%232a1740'/%3E%3Crect x='4' y='4' width='8' height='8' fill='%23c77dff'/%3E%3C/svg%3E">
+<title>ObbyTrap SMP Wiki</title>
+<meta name="description" content="Everything a player can do on the ObbyTrap SMP, and how each part of it works.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a contents rail that stays put on the left, one reading column on the right.
+   Commands are set in mono chips so they can be told from prose at a glance; ranks wear their in-game colours. */
+:root {
+  --bg: #f5f1fa;
+  --surface: #ffffff;
+  --ink: #1e1629;
+  --muted: #5d5470;
+  --line: #ddd3ec;
+  --brand: #5b2a86;
+  --brand-soft: #8a46c9;
+  --chip: #ece3f7;
+  --chip-ink: #47206d;
+  --band: #2a1740;
+  --band-ink: #f3ecfb;
+  --band-muted: #c9b6e3;
+  --warn-bg: #fbe9e7;
+  --warn-ink: #8f1d15;
+  --tip-bg: #efe6fa;
+  /* rank and accent colours, tuned to read on this ground */
+  --mc-gray: #6a6475;
+  --mc-light: #b52fc4;
+  --mc-dark: #7a1f9c;
+  --mc-aqua: #0b8a94;
+  --mc-green: #1f8a2e;
+  --mc-gold: #a86a00;
+  --mc-red: #c0392b;
+  --display: "Pixelify Sans", "Trebuchet MS", system-ui, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #110c18; --surface: #1a1325; --ink: #ece5f6; --muted: #a698ba; --line: #302545;
+    --brand: #c77dff; --brand-soft: #a765e6; --chip: #271b38; --chip-ink: #e2c8ff;
+    --band: #1d1230; --band-ink: #f3ecfb; --band-muted: #b9a5d6;
+    --warn-bg: #3a1614; --warn-ink: #ffb4ab; --tip-bg: #231733;
+    --mc-gray: #aaa4b6; --mc-light: #ff7bff; --mc-dark: #c86bf0; --mc-aqua: #5fe6ee; --mc-green: #6fe07a;
+    --mc-gold: #ffb84a; --mc-red: #ff6b61;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #110c18; --surface: #1a1325; --ink: #ece5f6; --muted: #a698ba; --line: #302545;
+  --brand: #c77dff; --brand-soft: #a765e6; --chip: #271b38; --chip-ink: #e2c8ff;
+  --band: #1d1230; --band-ink: #f3ecfb; --band-muted: #b9a5d6;
+  --warn-bg: #3a1614; --warn-ink: #ffb4ab; --tip-bg: #231733;
+  --mc-gray: #aaa4b6; --mc-light: #ff7bff; --mc-dark: #c86bf0; --mc-aqua: #5fe6ee; --mc-green: #6fe07a;
+  --mc-gold: #ffb84a; --mc-red: #ff6b61;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; }
+a { color: var(--brand); text-underline-offset: 3px; }
+a:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--brand-soft); outline-offset: 2px; }
+
+.band { background: var(--band); color: var(--band-ink); }
+.band-in, .page { max-width: 1180px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.band-in { padding-block: 28px 24px; display: flex; flex-wrap: wrap; gap: 20px 40px; align-items: end; justify-content: space-between; }
+.band h1 { font-family: var(--display); font-weight: 700; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; margin: 0; letter-spacing: 0.01em; text-wrap: balance; }
+.band h1 span { color: #c77dff; }
+.band p { margin: 8px 0 0; color: var(--band-muted); max-width: 46ch; }
+.band .others { margin-top: 12px; font-size: 0.92rem; }
+.band .others a { color: #e2c8ff; margin-right: 16px; }
+.facts { display: grid; grid-template-columns: auto auto; gap: 4px 16px; margin: 0; font-size: 0.92rem; }
+.facts dt { color: var(--band-muted); }
+.facts dd { margin: 0; font-family: var(--mono); font-size: 0.88rem; overflow-wrap: anywhere; }
+
+.page { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 40px; padding-block: 28px 64px; align-items: start; }
+.rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); max-height: calc(100vh - 32px); overflow-y: auto; font-size: 0.92rem; }
+.rail input { width: 100%; padding: 9px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--ink); font: inherit; }
+.rail summary { display: none; }
+.rail ol { list-style: none; margin: 14px 0 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+.rail .group { margin-top: 12px; font-size: 0.72rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted); }
+.rail a { display: block; padding: 4px 10px; border-radius: 5px; color: var(--ink); text-decoration: none; }
+.rail a:hover { background: var(--chip); }
+.rail .none { color: var(--muted); padding: 8px 10px; }
+
+main { min-width: 0; display: flex; flex-direction: column; gap: 44px; }
+section { scroll-margin-top: 16px; }
+section > * + * { margin-top: 14px; }
+h2 { font-family: var(--display); font-weight: 700; font-size: 1.75rem; line-height: 1.15; margin: 0; padding-bottom: 8px; border-bottom: 2px solid var(--line); text-wrap: balance; }
+h3 { font-size: 1.08rem; font-weight: 700; margin: 26px 0 0; text-wrap: balance; }
+p, ul, ol { margin: 0; max-width: 72ch; }
+ul, ol { padding-left: 1.25em; }
+li + li { margin-top: 5px; }
+.lead { color: var(--muted); font-size: 1.04rem; }
+code { font-family: var(--mono); font-size: 0.86em; background: var(--chip); color: var(--chip-ink); padding: 1px 6px; border-radius: 4px; white-space: nowrap; }
+.wrap code { white-space: normal; overflow-wrap: anywhere; }
+
+.scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); max-width: 100%; }
+table { border-collapse: collapse; width: 100%; font-size: 0.93rem; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 0.74rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); font-weight: 600; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+td.num, th.num { text-align: right; white-space: nowrap; }
+
+.note, .warn { border-radius: 8px; padding: 12px 14px; max-width: 72ch; }
+.note { background: var(--tip-bg); }
+.warn { background: var(--warn-bg); color: var(--warn-ink); }
+.note strong:first-child, .warn strong:first-child { display: block; font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
+
+.steps { counter-reset: s; list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 2em minmax(0, 1fr); gap: 4px; margin: 0; }
+.steps li::before { content: counter(s); font-family: var(--display); font-weight: 700; color: var(--brand); font-size: 1.15rem; line-height: 1.4; }
+
+.rank { font-weight: 700; white-space: nowrap; }
+.r-trapped { color: var(--mc-gray); font-weight: 600; }
+.r-shard { color: var(--mc-light); font-weight: 600; }
+.r-obsidian { color: var(--mc-dark); font-weight: 600; }
+.r-crystal { color: var(--mc-light); }
+.r-voidborn { color: var(--mc-dark); }
+.r-overlord { color: var(--mc-dark); }
+.r-overlord b { color: var(--mc-light); }
+.r-watcher { color: var(--mc-aqua); font-weight: 600; }
+.r-sentinel { color: var(--mc-green); font-weight: 600; }
+.r-architect { color: var(--mc-gold); font-weight: 600; }
+.r-overseer { color: var(--mc-red); font-weight: 600; }
+.c-ally { color: var(--mc-dark); } .c-truce { color: var(--mc-aqua); } .c-enemy { color: var(--mc-red); } .c-own { color: var(--mc-light); }
+
+footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--line); padding-top: 16px; }
+
+@media (max-width: 880px) {
+  .page { grid-template-columns: minmax(0, 1fr); gap: 20px; padding-block: 18px 48px; }
+  .rail { position: static; max-height: none; overflow: visible; }
+  .rail summary { display: block; cursor: pointer; font-weight: 600; padding: 10px 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); margin-top: 10px; }
+  .rail ol { flex-direction: row; flex-wrap: wrap; gap: 4px 6px; }
+  .rail .group { width: 100%; }
+  .rail a { background: var(--chip); padding: 3px 9px; }
+  h2 { font-size: 1.5rem; }
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+</style>
+<style>body { margin: 0; }</style>
+</head>
+<body>
+
+<header class="band">
+  <div class="band-in">
+    <div>
+      <h1>Obby<span>Trap</span> SMP Wiki</h1>
+      <p>Everything a player can do on the server, and how each part of it works.</p>
+      <p class="others"><a href="../">Factions wiki</a></p>
+    </div>
+    <dl class="facts">
+      <dt>Address</dt><dd>obbytrap.net</dd>
+      <dt>Store</dt><dd>store.obbytrap.net</dd>
+      <dt>Discord</dt><dd>discord.gg/obbytrap</dd>
+    </dl>
+  </div>
+</header>
+
+<div class="page">
+  <aside class="rail">
+    <label for="find" hidden>Search the wiki</label>
+    <input id="find" type="search" placeholder="Search the wiki" autocomplete="off">
+    <details id="tocbox" open>
+      <summary>Contents</summary>
+      <ol id="toc"></ol>
+    </details>
+  </aside>
+  <main id="wiki">
+    <section id="start" data-group="Start here">
+      <h2>Getting started</h2>
+      <p class="lead">ObbyTrap is a survival server with an economy run by its players. You earn shards from jobs, skills and quests, open crates with the keys they give you, and trade with everyone else.</p>
+
+      <h3>Joining</h3>
+      <ul>
+        <li>Address: <code>obbytrap.net</code></li>
+        <li>The server runs Minecraft 1.21.11. Older and newer versions can connect too, but that one plays best.</li>
+        <li>You start with no shards and no items. Your first kit and your first job fix that.</li>
+      </ul>
+
+      <h3>Your first ten minutes</h3>
+      <ol class="steps">
+        <li><span>Type <code>/kits</code> and take the Trapped kit: iron tools, iron armour, a shield and food.</span></li>
+        <li><span>Type <code>/rtp</code> and pick the overworld to land somewhere of your own.</span></li>
+        <li><span>Type <code>/sethome home</code> where you want to live, so <code>/home home</code> brings you back.</span></li>
+        <li><span>Type <code>/jobs</code> and shift-click up to three jobs that match what you like doing. See <a href="#jobs">Jobs</a>.</span></li>
+        <li><span>Type <code>/quests</code> and pick a first quest to work towards.</span></li>
+        <li><span>After 30 minutes, type <code>/rewards</code> for the daily reward and your first playtime level.</span></li>
+      </ol>
+
+      <h3>Every day</h3>
+      <ul>
+        <li>Claim <code>/rewards</code>, and check your <a href="#playtime">playtime levels</a> and <a href="#serverlevels">server levels</a>.</li>
+        <li>Do the daily quest of each of your jobs with <code>/jobs quests</code>.</li>
+        <li>Open the <a href="#crates">crate keys</a> you have earned.</li>
+      </ul>
+
+      <h3>Finding your way</h3>
+      <ul>
+        <li><code>/guide</code> (or <code>/help</code>) opens the server guide in game, with a button for each part of the server.</li>
+        <li>At spawn, each character opens one thing when you click it: the shop, the auction house, orders, kits, jobs, skills, quests, teams, vaults, rewards, warps, player warps, bounties, the blood money shop and random teleport.</li>
+        <li><code>/spawn</code> takes you back there.</li>
+        <li>The boards at spawn rank the top ten players by shards, coins, playtime, kills, deaths, and blocks broken and placed.</li>
+      </ul>
+      <p class="note"><strong>Typing commands</strong> Press Tab while typing a command to see the commands you can use and to finish the one you have started.</p>
+    </section>
+
+    <section id="ranks" data-group="Start here">
+      <h2>Ranks</h2>
+      <p class="lead">Six ranks sit above a new player. They come from the store, and each has a kit and more homes.</p>
+      <div class="scroll"><table>
+        <tr><th>Rank</th><th>Kit</th><th class="num">Homes</th></tr>
+        <tr><td>No rank</td><td><code>/kit trapped</code></td><td class="num">1</td></tr>
+        <tr><td><span class="rank r-shard">Shard</span></td><td><code>/kit shard</code></td><td class="num">2</td></tr>
+        <tr><td><span class="rank r-obsidian">Obsidian</span></td><td><code>/kit obsidian</code></td><td class="num">3</td></tr>
+        <tr><td><span class="rank r-crystal">Crystal</span></td><td><code>/kit crystal</code></td><td class="num">5</td></tr>
+        <tr><td><span class="rank r-voidborn">Voidborn</span></td><td><code>/kit voidborn</code></td><td class="num">7</td></tr>
+        <tr><td><span class="rank r-voidborn">Warden</span></td><td><code>/kit warden</code></td><td class="num">10</td></tr>
+        <tr><td><span class="rank r-overlord">Over<b>lord</b></span></td><td><code>/kit overlord</code></td><td class="num">15</td></tr>
+      </table></div>
+      <ul>
+        <li>What is in each kit is under <a href="#kits">Kits</a>. Every kit comes back 7 days after you take it.</li>
+        <li><code>/store</code> gives the store link.</li>
+        <li>Crate keys, coins and vaults are not tied to a rank. Everyone earns them the same way.</li>
+      </ul>
+      <p>Staff wear their own ranks: <span class="rank r-watcher">Watcher</span>, <span class="rank r-sentinel">Sentinel</span>, <span class="rank r-architect">Architect</span> and <span class="rank r-overseer">Overseer</span>.</p>
+    </section>
+    <section id="money" data-group="Money">
+      <h2>Money: shards, coins and blood money</h2>
+      <p class="lead">The server has three currencies. Each is earned a different way and spent in a different place.</p>
+      <div class="scroll"><table>
+        <tr><th>Currency</th><th>Shown as</th><th>You earn it from</th><th>You spend it on</th></tr>
+        <tr><td>Shards</td><td><code>$</code> and a number</td><td>Jobs, selling to the shop, quests, levels, skill milestones, crates, the daily reward</td><td>The shop, the auction house, orders, vaults, coin flips, bounties</td></tr>
+        <tr><td>Coins</td><td>coins (the plugin's own messages say points)</td><td>Playtime and server levels, job levels, skill milestones, hard quests, crates</td><td>Crate keys in <code>/keyshop</code></td></tr>
+        <tr><td>Blood money</td><td>BM</td><td>Killing players, and nothing else</td><td>The blood money shop, contracts on other players</td></tr>
+      </table></div>
+      <ul>
+        <li>Everyone starts with $0. <code>/balance</code> shows your shards and <code>/baltop</code> the richest players.</li>
+        <li><code>/points</code> shows your coins.</li>
+        <li><code>/bm</code> shows your blood money. See <a href="#bloodmoney">Blood money</a>.</li>
+        <li>The scoreboard on the right shows your shards, kills, deaths and playtime. <code>/sb</code> hides or shows it.</li>
+      </ul>
+    </section>
+
+    <section id="shop" data-group="Money">
+      <h2>The shop</h2>
+      <p class="lead"><code>/shop</code> opens the server shop: seven categories of items at fixed prices, paid in shards.</p>
+      <ul>
+        <li>In a category, left-click an item to buy it and right-click to sell it. Shift and right-click sells every one you are carrying.</li>
+        <li><code>/sell hand</code> sells the stack in your hand, <code>/sell handall</code> every stack of that item, and <code>/sell all</code> everything in your inventory the shop buys.</li>
+        <li>If two categories buy the same item, <code>/sell all</code> pays the higher price.</li>
+        <li>Prices are for one item. The shop does not work in Adventure or Spectator mode.</li>
+      </ul>
+      <p class="note"><strong>Selling pays far less than buying costs</strong> Most items sell for a tenth of their buying price or less, so buying to sell back always loses money. Sugar cane and cactus are the exceptions that make farming worth it: they sell for $250 and $110 each.</p>
+
+      <h3>Farming</h3>
+      <div class="scroll"><table>
+        <tr><th>Item</th><th class="num">Buy</th><th class="num">Sell</th><th>Item</th><th class="num">Buy</th><th class="num">Sell</th></tr>
+        <tr><td>Sugar cane</td><td class="num">$500</td><td class="num">$250</td><td>Cactus</td><td class="num">$300</td><td class="num">$110</td></tr>
+        <tr><td>Carrot</td><td class="num">$500</td><td class="num">$100</td><td>Bamboo</td><td class="num">$3,500</td><td class="num">$50</td></tr>
+        <tr><td>Pumpkin</td><td class="num">$1,000</td><td class="num">$30</td><td>Melon slice</td><td class="num">$300</td><td class="num">$10</td></tr>
+        <tr><td>Glow berries</td><td class="num">$25</td><td class="num">$10</td><td>Wheat</td><td class="num">$100</td><td class="num">$5</td></tr>
+        <tr><td>Potato</td><td class="num">$20</td><td class="num">$5</td><td>Beetroot</td><td class="num">$24</td><td class="num">$3</td></tr>
+        <tr><td>Wheat seeds</td><td class="num">$8</td><td class="num">$3</td><td>Beetroot seeds</td><td class="num">$10</td><td class="num">$3</td></tr>
+        <tr><td>Nether wart</td><td class="num">$20</td><td class="num">$2</td><td>Sweet berries</td><td class="num">$10</td><td class="num">$2</td></tr>
+        <tr><td>Pumpkin seeds</td><td class="num">$10</td><td class="num">$2</td><td>Melon seeds</td><td class="num">$10</td><td class="num">$2</td></tr>
+        <tr><td>Cocoa beans</td><td class="num">$20</td><td class="num">$1</td><td>Pufferfish</td><td class="num">can't buy</td><td class="num">$2</td></tr>
+        <tr><td>Kelp</td><td class="num">can't buy</td><td class="num">$1</td><td>Tropical fish</td><td class="num">can't buy</td><td class="num">$0.25</td></tr>
+        <tr><td>Gold nugget</td><td class="num">can't buy</td><td class="num">$0.05</td><td></td><td></td><td></td></tr>
+      </table></div>
+
+      <h3>Ores and mob drops</h3>
+      <div class="scroll"><table>
+        <tr><th>Ore</th><th class="num">Buy</th><th class="num">Sell</th><th>Mob drop</th><th class="num">Buy</th><th class="num">Sell</th></tr>
+        <tr><td>Copper ingot</td><td class="num">$1,000</td><td class="num">$100</td><td>Spider eye</td><td class="num">$50</td><td class="num">$5</td></tr>
+        <tr><td>Iron ingot</td><td class="num">$300</td><td class="num">$30</td><td>Leather</td><td class="num">$50</td><td class="num">$5</td></tr>
+        <tr><td>Gold ingot</td><td class="num">$300</td><td class="num">$30</td><td>Slime ball</td><td class="num">$40</td><td class="num">$4</td></tr>
+        <tr><td>Coal</td><td class="num">$100</td><td class="num">$10</td><td>Bone</td><td class="num">$30</td><td class="num">$3</td></tr>
+        <tr><td>Redstone</td><td class="num">$20</td><td class="num">$4</td><td>Gunpowder</td><td class="num">$30</td><td class="num">$3</td></tr>
+        <tr><td>Lapis lazuli</td><td class="num">$20</td><td class="num">$4</td><td>String</td><td class="num">$30</td><td class="num">$3</td></tr>
+        <tr><td>Quartz</td><td class="num">$20</td><td class="num">$4</td><td>Rotten flesh</td><td class="num">$20</td><td class="num">$2</td></tr>
+      </table></div>
+      <p>The shop sells no diamonds, emeralds or netherite. Those come from mining, crates, job rewards and other players.</p>
+
+      <h3>Redstone</h3>
+      <div class="scroll"><table>
+        <tr><th>Item</th><th class="num">Buy</th><th class="num">Sell</th><th>Item</th><th class="num">Buy</th><th class="num">Sell</th></tr>
+        <tr><td>Honey block</td><td class="num">$3,569</td><td class="num">$500</td><td>Redstone block</td><td class="num">$300</td><td class="num">$20</td></tr>
+        <tr><td>Sticky piston</td><td class="num">$100</td><td class="num">$20</td><td>Dispenser</td><td class="num">$100</td><td class="num">$20</td></tr>
+        <tr><td>Slime block</td><td class="num">$100</td><td class="num">$20</td><td>Note block</td><td class="num">$100</td><td class="num">$20</td></tr>
+        <tr><td>Packed ice</td><td class="num">$100</td><td class="num">$20</td><td>Piston</td><td class="num">$50</td><td class="num">$20</td></tr>
+        <tr><td>Redstone</td><td class="num">$10</td><td class="num">$5</td><td>Observer</td><td class="num">$40</td><td class="num">$4</td></tr>
+        <tr><td>Repeater</td><td class="num">$50</td><td class="num">can't sell</td><td>Redstone torch</td><td class="num">$30</td><td class="num">can't sell</td></tr>
+        <tr><td>Crafter</td><td class="num">$20</td><td class="num">can't sell</td><td>Comparator</td><td class="num">$15</td><td class="num">can't sell</td></tr>
+      </table></div>
+
+      <h3>Food, gear and brewing</h3>
+      <p>These three categories are for buying. Only cooked beef can be sold back, for $2.</p>
+      <div class="scroll"><table>
+        <tr><th>Food</th><th class="num">Buy</th><th>Gear</th><th class="num">Buy</th><th>Brewing</th><th class="num">Buy</th></tr>
+        <tr><td>Golden carrot</td><td class="num">$1,500</td><td>Experience bottle</td><td class="num">$3,000</td><td>Brewing stand</td><td class="num">$5,000</td></tr>
+        <tr><td>Golden apple</td><td class="num">$1,000</td><td>End crystal</td><td class="num">$2,800</td><td>Sugar</td><td class="num">$5,000</td></tr>
+        <tr><td>Cooked beef</td><td class="num">$800</td><td>Respawn anchor</td><td class="num">$2,800</td><td>Magma cream</td><td class="num">$5,000</td></tr>
+        <tr><td>Cooked chicken</td><td class="num">$500</td><td>Glowstone</td><td class="num">$2,800</td><td>Glowstone dust</td><td class="num">$5,000</td></tr>
+        <tr><td>Cooked mutton</td><td class="num">$500</td><td>Ender pearl</td><td class="num">$2,600</td><td>Brown mushroom</td><td class="num">$5,000</td></tr>
+        <tr><td>Baked potato</td><td class="num">$500</td><td>Totem of undying</td><td class="num">$2,000</td><td>Glistering melon slice</td><td class="num">$5,000</td></tr>
+        <tr><td>Bread</td><td class="num">$100</td><td>Obsidian</td><td class="num">$650</td><td>Spider eye</td><td class="num">$4,000</td></tr>
+      </table></div>
+      <p class="note"><strong>Check both places</strong> A spider eye costs $4,000 in Brewing and $50 in Mob drops. Redstone costs $20 in Ores and $10 in Redstone.</p>
+    </section>
+
+    <section id="trading" data-group="Money">
+      <h2>Trading with players</h2>
+      <p class="lead">Four ways to trade: the auction house, buy orders, paying someone directly, and shops at player warps.</p>
+
+      <h3>Auction house</h3>
+      <ul>
+        <li><code>/ah</code> opens it. <code>/ah sell &lt;price&gt;</code> lists the item in your hand, and <code>/ah sell &lt;price&gt; &lt;amount&gt;</code> lists part of the stack.</li>
+        <li>The lowest price you can ask is $10. There is no highest price, no listing fee and no tax: the seller gets the full price.</li>
+        <li>A listing stays up for 24 hours. After that it moves to your expired items, where you have 7 days to take it back before it is deleted.</li>
+        <li><code>/ah search &lt;text&gt;</code> finds items, <code>/ah view</code> shows your own listings and <code>/ah history</code> what you have bought and sold.</li>
+        <li>Buying asks you to confirm first. Everyone sees a line above their hotbar when something new is listed.</li>
+      </ul>
+
+      <h3>Orders</h3>
+      <p><code>/orders</code> is the auction house the other way round: you say what you want and what you will pay, and other players deliver it.</p>
+      <ul>
+        <li>Pick the item, the amount and the price for each one. The lowest price is $1 each.</li>
+        <li>You can have 10 orders open at once.</li>
+        <li>Anyone can open your order and hand over the items. They are paid straight away, and you collect the items from <strong>Your orders</strong>.</li>
+        <li>When an order ends or you cancel it, you get your shards back for whatever was not delivered. An order can't be cancelled while delivered items are still waiting for you to collect.</li>
+        <li>Orders can be sorted by most paid, most delivered, newest and most money per item, and filtered by kind of item.</li>
+      </ul>
+
+      <h3>Paying and player shops</h3>
+      <ul>
+        <li><code>/pay &lt;player&gt; &lt;amount&gt;</code> sends shards. Nothing is taken off.</li>
+        <li><code>/points pay &lt;player&gt; &lt;amount&gt;</code> sends coins.</li>
+        <li><code>/settings</code> has a switch to stop other players paying you.</li>
+        <li>Players run their own shops at <a href="#playerwarps">player warps</a>: <code>/pw</code> lists them, and the Shop category holds the shops.</li>
+      </ul>
+    </section>
+
+    <section id="coinflip" data-group="Money">
+      <h2>Coin flip</h2>
+      <p class="lead">A 50/50 bet against another player, in shards.</p>
+      <ul>
+        <li><code>/cf</code> opens the list of open flips. Create one and type your bet in chat, or click someone else's to take it. Joining asks you to confirm.</li>
+        <li>The smallest bet is $500 and the largest $1,000,000.</li>
+        <li>The winner takes both bets less 20%. Two $5,000 bets make a $10,000 pot, and the winner receives $8,000.</li>
+        <li>You can close a flip you created while it is still waiting for an opponent. Once someone has joined it runs to the end.</li>
+        <li>The menu keeps your wins, losses and totals.</li>
+      </ul>
+    </section>
+    <section id="jobs" data-group="Progress">
+      <h2>Jobs</h2>
+      <p class="lead">A job pays you for things you would be doing anyway. You can hold three at once, and each one runs to level 48 with a reward to claim at every level.</p>
+      <ul>
+        <li><code>/jobs</code> opens the jobs menu. Shift-click a job to join it, and shift-click it again to leave. A plain click opens that job's level rewards.</li>
+        <li>Every paid action gives shards, job points and job experience. Pay shows above your hotbar as you work.</li>
+        <li><code>/jobs payouts &lt;job&gt;</code> lists everything a job pays for.</li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th>Job</th><th>Pays for</th></tr>
+        <tr><td>Miner</td><td>Breaking stone and ores, and blasting them with TNT</td></tr>
+        <tr><td>Woodcutter</td><td>Chopping logs</td></tr>
+        <tr><td>Builder</td><td>Placing building blocks, and breaking some of them</td></tr>
+        <tr><td>Farmer</td><td>Harvesting crops and planting them</td></tr>
+        <tr><td>Ranger</td><td>Killing mobs, fishing, breeding, taming, shearing and milking</td></tr>
+        <tr><td>Explorer</td><td>Walking into new chunks and trading with villagers</td></tr>
+        <tr><td>Crafter</td><td>Crafting items</td></tr>
+        <tr><td>Blacksmith</td><td>Crafting and repairing tools, weapons and armour, and smelting ores</td></tr>
+        <tr><td>Magician</td><td>Enchanting and brewing</td></tr>
+        <tr><td>Culinarian</td><td>Cooking food, crafting it and eating it</td></tr>
+      </table></div>
+
+      <h3>How pay works</h3>
+      <ul>
+        <li>Pay rises 1% with every job level. At level 48 an action pays about 46% more than it did at level 2.</li>
+        <li>Each extra job you hold lowers the pay of all of them by 1%. With three jobs, each pays 2% less.</li>
+        <li>There is no hourly limit on what a job can pay.</li>
+        <li>Nothing is paid in Creative mode, for blocks near a spawner, or for exploring while flying or gliding.</li>
+        <li>Breaking a block that a player placed doesn't pay.</li>
+        <li>Placing ore as a Miner costs you shards, and so does placing bamboo, sugar cane, cactus or vines as a Farmer.</li>
+        <li>Jobs count 5 furnaces, 2 blast furnaces, 2 smokers and 10 brewing stands for each player. Filling them with hoppers doesn't pay.</li>
+      </ul>
+
+      <h3>Levels and their rewards</h3>
+      <ul>
+        <li>Reaching level 48 takes about 1.8 million job experience. The whole server is told when someone gets there.</li>
+        <li>Leaving a job and coming back to it later costs 30% of your level, unless you had reached level 48.</li>
+        <li><code>/jobs &lt;job&gt;</code> opens the job's rewards. Each level has one, and you claim it by clicking it once you have reached that level.</li>
+        <li>Every level pays shards, from about $100 at level 1 to about $54,000 at level 48. All 48 together come to about $700,000 for each job.</li>
+        <li>Most levels add something else: job points, experience, or items that fit the job, such as enchanted books, tools and armour.</li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th>Job level</th><th>Key</th><th class="num">Coins</th></tr>
+        <tr><td>5, 15, 35 and 45</td><td>1 shard key</td><td class="num">10, 30, 70 and 90</td></tr>
+        <tr><td>10, 20, 30 and 40</td><td>1 obsidian key</td><td class="num">20, 40, 60 and 80</td></tr>
+        <tr><td>25</td><td>1 crystal key</td><td class="num">50</td></tr>
+        <tr><td>48</td><td>1 crystal key and 1 voidborn key</td><td class="num">96</td></tr>
+      </table></div>
+      <p>That is 546 coins and 11 keys from each job, and the table is the same for all ten.</p>
+
+      <h3>Daily job quests</h3>
+      <ul>
+        <li><code>/jobs quests</code> shows today's quest for each of your jobs: one a day for each job, paying a few hundred shards.</li>
+        <li>Quests change at 12:00 server time. You can skip one a day for free.</li>
+      </ul>
+
+      <h3>The points shop</h3>
+      <p><code>/jobs shop</code> spends job points. You earn them from paid actions and from some level rewards.</p>
+      <div class="scroll"><table>
+        <tr><th>Item</th><th class="num">Points</th><th>Item</th><th class="num">Points</th></tr>
+        <tr><td>8 ender pearls</td><td class="num">100</td><td>8 golden apples</td><td class="num">150</td></tr>
+        <tr><td>32 golden carrots</td><td class="num">150</td><td>64 experience bottles</td><td class="num">150</td></tr>
+        <tr><td>64 arrows</td><td class="num">150</td><td>8 slime blocks</td><td class="num">300</td></tr>
+        <tr><td>8 honey blocks</td><td class="num">300</td><td>Unbreaking III book</td><td class="num">400</td></tr>
+        <tr><td>4 diamonds</td><td class="num">400</td><td>Efficiency IV book</td><td class="num">500</td></tr>
+        <tr><td>Shulker shell</td><td class="num">500</td><td>48 iron ingots</td><td class="num">500</td></tr>
+        <tr><td>Totem of undying</td><td class="num">600</td><td>Protection IV book</td><td class="num">600</td></tr>
+        <tr><td>2 netherite scrap</td><td class="num">600</td><td>Elytra</td><td class="num">800</td></tr>
+        <tr><td>32 firework rockets</td><td class="num">1,200</td><td></td><td></td></tr>
+      </table></div>
+      <p><code>/jobs top</code> shows the ten best players in each job.</p>
+    </section>
+
+    <section id="skills" data-group="Progress">
+      <h2>Skills</h2>
+      <p class="lead">Skills level up on their own as you mine, fight, fish and farm. Higher levels unlock abilities, and every 100 levels in a skill unlocks a reward.</p>
+      <ul>
+        <li><code>/skills</code> opens the skills menu: your profile, a page for each skill, milestones and the boost shop.</li>
+        <li>The skills are Mining, Woodcutting, Excavation, Herbalism, Fishing, Swords, Axes, Archery, Unarmed, Taming, Acrobatics, Alchemy, Repair, Salvage and Smelting.</li>
+        <li>Skill levels have no upper limit. Each level needs a little more experience than the last.</li>
+        <li>Your <strong>power level</strong> is all your skill levels added together. <a href="#serverlevels">Server levels</a> need it.</li>
+        <li><code>/mcstats</code> lists your levels and <code>/mctop</code> the best players.</li>
+        <li>Mobs from spawners and spawn eggs give no skill experience.</li>
+      </ul>
+
+      <h3>Abilities</h3>
+      <ul>
+        <li>The big ones unlock at level 50 of their skill: Super Breaker (Mining), Tree Feller (Woodcutting), Giga Drill Breaker (Excavation), Green Terra (Herbalism), Serrated Strikes (Swords), Skull Splitter (Axes) and Berserk (Unarmed).</li>
+        <li>Right-click with the tool to ready one, then use the tool. Each has a 4 minute cooldown and lasts one second longer for every 50 levels.</li>
+        <li>Blast Mining unlocks at Mining 100 and has a 1 minute cooldown.</li>
+        <li>Repair works on an iron block and Salvage on a gold block. Both ask you to click twice.</li>
+        <li><code>/mcability</code> turns abilities off and on for you.</li>
+      </ul>
+
+      <h3>Milestones</h3>
+      <p><code>/milestones</code> opens the rewards. Thirteen skills have them (all but Salvage and Smelting), and the rewards are the same for each skill. You can claim any milestone you have reached, in any order.</p>
+      <div class="scroll"><table>
+        <tr><th class="num">Skill level</th><th class="num">Shards</th><th class="num">Coins</th><th>Keys</th></tr>
+        <tr><td class="num">100</td><td class="num">$1,000</td><td class="num"></td><td>1 shard</td></tr>
+        <tr><td class="num">200</td><td class="num">$3,000</td><td class="num">15</td><td>1 shard</td></tr>
+        <tr><td class="num">300</td><td class="num">$5,000</td><td class="num"></td><td>1 obsidian</td></tr>
+        <tr><td class="num">400</td><td class="num">$7,500</td><td class="num">25</td><td>2 shard</td></tr>
+        <tr><td class="num">500</td><td class="num">$10,000</td><td class="num">50</td><td>1 crystal</td></tr>
+        <tr><td class="num">600</td><td class="num">$12,000</td><td class="num"></td><td>1 obsidian</td></tr>
+        <tr><td class="num">700</td><td class="num">$15,000</td><td class="num">50</td><td>3 shard</td></tr>
+        <tr><td class="num">800</td><td class="num">$20,000</td><td class="num"></td><td>2 obsidian</td></tr>
+        <tr><td class="num">900</td><td class="num">$25,000</td><td class="num">100</td><td>1 crystal</td></tr>
+        <tr><td class="num">1000</td><td class="num">$30,000</td><td class="num">250</td><td>1 voidborn</td></tr>
+      </table></div>
+      <p>One skill taken to 1000 pays $128,500, 490 coins and 14 keys. Reaching 1000 is announced to the server.</p>
+
+      <h3>Boost shop</h3>
+      <ul>
+        <li><code>/mcmmo shop</code> sells experience boosts for one skill at a time. They are paid for with your own experience points, not shards.</li>
+        <li>Each boost lasts 60 minutes. Buying the same one again adds another 60.</li>
+        <li>The seven boosts cost 100,000 experience points for 1.1x, 150,000 for 1.25x, 200,000 for 1.5x, 250,000 for 2x, 300,000 for 2.5x, 350,000 for 3x and 400,000 for 4x.</li>
+      </ul>
+
+      <h3>Parties</h3>
+      <ul>
+        <li><code>/party create &lt;name&gt;</code> starts a party for sharing skill experience. A party has no size limit, and members can't hurt each other.</li>
+        <li>A party levels up as its members do, to level 10. Party chat comes at level 1, <code>/ptp</code> teleport at 2, alliances at 5, item sharing at 8 and experience sharing at 10.</li>
+        <li>Shared experience reaches members within 75 blocks and comes with a bonus, from 10% up to 50% as more members are nearby.</li>
+        <li><code>/ptp &lt;player&gt;</code> has a 2 minute cooldown, a 5 second wait, and the other player has to accept.</li>
+        <li>A member who has not been online for 7 days is removed from the party.</li>
+      </ul>
+      <p class="note"><strong>Parties and teams are different things</strong> A party shares skill experience. A <a href="#teams">team</a> shares a home, warps and a chest.</p>
+    </section>
+
+    <section id="playtime" data-group="Progress">
+      <h2>Playtime levels</h2>
+      <p class="lead">Sixty rewards for time spent on the server. Nothing else is asked of you.</p>
+      <ul>
+        <li><code>/playtime</code> (or <code>/levels</code>) opens them. Click a level once you have the hours.</li>
+        <li>Each level is claimed once. You don't have to claim them in order.</li>
+        <li>Every level pays shards and coins. From level 6 most also pay experience, and the levels below add keys.</li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th class="num">Level</th><th class="num">Hours</th><th class="num">Shards</th><th class="num">Coins</th><th>Keys</th></tr>
+        <tr><td class="num">1</td><td class="num">1</td><td class="num">$750</td><td class="num">10</td><td></td></tr>
+        <tr><td class="num">2</td><td class="num">3</td><td class="num">$1,250</td><td class="num">20</td><td></td></tr>
+        <tr><td class="num">3</td><td class="num">6</td><td class="num">$1,750</td><td class="num">30</td><td>1 shard</td></tr>
+        <tr><td class="num">4</td><td class="num">12</td><td class="num">$2,500</td><td class="num">40</td><td></td></tr>
+        <tr><td class="num">5</td><td class="num">24</td><td class="num">$5,000</td><td class="num">50</td><td></td></tr>
+        <tr><td class="num">8</td><td class="num">56</td><td class="num">$12,500</td><td class="num">80</td><td>1 obsidian</td></tr>
+        <tr><td class="num">10</td><td class="num">72</td><td class="num">$20,000</td><td class="num">100</td><td>2 shard</td></tr>
+        <tr><td class="num">13</td><td class="num">112</td><td class="num">$35,000</td><td class="num">130</td><td>2 obsidian</td></tr>
+        <tr><td class="num">15</td><td class="num">150</td><td class="num">$50,000</td><td class="num">150</td><td>3 shard, 3 obsidian, 3 crystal</td></tr>
+        <tr><td class="num">16</td><td class="num">160</td><td class="num">$10,000</td><td class="num">30</td><td>2 shard, 2 obsidian</td></tr>
+        <tr><td class="num">20</td><td class="num">200</td><td class="num">$28,500</td><td class="num">150</td><td>1 obsidian</td></tr>
+        <tr><td class="num">25</td><td class="num">235</td><td class="num">$37,500</td><td class="num">100</td><td>2 obsidian, 1 crystal</td></tr>
+        <tr><td class="num">28</td><td class="num">265</td><td class="num">$45,000</td><td class="num">30</td><td>2 obsidian, 2 crystal</td></tr>
+        <tr><td class="num">30</td><td class="num">300</td><td class="num">$100,000</td><td class="num">150</td><td>2 crystal</td></tr>
+        <tr><td class="num">32</td><td class="num">316</td><td class="num">$10,000</td><td class="num">60</td><td>1 obsidian</td></tr>
+        <tr><td class="num">40</td><td class="num">380</td><td class="num">$10,000</td><td class="num">100</td><td>2 obsidian</td></tr>
+        <tr><td class="num">43</td><td class="num">428</td><td class="num">$10,000</td><td class="num">140</td><td>2 shard</td></tr>
+        <tr><td class="num">45</td><td class="num">440</td><td class="num">$10,000</td><td class="num">300</td><td>2 obsidian, 2 crystal</td></tr>
+        <tr><td class="num">49</td><td class="num">472</td><td class="num">$10,000</td><td class="num">190</td><td>1 shard</td></tr>
+        <tr><td class="num">53</td><td class="num">504</td><td class="num">$10,000</td><td class="num">220</td><td>3 shard</td></tr>
+        <tr><td class="num">57</td><td class="num">536</td><td class="num">$10,000</td><td class="num">255</td><td>3 shard, 1 obsidian</td></tr>
+        <tr><td class="num">60</td><td class="num">560</td><td class="num">$150,000</td><td class="num">750</td><td>3 shard, 3 obsidian, 3 crystal, 1 voidborn</td></tr>
+      </table></div>
+      <p>The levels not shown pay between $7,500 and $50,000 and between 30 and 300 coins, with no keys. Level 60 is announced to the server.</p>
+    </section>
+
+    <section id="serverlevels" data-group="Progress">
+      <h2>Server levels</h2>
+      <p class="lead">Thirty levels that ask for real progress: a power level, hours played, blocks mined and mobs killed, all four at once.</p>
+      <ul>
+        <li><code>/serverlevels</code> opens them. A locked level shows how far along you are on each of the four.</li>
+        <li>They are claimed in order: level 6 needs level 5 claimed first.</li>
+        <li>Every 5th level is announced to the server and pays about double the coins.</li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th class="num">Level</th><th class="num">Power</th><th class="num">Hours</th><th class="num">Blocks mined</th><th class="num">Mobs killed</th><th class="num">Shards</th><th class="num">Coins</th><th>Keys</th></tr>
+        <tr><td class="num">1</td><td class="num">25</td><td class="num">1</td><td class="num">500</td><td class="num">25</td><td class="num">$1,000</td><td class="num">30</td><td>1 shard</td></tr>
+        <tr><td class="num">2</td><td class="num">50</td><td class="num">3</td><td class="num">1,500</td><td class="num">75</td><td class="num">$3,000</td><td class="num">40</td><td>1 shard</td></tr>
+        <tr><td class="num">3</td><td class="num">85</td><td class="num">6</td><td class="num">3,500</td><td class="num">150</td><td class="num">$5,000</td><td class="num">50</td><td>1 shard</td></tr>
+        <tr><td class="num">4</td><td class="num">130</td><td class="num">10</td><td class="num">7,000</td><td class="num">300</td><td class="num">$8,000</td><td class="num">60</td><td>1 shard</td></tr>
+        <tr><td class="num">5</td><td class="num">175</td><td class="num">15</td><td class="num">12,000</td><td class="num">500</td><td class="num">$11,000</td><td class="num">140</td><td>2 shard, 1 obsidian</td></tr>
+        <tr><td class="num">6</td><td class="num">230</td><td class="num">22</td><td class="num">20,000</td><td class="num">800</td><td class="num">$14,500</td><td class="num">80</td><td>1 shard</td></tr>
+        <tr><td class="num">7</td><td class="num">285</td><td class="num">30</td><td class="num">30,000</td><td class="num">1,200</td><td class="num">$18,500</td><td class="num">90</td><td>1 shard</td></tr>
+        <tr><td class="num">8</td><td class="num">350</td><td class="num">40</td><td class="num">45,000</td><td class="num">1,800</td><td class="num">$22,500</td><td class="num">100</td><td>1 shard</td></tr>
+        <tr><td class="num">9</td><td class="num">425</td><td class="num">52</td><td class="num">65,000</td><td class="num">2,600</td><td class="num">$27,000</td><td class="num">110</td><td>1 shard</td></tr>
+        <tr><td class="num">10</td><td class="num">500</td><td class="num">66</td><td class="num">90,000</td><td class="num">3,600</td><td class="num">$31,500</td><td class="num">240</td><td>3 shard, 2 obsidian, 1 crystal</td></tr>
+        <tr><td class="num">11</td><td class="num">585</td><td class="num">82</td><td class="num">120,000</td><td class="num">4,800</td><td class="num">$36,500</td><td class="num">130</td><td>2 shard</td></tr>
+        <tr><td class="num">12</td><td class="num">670</td><td class="num">100</td><td class="num">155,000</td><td class="num">6,200</td><td class="num">$41,500</td><td class="num">140</td><td>2 shard</td></tr>
+        <tr><td class="num">13</td><td class="num">765</td><td class="num">120</td><td class="num">195,000</td><td class="num">7,800</td><td class="num">$47,000</td><td class="num">150</td><td>2 shard</td></tr>
+        <tr><td class="num">14</td><td class="num">870</td><td class="num">142</td><td class="num">240,000</td><td class="num">9,600</td><td class="num">$52,500</td><td class="num">160</td><td>2 shard</td></tr>
+        <tr><td class="num">15</td><td class="num">975</td><td class="num">166</td><td class="num">290,000</td><td class="num">11,600</td><td class="num">$58,000</td><td class="num">340</td><td>2 shard, 1 obsidian</td></tr>
+        <tr><td class="num">16</td><td class="num">1,090</td><td class="num">192</td><td class="num">345,000</td><td class="num">13,800</td><td class="num">$64,000</td><td class="num">180</td><td>2 shard</td></tr>
+        <tr><td class="num">17</td><td class="num">1,205</td><td class="num">220</td><td class="num">405,000</td><td class="num">16,200</td><td class="num">$70,000</td><td class="num">190</td><td>2 shard</td></tr>
+        <tr><td class="num">18</td><td class="num">1,330</td><td class="num">250</td><td class="num">470,000</td><td class="num">18,800</td><td class="num">$76,500</td><td class="num">200</td><td>2 shard</td></tr>
+        <tr><td class="num">19</td><td class="num">1,465</td><td class="num">282</td><td class="num">540,000</td><td class="num">21,600</td><td class="num">$83,000</td><td class="num">210</td><td>2 shard</td></tr>
+        <tr><td class="num">20</td><td class="num">1,600</td><td class="num">316</td><td class="num">615,000</td><td class="num">24,600</td><td class="num">$89,500</td><td class="num">440</td><td>3 shard, 2 obsidian, 1 crystal</td></tr>
+        <tr><td class="num">21</td><td class="num">1,745</td><td class="num">352</td><td class="num">695,000</td><td class="num">27,800</td><td class="num">$96,000</td><td class="num">230</td><td>2 shard, 1 obsidian</td></tr>
+        <tr><td class="num">22</td><td class="num">1,890</td><td class="num">390</td><td class="num">780,000</td><td class="num">31,200</td><td class="num">$103,000</td><td class="num">240</td><td>2 shard, 1 obsidian</td></tr>
+        <tr><td class="num">23</td><td class="num">2,045</td><td class="num">430</td><td class="num">870,000</td><td class="num">34,800</td><td class="num">$110,500</td><td class="num">250</td><td>2 shard, 1 obsidian</td></tr>
+        <tr><td class="num">24</td><td class="num">2,210</td><td class="num">472</td><td class="num">965,000</td><td class="num">38,600</td><td class="num">$117,500</td><td class="num">260</td><td>2 shard, 1 obsidian</td></tr>
+        <tr><td class="num">25</td><td class="num">2,375</td><td class="num">516</td><td class="num">1,065,000</td><td class="num">42,600</td><td class="num">$125,000</td><td class="num">540</td><td>2 shard, 1 obsidian</td></tr>
+        <tr><td class="num">26</td><td class="num">2,550</td><td class="num">562</td><td class="num">1,170,000</td><td class="num">46,800</td><td class="num">$132,500</td><td class="num">280</td><td>2 shard, 1 obsidian</td></tr>
+        <tr><td class="num">27</td><td class="num">2,725</td><td class="num">610</td><td class="num">1,280,000</td><td class="num">51,200</td><td class="num">$140,500</td><td class="num">290</td><td>2 shard, 1 obsidian</td></tr>
+        <tr><td class="num">28</td><td class="num">2,910</td><td class="num">660</td><td class="num">1,395,000</td><td class="num">55,800</td><td class="num">$148,000</td><td class="num">300</td><td>2 shard, 1 obsidian</td></tr>
+        <tr><td class="num">29</td><td class="num">3,105</td><td class="num">712</td><td class="num">1,515,000</td><td class="num">60,600</td><td class="num">$156,000</td><td class="num">310</td><td>2 shard, 1 obsidian</td></tr>
+        <tr><td class="num">30</td><td class="num">3,300</td><td class="num">766</td><td class="num">1,640,000</td><td class="num">65,600</td><td class="num">$164,500</td><td class="num">640</td><td>3 shard, 2 obsidian, 1 crystal, 1 voidborn</td></tr>
+      </table></div>
+    </section>
+
+    <section id="quests" data-group="Progress">
+      <h2>Quests</h2>
+      <p class="lead">More than 1,600 quests, sorted into pools such as mining, hunting, farming and fishing. Most come in chains: finish one to unlock the next.</p>
+      <ul>
+        <li><code>/quests</code> opens the pools. A quest shows its task, its reward and its difficulty: easy, medium or hard.</li>
+        <li>A locked quest is waiting for the one before it in its chain.</li>
+        <li>Quests don't count progress in Creative mode.</li>
+        <li>Each pool has a top ten. You need three finished quests in a pool to appear on it.</li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th>Quest</th><th>Pays</th></tr>
+        <tr><td>Any quest</td><td>Shards. Most pay between $275 and $10,000.</td></tr>
+        <tr><td>A hard quest</td><td>10 coins as well</td></tr>
+        <tr><td>The last quest of a chain</td><td>1 shard key as well</td></tr>
+        <tr><td>An impossible quest</td><td>$2,500 to $75,000, 10 coins and 1 obsidian key</td></tr>
+      </table></div>
+      <p>The pools are mining, digging, woodcutting, farming, fishing, hunter, collecting, building, crafting, smelting, brewing, enchanting, activities (milking, shearing, taming, breeding), experience, misc (walking and time online) and impossible.</p>
+      <p class="note"><strong>Job quests are separate</strong> The daily quests under <a href="#jobs">Jobs</a> are their own thing, opened with <code>/jobs quests</code>.</p>
+    </section>
+    <section id="crates" data-group="Crates and rewards">
+      <h2>Crates and keys</h2>
+      <p class="lead">Five crates stand at <code>/warp crates</code>. Each opens with its own key, and every key can be earned by playing.</p>
+      <ul>
+        <li>Left-click a crate to see what is in it, with the chance of each reward. Right-click with a key to open it. Sneak and right-click to open up to 30 at once.</li>
+        <li>Keys are items: tripwire hooks with a glow. They can't be placed or crafted.</li>
+        <li>The sign above each crate shows how many keys you have, how many opens are left until your bonus key, and the last winner.</li>
+        <li>Rewards are common, rare, epic or legendary. Epic and legendary wins are announced to the server.</li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th>Crate</th><th>Keys come from</th><th>Bonus</th></tr>
+        <tr><td>Shard</td><td>Playtime and server levels, job levels, skill milestones, the end of a quest chain, the key shop</td><td>2 obsidian keys every 25 opens</td></tr>
+        <tr><td>Obsidian</td><td>Server levels, job levels 10, 20, 30 and 40, skill milestones, impossible quests, the shard crate, the key shop</td><td>1 crystal key every 20 opens</td></tr>
+        <tr><td>Crystal</td><td>Every 10th server level, job levels 25 and 48, skill milestones 500 and 900, the obsidian crate, the key shop</td><td>1 voidborn key every 15 opens</td></tr>
+        <tr><td>Voidborn</td><td>Playtime level 60, server level 30, a job at level 48, a skill at 1000, the crystal crate, the key shop</td><td>None</td></tr>
+        <tr><td>Blood</td><td>The <a href="#bloodmoney">blood money</a> shop only</td><td>None</td></tr>
+      </table></div>
+
+      <h3>Key shop</h3>
+      <p><code>/keyshop</code> (or <code>/keys</code>) sells keys for coins. Five at once are 10% cheaper. Blood keys are not sold here.</p>
+      <div class="scroll"><table>
+        <tr><th>Key</th><th class="num">One</th><th class="num">Five</th></tr>
+        <tr><td>Shard</td><td class="num">100 coins</td><td class="num">450 coins</td></tr>
+        <tr><td>Obsidian</td><td class="num">250 coins</td><td class="num">1,125 coins</td></tr>
+        <tr><td>Crystal</td><td class="num">600 coins</td><td class="num">2,700 coins</td></tr>
+        <tr><td>Voidborn</td><td class="num">1,500 coins</td><td class="num">6,750 coins</td></tr>
+      </table></div>
+
+      <h3>What is in each crate</h3>
+      <div class="scroll"><table>
+        <tr><th>Crate</th><th>Common</th><th>Rare</th><th>Epic</th><th>Legendary</th></tr>
+        <tr><td>Shard</td><td>$1,500 or $3,000, 32 golden carrots, 4 golden apples, 16 experience bottles, 4 ender pearls, 8 iron blocks</td><td>$6,000, 25 coins, an Efficiency IV or Protection IV book, a totem of undying</td><td>An obsidian key, a Mending book, 8 diamonds</td><td>A crystal key, $20,000</td></tr>
+        <tr><td>Obsidian</td><td>$6,000, 40 coins, 32 obsidian, 8 ender pearls, 2 totems, 12 golden apples</td><td>$12,000, a Sharpness V or Mending book, 3 shard keys, the Obsidian Helm or Chestplate</td><td>The Obsidian Pickaxe, 4 netherite scrap, an enchanted golden apple</td><td>A crystal key, $40,000</td></tr>
+        <tr><td>Crystal</td><td>$15,000, 100 coins, 3 totems, a Mending book, a trap kit</td><td>$30,000, a netherite ingot, 2 obsidian keys, one piece of Crystal armour</td><td>The Crystal Blade, the Crystal Pickaxe, 3 enchanted golden apples</td><td>A voidborn key, the Crystal Wings, $100,000</td></tr>
+        <tr><td>Voidborn</td><td>$50,000, 300 coins, 2 netherite ingots, 4 enchanted golden apples, 2 crystal keys</td><td>$120,000, one piece of Void armour</td><td>The Void Blade, the Void Pickaxe, the Void Wings</td><td>The full Void armour set, $300,000</td></tr>
+        <tr><td>Blood</td><td>16 ender pearls, 2 totems, 16 golden apples, a crystal kit, an anchor kit</td><td>$15,000, 2 enchanted golden apples, the Blood Cleaver</td><td>The Blood Blade</td><td>The Blood Mace, a voidborn key</td></tr>
+      </table></div>
+
+      <h3>The named gear</h3>
+      <div class="scroll"><table>
+        <tr><th>Item</th><th>What it is</th></tr>
+        <tr><td>Obsidian Helm and Chestplate</td><td>Diamond, Protection IV, Unbreaking III</td></tr>
+        <tr><td>Obsidian Pickaxe</td><td>Diamond, Efficiency V, Fortune III, Unbreaking III</td></tr>
+        <tr><td>Crystal armour</td><td>Diamond, Protection IV, Unbreaking III, Mending. The boots add Feather Falling IV.</td></tr>
+        <tr><td>Crystal Blade</td><td>Diamond sword, Sharpness V, Fire Aspect II, Looting III, Unbreaking III, Mending</td></tr>
+        <tr><td>Crystal Pickaxe</td><td>Netherite, Efficiency V, Fortune III, Unbreaking III, Mending</td></tr>
+        <tr><td>Crystal Wings and Void Wings</td><td>Elytra, Unbreaking III, Mending</td></tr>
+        <tr><td>Void armour</td><td>Netherite, Protection IV, Unbreaking III, Mending. The boots add Feather Falling IV and Depth Strider III.</td></tr>
+        <tr><td>Void Blade</td><td>Netherite sword, Sharpness V, Fire Aspect II, Looting III, Sweeping Edge III, Unbreaking III, Mending</td></tr>
+        <tr><td>Void Pickaxe</td><td>Netherite, Efficiency V, Fortune III, Unbreaking III, Mending</td></tr>
+        <tr><td>Blood Cleaver</td><td>Netherite axe, Sharpness V, Efficiency V, Unbreaking III</td></tr>
+        <tr><td>Blood Blade</td><td>Netherite sword, Sharpness V, Fire Aspect II, Knockback I, Unbreaking III, Mending</td></tr>
+        <tr><td>Blood Mace</td><td>Mace, Density V, Unbreaking III</td></tr>
+        <tr><td>Trap kit</td><td>8 end crystals, 2 respawn anchors, 8 glowstone and 32 obsidian</td></tr>
+        <tr><td>Crystal kit and anchor kit</td><td>16 end crystals with 32 obsidian, and 4 respawn anchors with 16 glowstone</td></tr>
+      </table></div>
+    </section>
+
+    <section id="rewards" data-group="Crates and rewards">
+      <h2>Daily, weekly and monthly rewards</h2>
+      <p class="lead"><code>/rewards</code> opens the rewards hub: the timed rewards, the playtime levels and the server levels.</p>
+      <ul>
+        <li>The timed rewards unlock once you have played for 30 minutes.</li>
+        <li>You need room in your inventory to claim one.</li>
+        <li>When you join, the server tells you if a reward is waiting. The rewards menu has switches for that reminder and for claiming on join by itself.</li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th>Reward</th><th>Comes back after</th><th>Gives</th></tr>
+        <tr><td>Daily</td><td>24 hours</td><td>$1,000</td></tr>
+        <tr><td>Weekly</td><td>7 days</td><td>$7,500, 2 diamonds and 1 emerald</td></tr>
+        <tr><td>Monthly</td><td>30 days</td><td>$30,000, 8 diamonds, 32 iron ingots and 16 gold ingots</td></tr>
+      </table></div>
+      <p>Players with premium rewards get double: $2,500 daily, $15,000 with 4 diamonds and 2 emeralds weekly, and $60,000 with 16 diamonds, 64 iron ingots and 32 gold ingots monthly.</p>
+    </section>
+    <section id="bloodmoney" data-group="PvP">
+      <h2>Blood money</h2>
+      <p class="lead">Blood money is the killer's currency. The only way to make it is to kill other players, and the more of it you carry, the more your own head is worth.</p>
+      <ul>
+        <li><code>/bm</code> shows your blood money, the bounty on you, your kills and deaths, and what your head would pay.</li>
+        <li><code>/bm shop</code> opens the shop, <code>/bm top</code> the richest killers and <code>/bm wanted</code> the biggest bounties.</li>
+        <li><code>/bm stats</code> shows what you have earned, lost and laundered.</li>
+        <li>Amounts can be typed as <code>500</code>, <code>2.5k</code> or <code>all</code>.</li>
+      </ul>
+
+      <h3>What a kill pays</h3>
+      <div class="scroll"><table>
+        <tr><th>Part</th><th>Amount</th></tr>
+        <tr><td>New blood money</td><td>50, plus 5% of what the victim was carrying, up to 5,000</td></tr>
+        <tr><td>Taken from the victim</td><td>10% of their blood money, if they had 100 or more</td></tr>
+        <tr><td>Their bounty</td><td>All of it, up to 10,000, plus any contracts on them</td></tr>
+      </table></div>
+      <ul>
+        <li>A kill made with TNT, a respawn anchor or an end crystal counts for whoever placed it, for two hours after it was placed.</li>
+        <li>If nobody lands the last hit, the kill goes to a player who hurt the victim in the 30 seconds before.</li>
+      </ul>
+
+      <h3>What stops farming</h3>
+      <ul>
+        <li>Killing the same player again within two hours pays half, then a quarter, then a tenth, then nothing.</li>
+        <li>A player who keeps dying pays less each time within an hour: three quarters, half, a quarter, then nothing.</li>
+        <li>A victim with under 30 minutes of playtime creates no new blood money. A killer with under 30 minutes gets only the 10%.</li>
+        <li>Kills between accounts on the same connection pay nothing.</li>
+        <li>One killer can make 20,000 new blood money in an hour and 60,000 in a day.</li>
+      </ul>
+
+      <h3>The bounty on you</h3>
+      <ul>
+        <li>Once you carry 1,000 blood money, a bounty starts to build on you by itself.</li>
+        <li>It grows by 0.5% of your blood money an hour while you are out in the world and moving, and faster the longer you hold on to it, up to three times that rate.</li>
+        <li>It stops at 40% of what you carry, or 25,000, whichever is lower. It doesn't grow while you are offline or standing idle.</li>
+        <li>Whoever kills you is paid it, and it starts again from nothing.</li>
+        <li><code>/bm bounty</code> shows who wants you dead and for how much.</li>
+      </ul>
+
+      <h3>Contracts</h3>
+      <ul>
+        <li><code>/bm contract &lt;player&gt; &lt;amount&gt;</code> puts your blood money on someone's head. Whoever kills them collects it.</li>
+        <li>A contract is between 250 and 25,000. Placing one costs 5% on top.</li>
+        <li>You can have 5 contracts out at once, worth 50,000 in total.</li>
+        <li>A contract lasts 7 days. If nobody collects, you get the amount back.</li>
+        <li>The target must have played for 2 hours and been online in the last 7 days. You can't collect your own contract.</li>
+        <li><code>/bm contracts</code> lists the ones that are open.</li>
+      </ul>
+
+      <h3>Laundering</h3>
+      <ul>
+        <li><code>/bm launder &lt;amount&gt;</code> turns blood money into shards at 25%: 1,000 blood money becomes $250.</li>
+        <li>Blood money earned in the last 6 hours launders worse, starting at half that rate.</li>
+        <li>The least you can launder is 100. There is a 10 minute wait between launders and a daily limit of 20,000.</li>
+        <li>You have 30 seconds to confirm. Laundering and contracts are blocked for 15 seconds after a fight.</li>
+      </ul>
+
+      <h3>The blood shop</h3>
+      <p>Prices are in blood money. Some items need a number of kills first, and the gear can be bought once every 24 hours.</p>
+      <div class="scroll"><table>
+        <tr><th>Gear</th><th>Enchantments</th><th class="num">Price</th><th class="num">Kills needed</th></tr>
+        <tr><td>Executioner's Blade</td><td>Netherite sword, Sharpness V, Fire Aspect II, Unbreaking III, Mending</td><td class="num">40,000</td><td class="num">25</td></tr>
+        <tr><td>Hunter's Mace</td><td>Mace, Density V, Breach IV, Wind Burst III, Unbreaking III</td><td class="num">30,000</td><td class="num">20</td></tr>
+        <tr><td>Crimson Plate</td><td>Netherite chestplate, Protection IV, Unbreaking III, Mending</td><td class="num">25,000</td><td class="num">15</td></tr>
+        <tr><td>Slayer's Greaves</td><td>Netherite leggings, Protection IV, Unbreaking III, Swift Sneak III</td><td class="num">20,000</td><td class="num">15</td></tr>
+        <tr><td>Butcher's Helm</td><td>Netherite helmet, Protection IV, Unbreaking III, Respiration III, Aqua Affinity</td><td class="num">18,000</td><td class="num">15</td></tr>
+        <tr><td>Bloodstained Boots</td><td>Netherite boots, Protection IV, Feather Falling IV, Depth Strider III, Soul Speed III, Unbreaking III</td><td class="num">18,000</td><td class="num">15</td></tr>
+        <tr><td>Headhunter's Bow</td><td>Power V, Punch II, Flame, Infinity, Unbreaking III</td><td class="num">15,000</td><td class="num">10</td></tr>
+        <tr><td>Crossbow of Reckoning</td><td>Quick Charge III, Multishot, Unbreaking III</td><td class="num">12,000</td><td class="num">10</td></tr>
+      </table></div>
+      <div class="scroll"><table>
+        <tr><th>Consumables and trap kits</th><th class="num">Price</th><th>Limit</th></tr>
+        <tr><td>Enchanted golden apple</td><td class="num">4,000</td><td>2 a day</td></tr>
+        <tr><td>Blood Draught: Strength I, Speed II and Resistance I for 90 seconds</td><td class="num">2,500</td><td>2 a day, 5 kills needed</td></tr>
+        <tr><td>8 end crystals</td><td class="num">2,500</td><td>3 a day, 5 kills needed</td></tr>
+        <tr><td>Totem of undying</td><td class="num">2,000</td><td>3 a day</td></tr>
+        <tr><td>4 respawn anchors</td><td class="num">1,500</td><td>4 a day</td></tr>
+        <tr><td>8 TNT</td><td class="num">1,000</td><td>4 a day</td></tr>
+        <tr><td>8 golden apples</td><td class="num">800</td><td>3 a day</td></tr>
+        <tr><td>3 splash potions of Harming II</td><td class="num">700</td><td>3 a day</td></tr>
+        <tr><td>16 ender pearls, 16 arrows of Harming II, or 64 obsidian</td><td class="num">600</td><td></td></tr>
+        <tr><td>16 wind charges or 16 crying obsidian</td><td class="num">500</td><td></td></tr>
+        <tr><td>Potion of Strength II or Regeneration II</td><td class="num">400</td><td>5 a day</td></tr>
+        <tr><td>16 glowstone</td><td class="num">400</td><td></td></tr>
+        <tr><td>Potion of Swiftness II</td><td class="num">300</td><td>5 a day</td></tr>
+        <tr><td>Potion of Fire Resistance, 8 minutes</td><td class="num">300</td><td></td></tr>
+        <tr><td>8 stone pressure plates</td><td class="num">150</td><td></td></tr>
+      </table></div>
+      <div class="scroll"><table>
+        <tr><th>Blood keys</th><th class="num">Price</th><th>Limit</th></tr>
+        <tr><td>1 blood key</td><td class="num">2,500</td><td>3 a day, 5 kills needed</td></tr>
+        <tr><td>5 blood keys</td><td class="num">11,000</td><td>1 a day, 25 kills needed</td></tr>
+      </table></div>
+
+      <h3>Titles and effects</h3>
+      <p>Bought once and kept. A title shows in front of your name in chat and the player list. <code>/bm title</code> and <code>/bm effect</code> choose which you wear.</p>
+      <div class="scroll"><table>
+        <tr><th>Title</th><th class="num">Price</th><th>Needs</th><th>Effect</th><th class="num">Price</th><th>Needs</th></tr>
+        <tr><td>Butcher</td><td class="num">5,000</td><td>10 kills</td><td>Blood Trail, behind you as you walk</td><td class="num">8,000</td><td>10 kills</td></tr>
+        <tr><td>Headhunter</td><td class="num">10,000</td><td>25 kills</td><td>Crimson Aura, a ring around you</td><td class="num">12,000</td><td>25 kills</td></tr>
+        <tr><td>The Hunted</td><td class="num">15,000</td><td>25,000 blood money</td><td>Soul Flame, at your feet</td><td class="num">15,000</td><td>40 kills</td></tr>
+        <tr><td>Reaper</td><td class="num">25,000</td><td>75 kills</td><td>Death Mark, over your head</td><td class="num">20,000</td><td>60 kills</td></tr>
+        <tr><td>Warlord</td><td class="num">50,000</td><td>150 kills</td><td>Bloodlust, a burst on each paying kill</td><td class="num">35,000</td><td>100 kills</td></tr>
+        <tr><td>Executioner</td><td class="num">100,000</td><td>300 kills</td><td></td><td class="num"></td><td></td></tr>
+      </table></div>
+    </section>
+
+    <section id="bounties" data-group="PvP">
+      <h2>Bounties</h2>
+      <p class="lead">A bounty is shards on someone's head. It is separate from blood money, and both can pay out on the same kill.</p>
+      <ul>
+        <li><code>/bounty</code> opens the list of bounties, biggest first.</li>
+        <li><code>/bounty add &lt;player&gt; &lt;amount&gt;</code> places one. You are asked to confirm, the amount is a whole number, and you can't place one on yourself.</li>
+        <li>Whoever kills that player is paid the whole bounty in shards.</li>
+        <li>New bounties and collected ones are announced to the server. The bounty menu lets you turn those announcements off for yourself.</li>
+      </ul>
+    </section>
+    <section id="travel" data-group="Everyday">
+      <h2>Getting around</h2>
+      <p class="lead">Random teleport to find land, homes to get back to it, and requests to reach your friends.</p>
+
+      <h3>Random teleport</h3>
+      <ul>
+        <li><code>/rtp</code> opens a menu with three choices: the overworld, the nether and the end.</li>
+        <li>You land somewhere safe within 1,000 blocks of the middle of that world.</li>
+        <li>Stand still for 5 seconds after choosing, or it is cancelled. It is free.</li>
+        <li>You can use it once every 10 minutes, whichever world you pick.</li>
+      </ul>
+
+      <h3>Homes</h3>
+      <ul>
+        <li><code>/sethome &lt;name&gt;</code> saves the spot you are standing on, and <code>/home &lt;name&gt;</code> takes you back. <code>/delhome</code> and <code>/renamehome</code> tidy them up.</li>
+        <li>Homes and <code>/spawn</code> have no wait and no cooldown. You can't be hurt for 4 seconds after any teleport.</li>
+        <li>Setting a home with a name you have already used replaces the old one without asking.</li>
+        <li>With no home set, <code>/home</code> takes you to spawn.</li>
+        <li>When you die you wake up at your bed, if you have slept in one.</li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th>Rank</th><th class="num">Homes</th></tr>
+        <tr><td>No rank</td><td class="num">1</td></tr>
+        <tr><td><span class="rank r-shard">Shard</span></td><td class="num">2</td></tr>
+        <tr><td><span class="rank r-obsidian">Obsidian</span></td><td class="num">3</td></tr>
+        <tr><td><span class="rank r-crystal">Crystal</span></td><td class="num">5</td></tr>
+        <tr><td><span class="rank r-voidborn">Voidborn</span></td><td class="num">7</td></tr>
+        <tr><td><span class="rank r-voidborn">Warden</span></td><td class="num">10</td></tr>
+        <tr><td><span class="rank r-overlord">Over<b>lord</b></span></td><td class="num">15</td></tr>
+      </table></div>
+
+      <h3>Other players and warps</h3>
+      <ul>
+        <li><code>/tpa &lt;player&gt;</code> asks to go to someone, and <code>/tpahere &lt;player&gt;</code> asks them to come to you. They answer with <code>/tpaccept</code> or <code>/tpdeny</code>.</li>
+        <li>A request lasts 2 minutes. <code>/settings</code> has a switch to stop requests reaching you.</li>
+        <li><code>/warps</code> opens the server's own places: the arena, the crates, the leaderboards and the AFK area.</li>
+        <li>Joining, and teleports over a distance, play a short fly-in from above. You can't chat or type commands until it ends.</li>
+        <li>After 5 minutes without moving you are marked as away. Nobody is kicked for it.</li>
+      </ul>
+    </section>
+
+    <section id="playerwarps" data-group="Everyday">
+      <h2>Player warps</h2>
+      <p class="lead">Warps that players make for their own shops, farms and builds. Anyone can visit them.</p>
+      <ul>
+        <li><code>/pw</code> opens them: your favourites, every warp, the ones you visited lately, and eight categories (Building, Shop, Farm, PvP, Event, Fun, Special and Other).</li>
+        <li>Left-click a warp to go there after a 3 second wait. Right-click it to rate it from 1 to 5 stars or add it to your favourites.</li>
+        <li>The list can be sorted by visits, rating, favourites, distance, age or name.</li>
+        <li>Making a warp is free. A name is 1 to 16 letters with no spaces, and a description is up to 3 lines.</li>
+        <li>In <strong>My warps</strong>, right-click one of yours to change its name, icon, description or category, set a price for visiting, or delete it.</li>
+        <li>An owner can keep a warp to a list of invited players, or ban players from it.</li>
+      </ul>
+    </section>
+
+    <section id="kits" data-group="Everyday">
+      <h2>Kits</h2>
+      <p class="lead"><code>/kits</code> opens the kits. Each one comes back 7 days after you take it, and the armour goes straight on.</p>
+      <div class="scroll"><table>
+        <tr><th>Kit</th><th>Tools and weapons</th><th>Armour</th><th>Supplies</th></tr>
+        <tr><td>Trapped</td><td>Iron sword, axe, pickaxe, shovel and hoe</td><td>Iron, and a shield</td><td>16 cooked beef, 16 oak logs, 16 carrots, 16 potatoes</td></tr>
+        <tr><td><span class="rank r-shard">Shard</span></td><td>Iron: sword Sharpness I, tools Efficiency II</td><td>Iron, Protection II, and a shield</td><td>24 cooked beef, 32 oak logs, 48 carrots, 48 potatoes</td></tr>
+        <tr><td><span class="rank r-obsidian">Obsidian</span></td><td>Diamond: sword Sharpness III, tools Efficiency III</td><td>Diamond, Protection II, and a shield with Unbreaking I</td><td>2 golden apples, 64 cooked beef, 32 oak logs</td></tr>
+        <tr><td><span class="rank r-crystal">Crystal</span></td><td>Diamond: sword Sharpness IV, tools Efficiency IV, all Unbreaking III</td><td>Diamond, Protection III, Unbreaking III, and a shield to match</td><td>8 golden apples, 64 cooked beef, 48 oak logs</td></tr>
+        <tr><td><span class="rank r-voidborn">Voidborn</span></td><td>Diamond: sword Sharpness V, tools Efficiency V, all Unbreaking III</td><td>Diamond, Protection IV, Unbreaking III, and a shield with Mending</td><td>24 golden apples, 64 golden carrots, 64 oak logs</td></tr>
+        <tr><td><span class="rank r-voidborn">Warden</span></td><td>Netherite, all with Mending and Unbreaking III: sword Sharpness V and Fire Aspect II, pickaxe Efficiency V and Fortune III, shovel and hoe with Silk Touch</td><td>Netherite, Protection IV, Mending, Unbreaking III, and a shield to match</td><td>64 golden apples, 64 golden carrots, 64 oak logs</td></tr>
+        <tr><td><span class="rank r-overlord">Over<b>lord</b></span></td><td>The Warden tools, with Looting III and Sweeping Edge III on the sword</td><td>The Warden armour, with Depth Strider III, Feather Falling IV and Soul Speed III on the boots, Swift Sneak III on the leggings, Respiration III and Aqua Affinity on the helmet</td><td>The Warden supplies and a totem of undying</td></tr>
+      </table></div>
+      <p>The Trapped kit is the starter kit. The others carry the names of the <a href="#ranks">ranks</a>. <code>/kit &lt;name&gt;</code> takes one without opening the menu.</p>
+    </section>
+
+    <section id="teams" data-group="Everyday">
+      <h2>Teams</h2>
+      <p class="lead">A team is up to 8 players with a shared home, two warps, a chest and a chat of their own. Making one is free.</p>
+      <ul>
+        <li><code>/team create &lt;name&gt;</code> starts a team. The name is 4 to 10 letters.</li>
+        <li><code>/team invite send &lt;player&gt;</code> invites someone. They answer with <code>/team invite accept</code> or <code>/team invite deny</code>.</li>
+        <li><code>/team sethome</code> sets the team home and <code>/team home</code> goes to it: a 3 second wait, and 2 minutes between uses.</li>
+        <li>A team can keep 2 warps. <code>/team warp &lt;name&gt;</code> goes to one, with the same wait and cooldown.</li>
+        <li><code>/team echest</code> opens the team chest, three rows that every member shares.</li>
+        <li>Team mates can't hurt each other until the leader turns that on with <code>/team pvp</code>.</li>
+        <li><code>/team ally add &lt;leader&gt;</code> makes an ally, up to 4, and <code>/team enemy add &lt;leader&gt;</code> an enemy, up to 2. <code>/allychat &lt;message&gt;</code> talks to your allies.</li>
+        <li><code>/team prefix &lt;text&gt;</code> sets the 3 to 8 letter tag members wear.</li>
+        <li>The leader can <code>/team promote</code>, <code>/team demote</code>, <code>/team kick</code> and <code>/team transfer</code>. <code>/team disband</code> asks you to confirm.</li>
+        <li><code>/team info</code> and <code>/team list</code> show teams, <code>/team leave</code> leaves yours, and <code>/teams</code> opens a page of all these commands.</li>
+      </ul>
+    </section>
+
+    <section id="vaults" data-group="Everyday">
+      <h2>Vaults</h2>
+      <p class="lead">Private chests you can open anywhere. There are 12 to buy, each a double chest in size.</p>
+      <ul>
+        <li><code>/pv</code> opens your vaults. Click one you own to open it, or a locked one to go to the vault shop.</li>
+        <li>Vaults are bought in order with shards: vault 2 needs vault 1 first.</li>
+      </ul>
+      <div class="scroll"><table>
+        <tr><th class="num">Vault</th><th class="num">Price</th><th class="num">Vault</th><th class="num">Price</th><th class="num">Vault</th><th class="num">Price</th></tr>
+        <tr><td class="num">1</td><td class="num">$5,000</td><td class="num">5</td><td class="num">$75,000</td><td class="num">9</td><td class="num">$275,000</td></tr>
+        <tr><td class="num">2</td><td class="num">$15,000</td><td class="num">6</td><td class="num">$110,000</td><td class="num">10</td><td class="num">$350,000</td></tr>
+        <tr><td class="num">3</td><td class="num">$30,000</td><td class="num">7</td><td class="num">$150,000</td><td class="num">11</td><td class="num">$450,000</td></tr>
+        <tr><td class="num">4</td><td class="num">$50,000</td><td class="num">8</td><td class="num">$200,000</td><td class="num">12</td><td class="num">$600,000</td></tr>
+      </table></div>
+      <p>All twelve cost $2,310,000.</p>
+    </section>
+
+    <section id="chat" data-group="Everyday">
+      <h2>Chat and settings</h2>
+      <ul>
+        <li>Type <code>[item]</code> in chat to show what you are holding, <code>[inv]</code> your inventory, <code>[ec]</code> your ender chest, <code>[shulker]</code> the shulker box in your hand and <code>[playtime]</code> your time played.</li>
+        <li>Writing <code>@name</code> pings that player with a sound and a line on their screen.</li>
+        <li>Click a name in chat to start a private message to them with <code>/msg</code>.</li>
+        <li>You can send one message every 3 seconds, up to 80 characters. Links, addresses and phone numbers are blocked.</li>
+        <li><code>/settings</code> has switches for teleport requests, payments from other players, private messages and the scoreboard.</li>
+      </ul>
+    </section>
+    <section id="help" data-group="Reference">
+      <h2>Rules and help</h2>
+      <ul>
+        <li>The rules are kept on Discord. <code>/rules</code> gives the link, and you are expected to have read them before you play.</li>
+        <li><code>/discord</code> gives the Discord link: <code>discord.gg/obbytrap</code>. Staff answer questions there, and it is where server news is posted.</li>
+        <li><code>/store</code> gives the store link: <code>store.obbytrap.net</code>.</li>
+        <li><code>/guide</code> opens the guide in game.</li>
+      </ul>
+    </section>
+
+    <section id="commands" data-group="Reference">
+      <h2>Commands</h2>
+      <p class="lead">Every command on this page, by what it is for.</p>
+      <div class="scroll"><table>
+        <tr><th>For</th><th>Commands</th></tr>
+        <tr><td>Help</td><td class="wrap"><code>/guide</code> <code>/help</code> <code>/rules</code> <code>/discord</code> <code>/store</code> <code>/settings</code></td></tr>
+        <tr><td>Money</td><td class="wrap"><code>/balance</code> <code>/baltop</code> <code>/pay</code> <code>/points</code> <code>/points pay</code></td></tr>
+        <tr><td>Shop and trading</td><td class="wrap"><code>/shop</code> <code>/sell hand</code> <code>/sell handall</code> <code>/sell all</code> <code>/ah</code> <code>/ah sell</code> <code>/ah search</code> <code>/orders</code> <code>/cf</code></td></tr>
+        <tr><td>Jobs</td><td class="wrap"><code>/jobs</code> <code>/jobs &lt;job&gt;</code> <code>/jobs payouts &lt;job&gt;</code> <code>/jobs quests</code> <code>/jobs shop</code> <code>/jobs top</code></td></tr>
+        <tr><td>Skills</td><td class="wrap"><code>/skills</code> <code>/milestones</code> <code>/mcmmo shop</code> <code>/mcstats</code> <code>/mctop</code> <code>/mcability</code> <code>/party</code> <code>/ptp</code></td></tr>
+        <tr><td>Levels and quests</td><td class="wrap"><code>/rewards</code> <code>/playtime</code> <code>/serverlevels</code> <code>/quests</code></td></tr>
+        <tr><td>Crates</td><td class="wrap"><code>/keyshop</code> <code>/keys</code> <code>/warp crates</code></td></tr>
+        <tr><td>Blood money</td><td class="wrap"><code>/bm</code> <code>/bm shop</code> <code>/bm top</code> <code>/bm wanted</code> <code>/bm bounty</code> <code>/bm stats</code> <code>/bm contract</code> <code>/bm contracts</code> <code>/bm launder</code> <code>/bm title</code> <code>/bm effect</code></td></tr>
+        <tr><td>Bounties</td><td class="wrap"><code>/bounty</code> <code>/bounty add</code></td></tr>
+        <tr><td>Getting around</td><td class="wrap"><code>/rtp</code> <code>/spawn</code> <code>/sethome</code> <code>/home</code> <code>/delhome</code> <code>/renamehome</code> <code>/tpa</code> <code>/tpahere</code> <code>/tpaccept</code> <code>/tpdeny</code> <code>/warps</code> <code>/pw</code></td></tr>
+        <tr><td>Kits and storage</td><td class="wrap"><code>/kits</code> <code>/kit &lt;name&gt;</code> <code>/pv</code></td></tr>
+        <tr><td>Teams</td><td class="wrap"><code>/teams</code> <code>/team create</code> <code>/team invite</code> <code>/team home</code> <code>/team sethome</code> <code>/team warp</code> <code>/team echest</code> <code>/team pvp</code> <code>/team ally</code> <code>/team enemy</code> <code>/team prefix</code> <code>/team info</code> <code>/team list</code> <code>/team leave</code> <code>/allychat</code></td></tr>
+        <tr><td>Chat</td><td class="wrap"><code>/msg</code> <code>/sb</code></td></tr>
+      </table></div>
+    </section>
+    <footer>
+      <p>Numbers on this page are the server's current settings. If something in game says otherwise, the game is right: tell staff so the page can be corrected.</p>
+    </footer>
+  </main>
+</div>
+
+<script>
+// The contents rail is built from the page's own headings, so the two can never disagree.
+(function () {
+  var toc = document.getElementById('toc');
+  var sections = Array.prototype.slice.call(document.querySelectorAll('#wiki > section'));
+  var lastGroup = null;
+  sections.forEach(function (s) {
+    var group = s.getAttribute('data-group');
+    if (group && group !== lastGroup) {
+      var g = document.createElement('li');
+      g.className = 'group';
+      g.textContent = group;
+      g.setAttribute('data-group-label', group);
+      toc.appendChild(g);
+      lastGroup = group;
+    }
+    var li = document.createElement('li');
+    var a = document.createElement('a');
+    a.href = '#' + s.id;
+    a.textContent = s.querySelector('h2').textContent;
+    li.setAttribute('data-for', s.id);
+    li.setAttribute('data-group', group || '');
+    li.appendChild(a);
+    toc.appendChild(li);
+  });
+  var none = document.createElement('li');
+  none.className = 'none';
+  none.textContent = 'Nothing on the page matches that.';
+  none.hidden = true;
+  toc.appendChild(none);
+
+  var box = document.getElementById('tocbox');
+  var narrow = window.matchMedia('(max-width: 880px)');
+  function fit() { box.open = !narrow.matches; }
+  fit();
+  if (narrow.addEventListener) { narrow.addEventListener('change', fit); }
+  toc.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && narrow.matches) { box.open = false; }
+  });
+
+  var find = document.getElementById('find');
+  find.addEventListener('input', function () {
+    var words = find.value.toLowerCase().split(/\s+/).filter(Boolean);
+    var shown = 0;
+    var groups = {};
+    sections.forEach(function (s) {
+      var text = s.textContent.toLowerCase();
+      var hit = words.every(function (w) { return text.indexOf(w) >= 0; });
+      s.hidden = !hit;
+      var li = toc.querySelector('[data-for="' + s.id + '"]');
+      li.hidden = !hit;
+      if (hit) { shown++; groups[li.getAttribute('data-group')] = true; }
+    });
+    Array.prototype.forEach.call(toc.querySelectorAll('[data-group-label]'), function (g) {
+      g.hidden = !groups[g.getAttribute('data-group-label')];
+    });
+    none.hidden = shown > 0;
+    if (words.length && narrow.matches) { box.open = true; }
+  });
+})();
+</script>
+</body>
+</html>

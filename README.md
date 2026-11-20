@@ -1,6 +1,10 @@
-# ObbyTrap Factions Wiki
+# ObbyTrap wikis
 
-The player wiki for the ObbyTrap Factions Minecraft server: https://klumsy-faeries.github.io/obbytrap-wiki/
+The player wikis for the ObbyTrap Minecraft servers:
 
-`index.html` is generated, so changes made to it here are lost at the next update. The text lives in the
-server project's `docs/wiki/parts`; `docs/wiki/publish.py` there rebuilds this page and uploads it.
+- Factions: https://klumsy-faeries.github.io/obbytrap-wiki/
+- SMP: https://klumsy-faeries.github.io/obbytrap-wiki/smp/
+
+`index.html` and `smp/index.html` are generated, so changes made to them here are lost at the next update. The
+text lives in the server project's `docs/wiki/parts` and `docs/wiki-smp/parts`; `docs/wiki/publish.py` there
+rebuilds both pages and uploads them.
