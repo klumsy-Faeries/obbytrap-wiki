@@ -238,7 +238,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <li><code>/f create &lt;name&gt;</code> makes a faction. The name is 3 to 10 characters.</li>
         <li><code>/f invite &lt;player&gt;</code> invites someone, and they type <code>/f join &lt;name&gt;</code>. Factions are invite-only unless the leader opens them.</li>
         <li><code>/f leave</code> leaves. <code>/f who &lt;name&gt;</code> shows any faction's members, power and land, and <code>/f list</code> lists them all.</li>
-        <li>A faction holds up to 15 members. Alt accounts are kept on a separate list of up to 30, managed with <code>/f alts</code>.</li>
+        <li>A faction holds up to 15 members. Alt accounts are kept on a separate list of up to 5, managed with <code>/f alts</code>.</li>
         <li>A member who hasn't logged in for 90 days is removed from their faction.</li>
       </ul>
 
@@ -312,7 +312,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
       <h3>What your land protects</h3>
       <ul>
         <li>Players outside your faction can't place or break blocks on it, or use buckets, flint and steel or armour stands there. That holds whether you are online or not.</li>
-        <li>Doors, levers, buttons, chests, hoppers and the like follow <code>/f perms</code>. Open it and check what each group may do, containers above all.</li>
+        <li>Doors, levers, buttons, chests, hoppers and the like follow <code>/f perms</code>. Open it and check what each group may do, containers above all. A new faction's containers are open to its own members only: allies, truces, neutrals and enemies can't open them unless you allow it.</li>
         <li><strong>Explosions are not blocked.</strong> TNT and creepers break blocks on claimed land at any hour. That is what raiding is.</li>
         <li>Beacons on your land can't be broken by outsiders. Endermen can't move blocks on it.</li>
         <li>A player in enemy, neutral or warzone land can't set an Essentials home there.</li>
@@ -434,7 +434,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
       </ul>
 
       <h3>Grace period</h3>
-      <p>At the start of a map there is a grace period. While it lasts, TNT and falling sand are switched off, so nobody can be cannoned. PvP stays on. <code>/grace</code> says whether it is still running.</p>
+      <p>At the start of a map there is a grace period. While it lasts, TNT, creepers and fireballs break no blocks, so nobody can be raided. PvP stays on, and the raid event still runs. <code>/grace</code> shows how long is left.</p>
 
       <h3>Limits</h3>
       <p>These keep one cannon from stalling the server. A normal cannon never meets them, and you are told in chat when one stops something.</p>
@@ -454,7 +454,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
       <h3>Ender pearls</h3>
       <ul>
         <li>15 seconds between pearls, and one in the air at a time.</li>
-        <li>You can't pearl while your head is inside a block, for 2 seconds after opening a door, across the world border, or into spawn while in combat.</li>
+        <li>You can't pearl while your head is inside a block, for 2 seconds after opening a door, across the world border, or into spawn while in combat. Pearls don&#39;t pass through fence gates.</li>
       </ul>
       <p class="note"><strong>Read first</strong> Some cannon designs are banned. See <a href="#rules">Rules</a> before you build one.</p>
     </section>
@@ -569,21 +569,29 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
       <h3>The shop</h3>
       <p><code>/shop</code> opens it. Left-click buys, right-click sells, and middle-click sells every one you are carrying. <code>/sell hand</code>, <code>/sell handall</code> and <code>/sell all</code> sell without opening it.</p>
       <p>The shop has blocks, farming, dyes, ores, mob spawners, tools, armour, raiding supplies, glass, clay, wool, food, mob drops, potions, wood, a miscellaneous shelf and the donor shop.</p>
+      <p>Raiding supplies and buckets can be bought but not sold back, and the shop only buys plain items: anything renamed, enchanted or with a special lore is refused.</p>
       <div class="scroll"><table>
         <tr><th>Item</th><th class="num">Amount</th><th class="num">Buy</th><th class="num">Sell</th></tr>
         <tr><td>Cactus</td><td class="num">16</td><td class="num">$20</td><td class="num">$2</td></tr>
-        <tr><td>Sugar cane</td><td class="num">16</td><td class="num">$50</td><td class="num">$3</td></tr>
-        <tr><td>Wheat, pumpkin, melon, nether wart, cocoa</td><td class="num">16</td><td class="num">$50</td><td class="num">$5</td></tr>
+        <tr><td>Sugar cane</td><td class="num">16</td><td class="num">$640</td><td class="num">$3</td></tr>
+        <tr><td>Wheat</td><td class="num">16</td><td class="num">$288</td><td class="num">$5</td></tr>
+        <tr><td>Pumpkin</td><td class="num">16</td><td class="num">$1,600</td><td class="num">$5</td></tr>
+        <tr><td>Melon block</td><td class="num">16</td><td class="num">$640</td><td class="num">$5</td></tr>
+        <tr><td>Nether wart</td><td class="num">16</td><td class="num">$160</td><td class="num">$5</td></tr>
+        <tr><td>Cocoa</td><td class="num">16</td><td class="num">$50</td><td class="num">$5</td></tr>
         <tr><td>Carrot, potato</td><td class="num">10</td><td class="num">$30</td><td class="num">$6</td></tr>
         <tr><td>Iron ingot</td><td class="num">8</td><td class="num">$300</td><td class="num">$20</td></tr>
         <tr><td>Gold ingot</td><td class="num">12</td><td class="num">$400</td><td class="num">$8</td></tr>
         <tr><td>Diamond</td><td class="num">8</td><td class="num">$1,000</td><td class="num">$80</td></tr>
-        <tr><td>Emerald</td><td class="num">8</td><td class="num">$200</td><td class="num">$30</td></tr>
+        <tr><td>Emerald</td><td class="num">8</td><td class="num">$880</td><td class="num">$30</td></tr>
         <tr><td>Rotten flesh</td><td class="num">64</td><td class="num">$80</td><td class="num">$1</td></tr>
-        <tr><td>Bone, gunpowder, ender pearl, blaze rod</td><td class="num">8 to 32</td><td class="num">$30 to $100</td><td class="num">$1</td></tr>
+        <tr><td>Bone</td><td class="num">32</td><td class="num">$64</td><td class="num">$1</td></tr>
+        <tr><td>Gunpowder</td><td class="num">16</td><td class="num">$30</td><td class="num">$1</td></tr>
+        <tr><td>Ender pearl</td><td class="num">8</td><td class="num">$400</td><td class="num">$1</td></tr>
+        <tr><td>Blaze rod</td><td class="num">16</td><td class="num">$960</td><td class="num">$1</td></tr>
         <tr><td>Obsidian</td><td class="num">16</td><td class="num">$30</td><td class="num">$3</td></tr>
         <tr><td>Cobblestone, sand</td><td class="num">64</td><td class="num">$30</td><td class="num">$3</td></tr>
-        <tr><td>TNT</td><td class="num">1</td><td class="num">$700</td><td class="num">$70</td></tr>
+        <tr><td>TNT</td><td class="num">1</td><td class="num">$700</td><td class="num">can't be sold</td></tr>
         <tr><td>Creeper egg</td><td class="num">1</td><td class="num">$50,000</td><td class="num">$500</td></tr>
         <tr><td>Golden apple</td><td class="num">1</td><td class="num">$100</td><td class="num">$20</td></tr>
         <tr><td>Enchanted golden apple</td><td class="num">1</td><td class="num">$1,000</td><td class="num">$200</td></tr>
@@ -608,9 +616,9 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <tr><th>Pouch</th><th class="num">Costs</th><th class="num">Pays</th></tr>
         <tr><td>Tier 1</td><td class="num">$6,000</td><td class="num">$1,000 to $10,000</td></tr>
         <tr><td>Tier 2</td><td class="num">$30,000</td><td class="num">$10,001 to $50,000</td></tr>
-        <tr><td>Tier 3</td><td class="num">$110,000</td><td class="num">$50,001 to $200,000</td></tr>
+        <tr><td>Tier 3</td><td class="num">$140,000</td><td class="num">$50,001 to $200,000</td></tr>
         <tr><td>Tier 4</td><td class="num">$380,000</td><td class="num">$200,001 to $500,000</td></tr>
-        <tr><td>Tier 5</td><td class="num">$1,200,000</td><td class="num">$500,001 to $2,000,000</td></tr>
+        <tr><td>Tier 5</td><td class="num">$1,400,000</td><td class="num">$500,001 to $2,000,000</td></tr>
       </table></div>
     </section>
 
@@ -662,7 +670,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <tr><th>Tool</th><th>What it does</th><th>Where and price</th></tr>
         <tr><td>Harvester hoe</td><td>Breaking sugar cane with it sells the cane on the spot for $20 each. The hoe levels up as you farm: at 20,000, 60,000, 120,000 and 160,000 cane it pays more, and each cane has a tiny chance of a crate key.</td><td><code>/hoe</code>: tier I $150,000, tier II $350,000, tier III $600,000</td></tr>
         <tr><td>Farmer axe</td><td>For melons. Right-click switches between selling as you chop, collecting into your inventory, and digging dirt.</td><td><code>/axe</code>: 100 uses $150,000, 300 uses $350,000, unlimited $600,000</td></tr>
-        <tr><td>Sell wand</td><td>Right-click a chest to sell everything in it. Pays wand prices, which beat the shop: sugar cane $20, pumpkin $50, melon block $20, wheat $9, cactus $1, gold $10, diamond $30, emerald $55, blaze rod $30, ender pearl $25.</td><td><code>/sellwands</code>: 100 uses $150,000, 250 uses $300,000, unlimited $500,000</td></tr>
+        <tr><td>Sell wand</td><td>Right-click a chest you could open yourself to sell everything in it. Pays wand prices, which beat the shop: sugar cane $20, pumpkin $50, melon block $20, wheat $9, cactus $1, gold $10, diamond $30, emerald $55, blaze rod $30, ender pearl $25.</td><td><code>/sellwands</code>: 100 uses $150,000, 250 uses $300,000, unlimited $500,000</td></tr>
         <tr><td>Chunk collector</td><td>A beacon that gathers the mob drops and cactus of its whole chunk. Open it to sell the lot or take the stored experience. It pays per mob: iron golem and creeper $500, enderman and zombie pigman $300, villager $200, cow, pig and chicken $100. One per chunk, and you need a faction.</td><td><code>/collector</code>, or the miscellaneous shelf of <code>/shop</code>: $750,000</td></tr>
       </table></div>
       <p class="warn"><strong>Farms need a collector</strong> Farms only grow in chunks that have a chunk collector, so put one in every chunk you farm.</p>
@@ -674,7 +682,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <tr><td>Cactus generator</td><td>Place it and it builds a whole cactus farm pillar: sand, cactus and string, layer on layer, up to the sky.</td><td><code>/generators</code>: 32 for $250,000</td></tr>
         <tr><td>Sugar cane generator</td><td>The same for sugar cane, 10 layers high.</td><td><code>/generators</code>: 32 for $200,000</td></tr>
         <tr><td>Trench pickaxe</td><td>Mines a 3 by 3 or 5 by 5 area with each block you break.</td><td><code>/trenchpick</code>: 3 by 3 $300,000, 5 by 5 $500,000</td></tr>
-        <tr><td>Chunk buster</td><td>Place it to clear the chunks around it from bedrock to sky. Works on your own land and in the wilderness, and asks you to confirm. Chests, spawners and beacons are left standing.</td><td><code>/shop</code>, miscellaneous shelf: 3 by 3 chunks $80,000, 5 by 5 chunks $150,000</td></tr>
+        <tr><td>Chunk buster</td><td>Place it to clear the chunks around it from bedrock to sky. Works on your own land only (not in the wilderness or the raid world), one a minute, and asks you to confirm. Chests, spawners and beacons are left standing.</td><td><code>/shop</code>, miscellaneous shelf: 3 by 3 chunks $80,000, 5 by 5 chunks $150,000</td></tr>
       </table></div>
 
       <h3>Healing items</h3>
@@ -911,7 +919,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
       </table></div>
 
       <h3>Redeems</h3>
-      <p>Three commands anyone can use, each once every 30 days or so.</p>
+      <p>Three commands anyone can use once they have played for an hour, each once every 30 days or so.</p>
       <div class="scroll"><table>
         <tr><th>Command</th><th>What you get</th></tr>
         <tr><td><code>/redeemstart</code></td><td>$100,000, a Mesozic key, and one sandbot's worth of free sand</td></tr>
@@ -1042,8 +1050,9 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <li>Hitting a player or being hit tags you both for 15 seconds.</li>
         <li><strong>Log out while tagged and you die.</strong></li>
         <li>While tagged you can't walk or pearl into spawn.</li>
-        <li>These don't work while tagged: <code>/f home</code>, <code>/f warp</code>, <code>/f fly</code>, <code>/f leave</code>, <code>/spawn</code>, <code>/home</code>, <code>/warp</code>, <code>/back</code>, <code>/tpa</code>, <code>/tpaccept</code>, <code>/wild</code>, <code>/pv</code>, <code>/ec</code>, <code>/sell</code>, <code>/fix</code>.</li>
-        <li>You can still place and break blocks, throw pearls and craft.</li>
+        <li>These don't work while tagged: <code>/f home</code>, <code>/f warp</code>, <code>/f fly</code>, <code>/f leave</code>, <code>/spawn</code>, <code>/home</code>, <code>/warp</code>, <code>/back</code>, <code>/tpa</code>, <code>/tpaccept</code>, <code>/wild</code>, <code>/rtp</code>, <code>/raid</code>, <code>/f stuck</code>, <code>/kit</code>, <code>/feed</code>, <code>/heal</code>, <code>/milk</code>, <code>/refill</code>, <code>/craft</code>, <code>/pv</code>, <code>/ec</code>, <code>/sell</code>, <code>/fix</code>.</li>
+        <li>Getting tagged turns your flight off.</li>
+        <li>You can still place and break blocks, throw pearls and use a crafting table.</li>
         <li><code>/logout</code> logs you out safely after 10 seconds of standing still. <code>/f logout</code> does the same in 30.</li>
       </ul>
 
@@ -1208,7 +1217,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <tr><td><code>/chunkloader</code></td><td>Buy and list chunk loaders</td></tr>
         <tr><td><code>/raids</code>, <code>/raids map</code></td><td>Recent raids on your land, and the map of the latest</td></tr>
         <tr><td><code>/raid</code></td><td>Join the raid event, or see when the next one is</td></tr>
-        <tr><td><code>/grace</code></td><td>Whether the grace period is still on</td></tr>
+        <tr><td><code>/grace</code></td><td>How long the grace period has left</td></tr>
         <tr><td><code>/gen</code></td><td>Gen buckets</td></tr>
         <tr><td colspan="2"><strong>Money</strong></td></tr>
         <tr><td><code>/bal</code>, <code>/pay</code>, <code>/baltop</code></td><td>Your money</td></tr>
