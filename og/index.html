@@ -232,7 +232,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
       <p>This is the OG server: cannons are built, filled and kept running by hand, so the perks lean on kits and gear. The new gen server&#39;s ranks are on the <a href="../#ranks">Factions wiki</a>.</p>
       <div class="scroll"><table>
         <tr><th>Perk</th><th class="num">Shard</th><th class="num">Obsidian</th><th class="num">Crystal</th><th class="num">Voidborn</th><th class="num">Overlord</th></tr>
-        <tr><td>Sell boost: <code>/shop</code>, <code>/sell</code>, sell wands, harvester hoes</td><td class="num">+2%</td><td class="num">+4%</td><td class="num">+6%</td><td class="num">+8%</td><td class="num">+10%</td></tr>
+        <tr><td>Sell boost: the shop, harvester hoes</td><td class="num">+2%</td><td class="num">+4%</td><td class="num">+6%</td><td class="num">+8%</td><td class="num">+10%</td></tr>
         <tr><td>Rank kit comes back every</td><td class="num">24 h</td><td class="num">22 h</td><td class="num">20 h</td><td class="num">18 h</td><td class="num">16 h</td></tr>
         <tr><td><code>/fix all</code> every</td><td class="num">1 h</td><td class="num">50 min</td><td class="num">40 min</td><td class="num">30 min</td><td class="num">20 min</td></tr>
         <tr><td><code>/heal</code> every 10 minutes</td><td class="num"></td><td class="num"></td><td class="num"></td><td class="num">&#10003;</td><td class="num">&#10003;</td></tr>
@@ -287,7 +287,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
 
       <h3>Shared storage</h3>
       <ul>
-        <li><code>/f chest</code> opens a chest the whole faction shares. It grows with the Chest upgrade. Spawners can't go in it.</li>
+        <li><code>/f chest</code> opens a chest the whole faction shares. Spawners can't go in it.</li>
         <li><code>/f invsee &lt;member&gt;</code> shows a member's inventory.</li>
       </ul>
 
@@ -364,22 +364,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
     </section>
 
     <section id="faction-progress" data-group="Factions">
-      <h2>Upgrades, missions and points</h2>
-
-      <h3>Upgrades</h3>
-      <p><code>/f upgrades</code> opens the menu. Each one is bought with money and applies to the whole faction.</p>
-      <div class="scroll"><table>
-        <tr><th>Upgrade</th><th>What it does</th><th>Level 1</th><th>Level 2</th><th>Level 3</th></tr>
-        <tr><td>Crops</td><td>Chance for crops on your land to grow two stages at once</td><td>10% for $2.5M</td><td>20% for $5M</td><td>30% for $7.5M</td></tr>
-        <tr><td>EXP</td><td>Multiplies the experience mobs drop</td><td>1.5x for $15M</td><td>2x for $20M</td><td>2.5x for $25M</td></tr>
-        <tr><td>Spawners</td><td>Spawners on your land spawn faster</td><td>10% for $10M</td><td>20% for $20M</td><td>30% for $30M</td></tr>
-        <tr><td>Damage reduction</td><td>You take less damage on your land</td><td>3% for $7M</td><td>5% for $10M</td><td>7% for $15M</td></tr>
-        <tr><td>Damage increase</td><td>You deal more damage</td><td>3% for $7M</td><td>5% for $10M</td><td>7% for $15M</td></tr>
-        <tr><td>Warps</td><td>Number of faction warps</td><td>3 for $1M</td><td>4 for $2M</td><td>5 for $3M</td></tr>
-        <tr><td>Chest</td><td>Rows in <code>/f chest</code></td><td>2 for $5M</td><td>3 for $6M</td><td>4 for $7M</td></tr>
-        <tr><td>Armor</td><td>Armour wears out more slowly</td><td>10% for $5M</td><td>15% for $10M</td><td>20% for $15M</td></tr>
-        <tr><td>Redstone</td><td>Water can't wash away redstone on your land</td><td colspan="3">One level, $4M</td></tr>
-      </table></div>
+      <h2>Missions and points</h2>
 
       <h3>Missions</h3>
       <p><code>/f missions</code> lists them. A faction runs one mission at a time, each can be finished once, and the reward is faction points.</p>
@@ -470,25 +455,9 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
       <p class="note"><strong>Read first</strong> Some cannon designs are banned. See <a href="#rules">Rules</a> before you build one.</p>
     </section>
 
-    <section id="raid-alerts" data-group="Raiding">
-      <h2>Raid alerts</h2>
-      <p class="lead">When TNT from somewhere else goes off on your land, everyone online in your faction is told at once.</p>
-      <ul>
-        <li>The alert comes with a title and a heartbeat sound, and says where you were hit, how much TNT landed in how long, which direction it came from, and how many blocks you lost, counting spawners and obsidian separately.</li>
-        <li>If most of the TNT came from one faction's land, the alert names that faction.</li>
-        <li>Click the last line for a map centred on the raid, with the chunks being hit marked by a red X. <code>/raids map</code> opens the same map.</li>
-        <li>While the hits go on you get a fresh alert every 30 seconds. After 90 seconds without a hit you are told it has stopped, with the totals.</li>
-        <li>Hits more than 2 chunks apart count as separate raids, so a base hit from two sides gets two alerts.</li>
-        <li>Your ally is told when a raid on you starts.</li>
-        <li>Log in during a raid and you get the alert with the totals so far. If your land was hit while you were offline, you get a one-line reminder.</li>
-        <li><code>/raids</code> lists the last 10 raids on your faction. The list starts fresh after a server restart.</li>
-      </ul>
-      <p>Not counted as a raid: TNT that started on your own land, creepers and TNT minecarts, and anything in the safezone or warzone.</p>
-    </section>
-
     <section id="money" data-group="Money">
       <h2>Money and the shop</h2>
-      <p class="lead">Money buys spawners, tools, enchants and faction upgrades. You start with $5,000.</p>
+      <p class="lead">Money buys spawners, tools and enchants. You start with $5,000.</p>
 
       <h3>The basics</h3>
       <ul>
@@ -498,7 +467,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
       </ul>
 
       <h3>The shop</h3>
-      <p><code>/shop</code> opens it. Left-click buys, right-click sells, and middle-click sells every one you are carrying. <code>/sell hand</code>, <code>/sell handall</code> and <code>/sell all</code> sell without opening it.</p>
+      <p>There is no <code>/shop</code> or <code>/sell</code> here: the shop is a place at spawn. Walk up to it and click it to open it. Left-click buys, right-click sells, and middle-click sells every one you are carrying.</p>
       <p>The shop has blocks, farming, dyes, ores, mob spawners, tools, armour, raiding supplies, glass, clay, wool, food, mob drops, potions, wood, a miscellaneous shelf and the donor shop.</p>
       <p>Raiding supplies and buckets can be bought but not sold back, and the shop only buys plain items: anything renamed, enchanted or with a special lore is refused.</p>
       <div class="scroll"><table>
@@ -528,13 +497,13 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <tr><td>Enchanted golden apple</td><td class="num">1</td><td class="num">$1,000</td><td class="num">$200</td></tr>
         <tr><td>Potions</td><td class="num">1</td><td class="num">$1,000 to $3,500</td><td class="num">can't be sold</td></tr>
       </table></div>
-      <p class="note"><strong>Selling crops</strong> The shop pays little for crops. A harvester hoe, a sell wand or a chunk collector pays far more for the same harvest. See <a href="#farming">Farming and grinding</a>.</p>
+      <p class="note"><strong>Selling crops</strong> The shop pays little for crops. A harvester hoe or a chunk collector pays far more for the same harvest. See <a href="#farming">Farming and grinding</a>.</p>
 
       <h3>The donor shop</h3>
-      <p>A shelf inside <code>/shop</code> that sells store items for in-game money.</p>
+      <p>A shelf in the shop that sells store items for in-game money.</p>
       <div class="scroll"><table>
         <tr><th>Item</th><th class="num">Price</th><th>Item</th><th class="num">Price</th></tr>
-        <tr><td><code>/sellhand</code> voucher</td><td class="num">$100,000</td><td>Mystery bag</td><td class="num">$300,000</td></tr>
+        <tr><td>Mystery bag</td><td class="num">$300,000</td><td></td><td></td></tr>
         <tr><td>Starter pack</td><td class="num">$100,000</td><td>Spawner pouch</td><td class="num">$325,000</td></tr>
         <tr><td><code>/milk</code> voucher</td><td class="num">$125,000</td><td>Black market access</td><td class="num">$400,000</td></tr>
         <tr><td><code>/fix</code> voucher</td><td class="num">$130,000</td><td>Medium pack</td><td class="num">$800,000</td></tr>
@@ -600,8 +569,6 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
       <div class="scroll"><table>
         <tr><th>Tool</th><th>What it does</th><th>Where and price</th></tr>
         <tr><td>Harvester hoe</td><td>Breaking sugar cane with it sells the cane on the spot for $20 each. The hoe levels up as you farm: at 20,000, 60,000, 120,000 and 160,000 cane it pays more, and each cane has a tiny chance of a crate key.</td><td><code>/hoe</code>: tier I $150,000, tier II $350,000, tier III $600,000</td></tr>
-        <tr><td>Farmer axe</td><td>For melons. Right-click switches between selling as you chop, collecting into your inventory, and digging dirt.</td><td><code>/axe</code>: 100 uses $150,000, 300 uses $350,000, unlimited $600,000</td></tr>
-        <tr><td>Sell wand</td><td>Right-click a chest you could open yourself to sell everything in it. Pays wand prices, which beat the shop: sugar cane $20, pumpkin $50, melon block $20, wheat $9, cactus $1, gold $10, diamond $30, emerald $55, blaze rod $30, ender pearl $25.</td><td><code>/sellwands</code>: 100 uses $150,000, 250 uses $300,000, unlimited $500,000</td></tr>
         <tr><td>Chunk collector</td><td>A beacon that gathers the mob drops and cactus of its whole chunk. Open it to sell the lot or take the stored experience. It pays per mob: iron golem and creeper $500, enderman and zombie pigman $300, villager $200, cow, pig and chicken $100. One per chunk, and you need a faction.</td><td><code>/collector</code>, or the miscellaneous shelf of <code>/shop</code>: $750,000</td></tr>
       </table></div>
       <p class="warn"><strong>Farms need a collector</strong> Farms only grow in chunks that have a chunk collector, so put one in every chunk you farm.</p>
@@ -636,7 +603,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <tr><td>Rift key, Shard kit, spawner pouch</td><td class="num">1,500</td><td></td><td></td></tr>
         <tr><td>Creeper spawner</td><td class="num">2,000</td><td></td><td></td></tr>
         <tr><td>Black market access</td><td class="num">3,000</td><td></td><td></td></tr>
-        <tr><td><code>/sellhand</code> voucher</td><td class="num">7,000</td><td></td><td></td></tr>
+        <tr><td>$50,000 cash voucher</td><td class="num">7,000</td><td></td><td></td></tr>
         <tr><td>StarDrop starter</td><td class="num">30,000</td><td></td><td></td></tr>
       </table></div>
       <p>Only some of these are on the shelf at any one time.</p>
@@ -804,19 +771,19 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
 
       <h3>Crates you place</h3>
       <ul>
-        <li><strong>Perma crate.</strong> Place it to open it. It gives 9 rewards from its list (money pouches, black market access, <code>/sellhand</code>, <code>/milk</code>, <code>/fix</code> and <code>/refill</code> vouchers, mystery bags, 3,000 mob coins) plus one bonus: an enchanter pack of 50 lost books, a Shard or Obsidian rank voucher, or a Galactic crate. It comes from the premium battle pass, the KOTH and the black market.</li>
+        <li><strong>Perma crate.</strong> Place it to open it. It gives 9 rewards from its list (money pouches, black market access, $50,000 cash, <code>/milk</code>, <code>/fix</code> and <code>/refill</code> vouchers, mystery bags, 3,000 mob coins) plus one bonus: an enchanter pack of 50 lost books, a Shard or Obsidian rank voucher, or a Galactic crate. It comes from the premium battle pass, the KOTH and the black market.</li>
         <li><strong>Galactic crate.</strong> From the black market, the faction points shop, the KOTH and the battle pass.</li>
       </ul>
     </section>
 
     <section id="vouchers" data-group="Gear">
       <h2>Vouchers, bags and packs</h2>
-      <p class="lead">Paper items you right-click to redeem. They come from crates, events, the donor shelf of <code>/shop</code>, the mob coin shop and the store. They can be traded until they are used.</p>
+      <p class="lead">Paper items you right-click to redeem. They come from crates, events, the donor shelf of the shop, the mob coin shop and the store. They can be traded until they are used.</p>
       <div class="scroll"><table>
         <tr><th>Voucher</th><th>Redeeming it gives you</th></tr>
         <tr><td><code>/refill</code></td><td>The command for good. It hands you 20 splash healing potions, once a minute.</td></tr>
         <tr><td><code>/milk</code></td><td>The command for good. It clears every potion effect on you, once a minute.</td></tr>
-        <tr><td><code>/sellhand</code></td><td>The command for good. It sells what you are holding without opening the shop.</td></tr>
+        <tr><td>$50,000</td><td>Pays $50,000 when you redeem it.</td></tr>
         <tr><td><code>/fix</code>, <code>/fix all</code></td><td>The repair commands for good.</td></tr>
         <tr><td>Black market access</td><td><code>/blackmarket</code> for good.</td></tr>
         <tr><td>Rank voucher</td><td>The Shard, Obsidian or Crystal rank.</td></tr>
@@ -833,7 +800,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <tr><th>Pack</th><th>Inside</th></tr>
         <tr><td>Starter pack</td><td>A chunk collector, a harvester hoe, 2 mystery bags, 2 <code>/milk</code> vouchers</td></tr>
         <tr><td>Medium pack</td><td>A chunk collector, 2 harvester hoes, 4 mystery bags, 2 <code>/milk</code> vouchers, a <code>/refill</code> voucher, a Shard kit and a Crystal kit</td></tr>
-        <tr><td>Extreme pack</td><td>A chunk collector, 2 harvester hoes, 5 mystery bags, 2 <code>/milk</code>, a <code>/refill</code>, a <code>/sellhand</code> and a <code>/fix all</code> voucher, 2 Crystal kits, 3 Shard kits, a key all, 2 tier 3 money pouches and a spawner pouch</td></tr>
+        <tr><td>Extreme pack</td><td>A chunk collector, 2 harvester hoes, 5 mystery bags, 2 <code>/milk</code>, a <code>/refill</code> and a <code>/fix all</code> voucher, a $50,000 cash voucher, 2 Crystal kits, 3 Shard kits, a key all, 2 tier 3 money pouches and a spawner pouch</td></tr>
       </table></div>
     </section>
     <section id="rewards" data-group="Rewards">
@@ -878,7 +845,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <tr><td class="num">2</td><td>$5,000</td><td>150 mob coins</td></tr>
         <tr><td class="num">3</td><td></td><td>Dusk key</td></tr>
         <tr><td class="num">4</td><td>64 obsidian</td><td>Chunk buster</td></tr>
-        <tr><td class="num">5</td><td></td><td>Sell wand</td></tr>
+        <tr><td class="num">5</td><td></td><td>$300,000</td></tr>
         <tr><td class="num">6</td><td>50 mob coins</td><td></td></tr>
         <tr><td class="num">7</td><td></td><td>Mystery bag</td></tr>
         <tr><td class="num">8</td><td>32 golden apples</td><td><code>/milk</code> voucher</td></tr>
@@ -899,7 +866,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <tr><td class="num">23</td><td></td><td>400 faction points</td></tr>
         <tr><td class="num">24</td><td>Chunk buster, 5 by 5</td><td>Obsidian kit voucher</td></tr>
         <tr><td class="num">25</td><td></td><td>Extreme pack</td></tr>
-        <tr><td class="num">26</td><td>Sell wand</td><td>Trench pickaxe</td></tr>
+        <tr><td class="num">26</td><td>$150,000</td><td>Trench pickaxe</td></tr>
         <tr><td class="num">27</td><td></td><td>Obsidian rank voucher</td></tr>
       </table></div>
     </section>
@@ -949,7 +916,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
       <div class="scroll"><table>
         <tr><th>Item</th><th class="num">Price</th><th>Item</th><th class="num">Price</th></tr>
         <tr><td><code>/refill</code> voucher</td><td class="num">$25,000</td><td>Mystery bag</td><td class="num">$150,000</td></tr>
-        <tr><td><code>/sellhand</code> voucher</td><td class="num">$50,000</td><td>Spawner pouch</td><td class="num">$150,000</td></tr>
+        <tr><td>$50,000 cash voucher</td><td class="num">$50,000</td><td>Spawner pouch</td><td class="num">$150,000</td></tr>
         <tr><td><code>/fix</code> voucher</td><td class="num">$50,000</td><td>Black market access</td><td class="num">$200,000</td></tr>
         <tr><td>Chunk buster</td><td class="num">$70,000</td><td>Medium pack</td><td class="num">$400,000</td></tr>
         <tr><td>Starter pack</td><td class="num">$100,000</td><td></td><td></td></tr>
@@ -978,7 +945,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <li>Hitting a player or being hit tags you both for 15 seconds.</li>
         <li><strong>Log out while tagged and you die.</strong></li>
         <li>While tagged you can't walk or pearl into spawn.</li>
-        <li>These don't work while tagged: <code>/f home</code>, <code>/f warp</code>, <code>/f leave</code>, <code>/spawn</code>, <code>/home</code>, <code>/warp</code>, <code>/back</code>, <code>/tpa</code>, <code>/tpaccept</code>, <code>/wild</code>, <code>/rtp</code>, <code>/f stuck</code>, <code>/kit</code>, <code>/feed</code>, <code>/heal</code>, <code>/milk</code>, <code>/refill</code>, <code>/craft</code>, <code>/pv</code>, <code>/ec</code>, <code>/sell</code>, <code>/fix</code>.</li>
+        <li>These don't work while tagged: <code>/f home</code>, <code>/f warp</code>, <code>/f leave</code>, <code>/spawn</code>, <code>/home</code>, <code>/warp</code>, <code>/back</code>, <code>/tpa</code>, <code>/tpaccept</code>, <code>/wild</code>, <code>/rtp</code>, <code>/f stuck</code>, <code>/kit</code>, <code>/feed</code>, <code>/heal</code>, <code>/milk</code>, <code>/refill</code>, <code>/craft</code>, <code>/pv</code>, <code>/ec</code>, <code>/fix</code>.</li>
         <li>You can still place and break blocks, throw pearls and use a crafting table.</li>
         <li><code>/logout</code> logs you out safely after 10 seconds of standing still. <code>/f logout</code> does the same in 30.</li>
       </ul>
@@ -1061,7 +1028,6 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <li>No lag machines.</li>
         <li>No insiding: joining a faction to rob or betray it.</li>
         <li>Scamming with in-game items and money is allowed, so trade carefully. Scamming over real money is not. Real-money trades themselves are allowed.</li>
-        <li>No home-made raid alarms, such as ones built on block sounds. The server's own <a href="#raid-alerts">raid alerts</a> do that job.</li>
         <li>Redstone check boxes are allowed.</li>
       </ul>
 
@@ -1136,14 +1102,12 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <tr><td><code>/f ban</code>, <code>/f unban</code>, <code>/f banlist</code>, <code>/f rules</code></td><td>Keeping order</td></tr>
         <tr><td><code>/f chat</code>, <code>/f global</code>, <code>/f coords</code>, <code>/f weewoo</code></td><td>Talking to your faction</td></tr>
         <tr><td><code>/f chest</code>, <code>/f invsee</code></td><td>Shared storage</td></tr>
-        <tr><td><code>/f upgrades</code>, <code>/f missions</code>, <code>/f points</code>, <code>/f shop</code></td><td>Faction progress</td></tr>
+        <tr><td><code>/f missions</code>, <code>/f points</code>, <code>/f shop</code></td><td>Faction progress</td></tr>
         <tr><td><code>/f lowpower</code>, <code>/f alts</code>, <code>/f check</code>, <code>/f logout</code>, <code>/f stuck</code></td><td>The rest</td></tr>
         <tr><td colspan="2"><strong>Raiding</strong></td></tr>
-        <tr><td><code>/raids</code>, <code>/raids map</code></td><td>Recent raids on your land, and the map of the latest</td></tr>
         <tr><td><code>/grace</code></td><td>How long the grace period has left</td></tr>
         <tr><td colspan="2"><strong>Money</strong></td></tr>
         <tr><td><code>/bal</code>, <code>/pay</code>, <code>/baltop</code></td><td>Your money</td></tr>
-        <tr><td><code>/shop</code>, <code>/sell hand</code>, <code>/sell handall</code>, <code>/sell all</code></td><td>Buying and selling</td></tr>
         <tr><td><code>/withdraw</code>, <code>/xpbottle</code>, <code>/bank</code></td><td>Bank notes and bottled experience</td></tr>
         <tr><td><code>/mobcoins</code></td><td>Mob coins and their shop</td></tr>
         <tr><td><code>/ah</code>, <code>/trade accept</code></td><td>The auction house and trading</td></tr>
@@ -1151,13 +1115,13 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <tr><td><code>/coinflip</code>, <code>/jackpot</code>, <code>/gamble</code></td><td>Gambling</td></tr>
         <tr><td><code>/sellhead</code>, <code>/hunter bounty</code></td><td>Heads and bounties</td></tr>
         <tr><td colspan="2"><strong>Farming tools</strong></td></tr>
-        <tr><td><code>/hoe</code>, <code>/axe</code>, <code>/sellwands</code>, <code>/trenchpick</code></td><td>Harvester hoes, farmer axes, sell wands, trench pickaxes</td></tr>
+        <tr><td><code>/hoe</code>, <code>/trenchpick</code></td><td>Harvester hoes, trench pickaxes</td></tr>
         <tr><td><code>/generators</code>, <code>/heals</code></td><td>Cactus and cane generators, healing items</td></tr>
         <tr><td colspan="2"><strong>Gear</strong></td></tr>
         <tr><td><code>/kit</code>, <code>/gkits</code></td><td>Kits and god kits</td></tr>
         <tr><td><code>/ce</code>, <code>/tinkerer</code></td><td>Custom enchants</td></tr>
         <tr><td><code>/tags</code></td><td>Chat tags</td></tr>
-        <tr><td><code>/fix</code>, <code>/fix all</code>, <code>/milk</code>, <code>/refill</code>, <code>/sellhand</code></td><td>Unlocked by rank or voucher</td></tr>
+        <tr><td><code>/fix</code>, <code>/fix all</code>, <code>/milk</code>, <code>/refill</code></td><td>Unlocked by rank or voucher</td></tr>
         <tr><td colspan="2"><strong>Rewards and events</strong></td></tr>
         <tr><td><code>/rewards</code>, <code>/redeemstart</code>, <code>/redeemsetup</code>, <code>/redeemspawner</code></td><td>Free rewards</td></tr>
         <tr><td><code>/bp</code></td><td>The battle pass</td></tr>
