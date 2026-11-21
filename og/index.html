@@ -178,7 +178,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
   <main id="wiki">
     <section id="start" data-group="Start here">
       <h2>Getting started</h2>
-      <p class="lead">ObbyTrap OG Factions is a 1.8 factions server: build a base, grind money, enchant your gear and blow up everyone else's walls. This is the OG server: cannons are built, filled and kept running by hand, with no sandbots, chunk loaders, gen buckets, faction flight, TNT bank or raid event.</p>
+      <p class="lead">ObbyTrap OG Factions is a 1.8 factions server: build a base, grind money, enchant your gear and blow up everyone else's walls. This is the OG server: cannons are built, filled and kept running by hand, with no sandbots, chunk loaders, gen buckets, faction flight or TNT bank.</p>
 
       <h3>Joining</h3>
       <ul>
@@ -341,6 +341,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <tr><td>Warzone and safezone</td><td>No building and no TNT damage. You still lose power for dying in the warzone.</td></tr>
         <tr><td>Wilderness</td><td>Unclaimed land. Anyone can build and blow things up.</td></tr>
         <tr><td><code>/warp end</code>, <code>/warp nether</code></td><td>Two flat worlds, 5,024 blocks across. A small safe spawn in the middle, a PvP ring around it where nothing can be built, and open land beyond.</td></tr>
+        <tr><td>Raid event world</td><td>Only reachable with <code>/raid</code> while an event is on. See <a href="#raid-event">The raid event</a>.</td></tr>
       </table></div>
     </section>
 
@@ -430,7 +431,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
       </ul>
 
       <h3>Grace period</h3>
-      <p>At the start of a map there is a grace period. While it lasts, TNT, creepers and fireballs break no blocks, so nobody can be raided. PvP stays on. <code>/grace</code> shows how long is left.</p>
+      <p>At the start of a map there is a grace period. While it lasts, TNT, creepers and fireballs break no blocks, so nobody can be raided. PvP stays on, and the raid event still runs. <code>/grace</code> shows how long is left.</p>
 
       <h3>Limits</h3>
       <p>These keep one cannon from stalling the server. A normal cannon never meets them, and you are told in chat when one stops something.</p>
@@ -455,6 +456,44 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
       <p class="note"><strong>Read first</strong> Some cannon designs are banned. See <a href="#rules">Rules</a> before you build one.</p>
     </section>
 
+    <section id="raid-event" data-group="Raiding">
+      <h2>The raid event</h2>
+      <p class="lead">Every 4 hours a fortified base goes up in a world of its own: a vault behind 15 walls on every side, with water between them. The first faction to get TNT into its vault has the loot to itself.</p>
+
+      <h3>When</h3>
+      <ul>
+        <li>At 12am, 4am, 8am, 12pm, 4pm and 8pm, server time.</li>
+        <li>Warnings go out 30, 10, 5 and 1 minutes before. At the start everyone gets a title and a chat line to click.</li>
+        <li>Between events, <code>/raid</code> says when the next one is.</li>
+      </ul>
+
+      <h3>Getting in</h3>
+      <ul>
+        <li>You need to be in a faction. <code>/raid</code> takes you to the arrival point, south of the base.</li>
+        <li>You can't be hurt for 10 seconds after arriving, unless you attack someone first.</li>
+        <li><code>/raid</code> is the only way in. Homes, <code>/tpa</code> and <code>/back</code> don't reach the raid world. If you die or leave, type <code>/raid</code> again.</li>
+        <li>The world is flat, with a border 450 blocks from the base.</li>
+      </ul>
+
+      <h3>Rules of the world</h3>
+      <ul>
+        <li>No building, breaking or buckets within 32 blocks of the base, or within 6 blocks of the arrival point.</li>
+        <li>Only TNT breaks blocks there. Creepers and TNT minecarts don't.</li>
+        <li>Your faction can claim up to 9 chunks for its cannon. Members and up can claim, and this land never counts against your power. It can't be taken from you, and you can't claim right next to another faction's cannon.</li>
+        <li>Faction homes and warps don't work there.</li>
+      </ul>
+
+      <h3>Winning</h3>
+      <ul>
+        <li>The vault is won by the first TNT that goes off inside it or breaks a piece of it. It goes to the faction that placed the dispenser the TNT came from.</li>
+        <li>From then on only the winners can step into the vault or open its 20 chests. Everyone else is pushed back out. PvP carries on everywhere else.</li>
+        <li>The winners get 10 minutes. Then everyone is sent to spawn.</li>
+        <li>If nobody breaches the vault within 2 hours, nobody wins.</li>
+      </ul>
+
+      <h3>Afterwards</h3>
+      <p>The world is wiped and the base rebuilt for next time. Cannons, items and claims there are gone.</p>
+    </section>
     <section id="money" data-group="Money">
       <h2>Money and the shop</h2>
       <p class="lead">Money buys spawners, tools and enchants. You start with $5,000.</p>
@@ -578,7 +617,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <tr><td>Cactus generator</td><td>Place it and it builds a whole cactus farm pillar: sand, cactus and string, layer on layer, up to the sky.</td><td><code>/generators</code>: 32 for $250,000</td></tr>
         <tr><td>Sugar cane generator</td><td>The same for sugar cane, 10 layers high.</td><td><code>/generators</code>: 32 for $200,000</td></tr>
         <tr><td>Trench pickaxe</td><td>Mines a 3 by 3 or 5 by 5 area with each block you break.</td><td><code>/trenchpick</code>: 3 by 3 $300,000, 5 by 5 $500,000</td></tr>
-        <tr><td>Chunk buster</td><td>Place it to clear the chunks around it from bedrock to sky. Works on your own land only (not in the wilderness), one a minute, and asks you to confirm. Chests, spawners and beacons are left standing.</td><td><code>/shop</code>, miscellaneous shelf: 3 by 3 chunks $80,000, 5 by 5 chunks $150,000</td></tr>
+        <tr><td>Chunk buster</td><td>Place it to clear the chunks around it from bedrock to sky. Works on your own land only (not in the wilderness or the raid world), one a minute, and asks you to confirm. Chests, spawners and beacons are left standing.</td><td>The shop, miscellaneous shelf: 3 by 3 chunks $80,000, 5 by 5 chunks $150,000</td></tr>
       </table></div>
 
       <h3>Healing items</h3>
@@ -875,6 +914,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
       <p class="lead">Things to fight over. Each is announced in chat when it starts.</p>
       <div class="scroll"><table>
         <tr><th>Event</th><th>When</th><th>Where</th><th>You win</th></tr>
+        <tr><td><a href="#raid-event">Raid event</a></td><td>Every 4 hours</td><td><code>/raid</code></td><td>The vault's loot, for your faction</td></tr>
         <tr><td>KOTH</td><td>Daily, 6pm UK time</td><td><code>/warp koth</code></td><td>A KOTH key: 3 to 5 items from the loot chest</td></tr>
         <tr><td>Envoy</td><td>Every hour</td><td>Around spawn</td><td>Whatever is in the crates you reach first</td></tr>
         <tr><td>Chat game</td><td>Every 10 minutes</td><td>Chat</td><td>$2,500</td></tr>
@@ -944,7 +984,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <li>Hitting a player or being hit tags you both for 15 seconds.</li>
         <li><strong>Log out while tagged and you die.</strong></li>
         <li>While tagged you can't walk or pearl into spawn.</li>
-        <li>These don't work while tagged: <code>/f home</code>, <code>/f warp</code>, <code>/f leave</code>, <code>/spawn</code>, <code>/home</code>, <code>/warp</code>, <code>/back</code>, <code>/tpa</code>, <code>/tpaccept</code>, <code>/wild</code>, <code>/rtp</code>, <code>/f stuck</code>, <code>/kit</code>, <code>/feed</code>, <code>/heal</code>, <code>/milk</code>, <code>/refill</code>, <code>/craft</code>, <code>/pv</code>, <code>/ec</code>, <code>/fix</code>.</li>
+        <li>These don't work while tagged: <code>/f home</code>, <code>/f warp</code>, <code>/f leave</code>, <code>/spawn</code>, <code>/home</code>, <code>/warp</code>, <code>/back</code>, <code>/tpa</code>, <code>/tpaccept</code>, <code>/wild</code>, <code>/rtp</code>, <code>/raid</code>, <code>/f stuck</code>, <code>/kit</code>, <code>/feed</code>, <code>/heal</code>, <code>/milk</code>, <code>/refill</code>, <code>/craft</code>, <code>/pv</code>, <code>/ec</code>, <code>/fix</code>.</li>
         <li>You can still place and break blocks, throw pearls and use a crafting table.</li>
         <li><code>/logout</code> logs you out safely after 10 seconds of standing still. <code>/f logout</code> does the same in 30.</li>
       </ul>
@@ -1104,6 +1144,7 @@ footer { color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--li
         <tr><td><code>/f missions</code>, <code>/f points</code>, <code>/f shop</code></td><td>Faction progress</td></tr>
         <tr><td><code>/f lowpower</code>, <code>/f alts</code>, <code>/f check</code>, <code>/f logout</code>, <code>/f stuck</code></td><td>The rest</td></tr>
         <tr><td colspan="2"><strong>Raiding</strong></td></tr>
+        <tr><td><code>/raid</code></td><td>Join the raid event, or see when the next one is</td></tr>
         <tr><td><code>/grace</code></td><td>How long the grace period has left</td></tr>
         <tr><td colspan="2"><strong>Money</strong></td></tr>
         <tr><td><code>/bal</code>, <code>/pay</code>, <code>/baltop</code></td><td>Your money</td></tr>
